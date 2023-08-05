@@ -6,7 +6,8 @@ kotlin = "1.8.0"
 lifecycle-runtime = "2.6.1"
 activity-compose = "1.7.2"
 androidxComposeBom = "2023.01.00"
-
+compose-navigation = "2.6.0"
+gson = "2.10"
 
 [libraries]
 ktx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" }
@@ -23,3 +24,5 @@ compose-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 compose-material = { group = "androidx.compose.material3", name = "material3" }
 compose-debug = { group = "androidx.compose.ui", name = "ui-tooling" }
 compose-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+compose-navigation = { module = "androidx.navigation:navigation-compose", version.ref = "compose-navigation" }
+gson = { module = 'com.google.code.gson:gson', version.ref = "gson" }

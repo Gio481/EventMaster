@@ -12,5 +12,12 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "EventMaster"
+
 include ':app'
+
+include ':EMCore-Navigation'
+
+include ':EMSplash-Api'
+include ':EMSplash-Impl'
+
+rootProject.name = "EventMaster"

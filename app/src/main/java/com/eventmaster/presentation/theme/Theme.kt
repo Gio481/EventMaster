@@ -1,4 +1,4 @@
-package com.example.eventmaster.ui.theme
+package com.eventmaster.presentation.theme
 
 import android.app.Activity
 import android.os.Build

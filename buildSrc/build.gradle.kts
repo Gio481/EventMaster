@@ -9,13 +9,18 @@ repositories {
 
 gradlePlugin {
     plugins {
-        register("GradleConfigPlugin") {
-            id = "GradleConfigPlugin"
-            implementationClass = "GradleConfigPlugin"
+        register("EMGradleConfigPlugin") {
+            id = "EMGradleConfigPlugin"
+            implementationClass = "EMGradleConfigPlugin"
         }
-        register("GradleDependenciesPlugin") {
-            id = "GradleDependenciesPlugin"
-            implementationClass = "GradleDependenciesPlugin"
+        register("EMComposePlugin") {
+            id = "EMComposePlugin"
+            implementationClass = "EMComposePlugin"
+        }
+
+        register("EMGradleExtensionPlugin") {
+            id = "EMGradleExtensionPlugin"
+            implementationClass = "EMGradleExtensionPlugin"
         }
     }
 }

@@ -1,25 +1,18 @@
-apply plugin: "GradleConfigPlugin"
-apply plugin: "GradleDependenciesPlugin"
+apply plugin: "EMGradleConfigPlugin"
+apply plugin: "EMComposePlugin"
 
 android {
-    namespace 'com.example.eventmaster'
-    compileSdk 34
+    namespace 'com.eventmaster'
 
     defaultConfig {
         applicationId "com.example.eventmaster"
-        minSdk 24
-        targetSdk 34
         versionCode 1
         versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary true
-        }
     }
 
     buildTypes {
         "$BuildTypes.PRODUCTION" {}
+        "$BuildTypes.TEST" {}
         "$BuildTypes.DEBUG" {
             applicationIdSuffix ".debug"
             versionNameSuffix "-debug"
@@ -36,15 +29,12 @@ android {
 }
 
 dependencies {
+    implementation project(':EMCore-Navigation')
+    implementation project(':EMSplash-Api')
+    implementation project(':EMSplash-Impl')
+
     implementation libs.ktx
     implementation platform(libs.kotlin)
     implementation libs.lifecycle.runtime
     implementation libs.compose.activity
-    implementation platform(libs.compose.bom)
-    implementation libs.compose.ui
-    implementation libs.compose.graphics
-    implementation libs.compose.preview
-    implementation libs.compose.material
-    debugImplementation libs.compose.debug
-    debugImplementation libs.compose.manifest
 }

@@ -7,6 +7,7 @@ if (name == "app") {
 apply plugin: "kotlin-android"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "kotlin-kapt"
+apply plugin: "kotlin-parcelize"
 
 android {
     compileSdk 34
@@ -14,6 +15,10 @@ android {
     defaultConfig {
         minSdk 21
         targetSdk 34
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
     }
 
     buildTypes {
@@ -42,7 +47,6 @@ android {
         }
     }
 
-
     variantFilter { variant ->
         def buildType = variant.buildType.name
 
@@ -56,4 +60,6 @@ android {
 dependencies {
     implementation "androidx.core:core-ktx:1.10.1"
     implementation "io.insert-koin:koin-android:3.4.0"
+    implementation "io.insert-koin:koin-androidx-compose:3.4.0"
+
 }
