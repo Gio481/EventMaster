@@ -32,6 +32,8 @@ dependencies {
     implementation project(':EMCore-Navigation')
     implementation project(':EMSplash-Api')
     implementation project(':EMSplash-Impl')
+    implementation project(':EMHome-Api')
+    implementation project(':EMHome-Impl')
 
     implementation libs.ktx
     implementation platform(libs.kotlin)

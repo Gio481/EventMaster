@@ -11,6 +11,8 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/EMCore-Navigation" />
+            <option value="$PROJECT_DIR$/EMHome-Api" />
+            <option value="$PROJECT_DIR$/EMHome-Impl" />
             <option value="$PROJECT_DIR$/EMSplash-Api" />
             <option value="$PROJECT_DIR$/EMSplash-Impl" />
             <option value="$PROJECT_DIR$/app" />
