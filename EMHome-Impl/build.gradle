@@ -9,11 +9,10 @@ configPlugin {
 }
 
 android {
-    namespace 'com.eventmaster.splash.impl'
+    namespace 'com.eventmaster.home.impl'
 }
 
 dependencies {
     implementation project(':EMCore-Navigation')
-    implementation project(':EMSplash-Api')
     implementation project(':EMHome-Api')
 }

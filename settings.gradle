@@ -20,4 +20,7 @@ include ':EMCore-Navigation'
 include ':EMSplash-Api'
 include ':EMSplash-Impl'
 
+include ':EMHome-Api'
+include ':EMHome-Impl'
+
 rootProject.name = "EventMaster"
