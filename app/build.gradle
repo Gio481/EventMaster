@@ -29,11 +29,11 @@ android {
 }
 
 dependencies {
-    implementation project(':EMCore-Navigation')
-    implementation project(':EMSplash-Api')
-    implementation project(':EMSplash-Impl')
-    implementation project(':EMHome-Api')
-    implementation project(':EMHome-Impl')
+    implementation project(':core:EMCore-Navigation')
+    implementation project(':presentation:EventMasterSplash:Api')
+    implementation project(':presentation:EventMasterSplash:Impl')
+    implementation project(':presentation:EventMasterHome:Api')
+    implementation project(':presentation:EventMasterHome:Impl')
 
     implementation libs.ktx
     implementation platform(libs.kotlin)
