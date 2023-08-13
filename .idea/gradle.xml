@@ -29,7 +29,7 @@
             <option value="$PROJECT_DIR$/presentation/EventMasterSplash/Api" />
             <option value="$PROJECT_DIR$/presentation/EventMasterSplash/Impl" />
             <option value="$PROJECT_DIR$/util" />
-            <option value="$PROJECT_DIR$/util/EMDashboard" />
+            <option value="$PROJECT_DIR$/util/EventMasterDashboard" />
           </set>
         </option>
       </GradleProjectSettings>

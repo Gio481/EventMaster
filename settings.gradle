@@ -18,16 +18,18 @@ include ':app'
 include ':core:EMCore-Navigation'
 include ':core:EMCore-UI'
 
+include ':data:EventMasterSplash'
+include ':data:EventMasterHome'
+
+include ':domain:EventMasterSplash'
+include ':domain:EventMasterHome'
+
 include ':presentation:EventMasterSplash:Api'
 include ':presentation:EventMasterSplash:Impl'
 
 include ':presentation:EventMasterHome:Api'
 include ':presentation:EventMasterHome:Impl'
 
-include ':util:EMDashboard'
+include ':util:EventMasterDashboard'
 
 rootProject.name = "EventMaster"
-include ':data:EventMasterSplash'
-include ':data:EventMasterHome'
-include ':domain:EventMasterSplash'
-include ':domain:EventMasterHome'
