@@ -10,26 +10,15 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/Core" />
+            <option value="$PROJECT_DIR$/Core/Navigation" />
+            <option value="$PROJECT_DIR$/Core/UI" />
+            <option value="$PROJECT_DIR$/Features" />
+            <option value="$PROJECT_DIR$/Features/Splash" />
+            <option value="$PROJECT_DIR$/Features/Splash/Api" />
+            <option value="$PROJECT_DIR$/Features/Splash/Impl" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/buildSrc" />
-            <option value="$PROJECT_DIR$/core" />
-            <option value="$PROJECT_DIR$/core/EMCore-Navigation" />
-            <option value="$PROJECT_DIR$/core/EMCore-UI" />
-            <option value="$PROJECT_DIR$/data" />
-            <option value="$PROJECT_DIR$/data/EventMasterHome" />
-            <option value="$PROJECT_DIR$/data/EventMasterSplash" />
-            <option value="$PROJECT_DIR$/domain" />
-            <option value="$PROJECT_DIR$/domain/EventMasterHome" />
-            <option value="$PROJECT_DIR$/domain/EventMasterSplash" />
-            <option value="$PROJECT_DIR$/presentation" />
-            <option value="$PROJECT_DIR$/presentation/EventMasterHome" />
-            <option value="$PROJECT_DIR$/presentation/EventMasterHome/Api" />
-            <option value="$PROJECT_DIR$/presentation/EventMasterHome/Impl" />
-            <option value="$PROJECT_DIR$/presentation/EventMasterSplash" />
-            <option value="$PROJECT_DIR$/presentation/EventMasterSplash/Api" />
-            <option value="$PROJECT_DIR$/presentation/EventMasterSplash/Impl" />
-            <option value="$PROJECT_DIR$/util" />
-            <option value="$PROJECT_DIR$/util/EventMasterDashboard" />
           </set>
         </option>
       </GradleProjectSettings>

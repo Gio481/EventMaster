@@ -1,0 +1,20 @@
+apply plugin: "EMGradleSetUpPlugin"
+apply plugin: "EMGradleConfigExtensionPlugin"
+apply plugin: "EMComposePlugin"
+
+
+configPlugin {
+    config {
+        buildTypes = [BuildTypes.DEBUG, BuildTypes.TEST, BuildTypes.PRODUCTION]
+    }
+}
+
+
+android {
+    namespace = "com.eventmaster.features.splash.impl"
+}
+
+dependencies {
+    implementation project(':Features:Splash:Api')
+    implementation project(':Core:Navigation')
+}

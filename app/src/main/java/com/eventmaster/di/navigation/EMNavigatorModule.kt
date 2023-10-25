@@ -6,10 +6,8 @@ import com.emcore_navigation.navigator.graph_builder.EMAppGraphBuilder
 import com.emcore_navigation.navigator.graph_builder.EMAppGraphBuilderImpl
 import com.emcore_navigation.navigator.nav_controller.EMAppNavController
 import com.emcore_navigation.navigator.nav_controller.EMAppNavControllerImpl
-import com.eventmaster.home.api.navigation.EMHomeNavigator
-import com.eventmaster.home.impl.navigation.EMHomeNavigatorImpl
-import com.eventmaster.splash.api.navigation.EMSplashNavigator
-import com.eventmaster.splash.impl.navigation.EMSplashNavigatorImpl
+import com.eventmaster.features.splash.api.navigation.EMSplashNavigator
+import com.eventmaster.features.splash.impl.navigation.EMSplashNavigatorImpl
 import org.koin.dsl.module
 
 val navigatorModule = module {
@@ -17,6 +15,9 @@ val navigatorModule = module {
     single<EMAppNavController> { EMAppNavControllerImpl() }
     single<EMFeaturesInitializer> { EMFeaturesInitializerImpl(appGraphBuilder = get()) }
     single<EMFeatureNavigator> { EMFeatureNavigatorImpl(navController = get()) }
-    single<EMSplashNavigator> { EMSplashNavigatorImpl(featureNavigator = get()) }
-    single<EMHomeNavigator> { EMHomeNavigatorImpl(featureNavigator = get()) }
+    single<EMSplashNavigator> {
+        EMSplashNavigatorImpl(
+            featureNavigator = get()
+        )
+    }
 }

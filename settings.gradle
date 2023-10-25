@@ -15,21 +15,10 @@ dependencyResolutionManagement {
 
 include ':app'
 
-include ':core:EMCore-Navigation'
-include ':core:EMCore-UI'
+include ':Core:Navigation'
+include ':Core:UI'
 
-include ':data:EventMasterSplash'
-include ':data:EventMasterHome'
-
-include ':domain:EventMasterSplash'
-include ':domain:EventMasterHome'
-
-include ':presentation:EventMasterSplash:Api'
-include ':presentation:EventMasterSplash:Impl'
-
-include ':presentation:EventMasterHome:Api'
-include ':presentation:EventMasterHome:Impl'
-
-include ':util:EventMasterDashboard'
+include ':Features:Splash:Api'
+include ':Features:Splash:Impl'
 
 rootProject.name = "EventMaster"

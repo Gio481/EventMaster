@@ -4,13 +4,13 @@ import org.gradle.api.Project
 class EMGradleConfigPluginExtension {
     private Project project
 
-    private EMGradleConfig config = new EMGradleConfig()
+    private EMGradleEnvironment config = new EMGradleEnvironment()
 
     EMGradleConfigPluginExtension(Project project) {
         this.project = project
     }
 
-    void config(Action<EMGradleConfig> configAction) {
+    void config(Action<EMGradleEnvironment> configAction) {
         // apply the provided configuration to config
         configAction.execute(config)
 
