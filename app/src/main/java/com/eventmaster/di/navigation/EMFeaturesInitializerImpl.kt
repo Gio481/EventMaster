@@ -2,8 +2,7 @@ package com.eventmaster.di.navigation
 
 import com.emcore_navigation.navigator.feature.screen.EMFeatureScreen
 import com.emcore_navigation.navigator.graph_builder.EMAppGraphBuilder
-import com.eventmaster.home.impl.navigation.EMHomeInitializer
-import com.eventmaster.splash.impl.navigation.EMSplashInitializer
+import com.eventmaster.features.splash.impl.navigation.EMSplashInitializer
 
 class EMFeaturesInitializerImpl(
     private val appGraphBuilder: EMAppGraphBuilder
@@ -11,8 +10,7 @@ class EMFeaturesInitializerImpl(
 
     override fun init() {
         val splash = EMSplashInitializer.features()
-        val home = EMHomeInitializer.features()
-        initFeatures(splash, home)
+        initFeatures(splash)
     }
 
     private fun initFeatures(vararg list: List<EMFeatureScreen>) {

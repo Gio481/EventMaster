@@ -1,4 +1,4 @@
-apply plugin: "EMGradleConfigPlugin"
+apply plugin: "EMGradleSetUpPlugin"
 apply plugin: "EMComposePlugin"
 
 android {
@@ -29,11 +29,11 @@ android {
 }
 
 dependencies {
-    implementation project(':core:EMCore-Navigation')
-    implementation project(':presentation:EventMasterSplash:Api')
-    implementation project(':presentation:EventMasterSplash:Impl')
-    implementation project(':presentation:EventMasterHome:Api')
-    implementation project(':presentation:EventMasterHome:Impl')
+    implementation project(':Core:Navigation')
+    implementation project(':Core:UI')
+
+    implementation project(':Features:Splash:Api')
+    implementation project(':Features:Splash:Impl')
 
     implementation libs.ktx
     implementation platform(libs.kotlin)
