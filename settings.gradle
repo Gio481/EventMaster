@@ -16,9 +16,12 @@ dependencyResolutionManagement {
 include ':app'
 
 include ':Core:Navigation'
-include ':Core:UI'
+include ':Core:Presentation'
 
 include ':Features:Splash:Api'
 include ':Features:Splash:Impl'
+
+include ':Features:Authentication:Api'
+include ':Features:Authentication:Impl'
 
 rootProject.name = "EventMaster"

@@ -1,16 +1,23 @@
 package com.emcore_navigation.navigator.feature.screen
 
 import androidx.navigation.NavGraphBuilder
-import com.emcore_navigation.navigator.base.EMBaseScreen
-import com.emcore_navigation.navigator.nav_controller.EMAppNavController
-import org.koin.java.KoinJavaComponent.get
-
+import com.emcore_navigation.navigator.base.screen.EMBaseScreen
+import com.emcore_navigation.navigator.feature.extension.addFeature
 
 abstract class EMFeatureScreen : EMBaseScreen {
-    protected fun navigatorProvider() = get<EMAppNavController>(EMAppNavController::class.java).geNavigatorProvider()
 
-    abstract fun featureGraphBuilder(): NavGraphBuilder
+    fun initFeature(appGraphBuilder: NavGraphBuilder) {
+        appGraphBuilder.addFeature(config) {
+            addArgumentIfNeeds()
+            config.flowInitializer.invoke(this)
+        }
+    }
 
-    abstract fun initFeature(graph: NavGraphBuilder)
+    private val config get() = config() as EMFeatureScreenConfig
+
+    private fun NavGraphBuilder.addArgumentIfNeeds() {
+        config.argument?.let { (key, type) ->
+            argument(key) { this.type = type }
+        }
+    }
 }
-

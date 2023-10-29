@@ -6,7 +6,7 @@ kotlin = "1.8.0"
 lifecycle-runtime = "2.6.1"
 activity-compose = "1.7.2"
 androidxComposeBom = "2023.01.00"
-compose-navigation = "2.6.0"
+compose-navigation = "2.7.0"
 gson = "2.10"
 
 [libraries]

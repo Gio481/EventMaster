@@ -1,16 +1,16 @@
 package com.eventmaster.features.splash.impl.presentation.main.vm
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import com.eventmaster.core.presentation.base.vm.EMScreenBaseVm
+import com.eventmaster.features.authentication.api.navigation.EMAuthenticationNavigator
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class EMSplashVm(
-) : ViewModel() {
+    private val authenticationNavigator: EMAuthenticationNavigator
+) : EMScreenBaseVm() {
 
-    fun navigate() {
-        viewModelScope.launch {
-            delay(500)
-        }
+    override suspend fun suspendOnCreate() {
+        super.suspendOnCreate()
+        delay(500)
+        authenticationNavigator.navigateToAuth()
     }
 }

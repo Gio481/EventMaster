@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:name="com.eventmaster.app.EMApplication"
         android:theme="@style/Theme.EventMaster"
+        android:inputType="textNoSuggestions"
         tools:targetApi="31">
         <activity
             android:name="com.eventmaster.presentation.activity.MainActivity"

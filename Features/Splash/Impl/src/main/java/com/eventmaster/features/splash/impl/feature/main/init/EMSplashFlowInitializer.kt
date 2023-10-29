@@ -1,7 +1,7 @@
 package com.eventmaster.features.splash.impl.feature.main.init
 
 import androidx.navigation.NavGraphBuilder
-import com.emcore_navigation.navigator.flow.EMFlowInitializer
+import com.emcore_navigation.navigator.flow.initializer.EMFlowInitializer
 import com.eventmaster.features.splash.impl.feature.main.screens.EMSplashFlowScreens
 
 object EMSplashFlowInitializer : EMFlowInitializer {

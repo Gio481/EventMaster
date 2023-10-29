@@ -1,24 +1,32 @@
 package com.emcore_navigation.navigator.base
 
 import android.os.Bundle
-import androidx.navigation.NavController
 import androidx.navigation.NavOptions
-import androidx.navigation.Navigator
+import com.emcore_navigation.navigator.base.screen.EMBaseScreen
+import com.emcore_navigation.navigator.base.screen.EMBaseScreenConfig
+import com.emcore_navigation.navigator.base.type.EMNavigatorType
+import com.emcore_navigation.navigator.nav_controller.EMAppNavController
+import com.google.gson.Gson
 
-typealias NavResultCallback = (Bundle) -> Unit
 
-class EMBaseNavigator {
+abstract class EMBaseNavigator(
+    private val navController: EMAppNavController
+) {
 
-    // A SavedStateHandle key is used to set/get NavResultCallback<T>
-    private val NavResultCallbackKey = "NavResultCallbackKey"
+    abstract fun navigatorType(): EMNavigatorType
+
+    protected val navHostController by lazy { navController.getAppNavHostController() }
 
     /**
      * Set the navigation result callback on calling screen.
      *
      * @param callback The navigation result callback.
      */
-    fun NavController.setNavResultCallback(callback: NavResultCallback) {
-        currentBackStackEntry?.savedStateHandle?.set(NavResultCallbackKey, callback)
+    private fun setNavResultCallback(key: String, callback: (Bundle) -> Unit) {
+        navHostController.currentBackStackEntry?.savedStateHandle?.set(
+            key = key,
+            value = callback
+        )
     }
 
     /**
@@ -26,56 +34,47 @@ class EMBaseNavigator {
      *
      * @return The navigation result callback if the previous backstack entry exists
      */
-    fun <T> NavController.getNavResultCallback(): NavResultCallback? {
-        return previousBackStackEntry?.savedStateHandle?.remove(NavResultCallbackKey)
-    }
-
-    /**
-     *  Attempts to pop the controller's back stack and returns the result.
-     *
-     * @param result the navigation result
-     */
-    fun <T> NavController.popBackStackWithResult(result: Bundle) {
-        getNavResultCallback<T>()?.invoke(result)
-        popBackStack()
+    protected fun getNavResultCallback(key: String): ((Bundle) -> Unit)? {
+        return navHostController.previousBackStackEntry?.savedStateHandle?.remove(key)
     }
 
     /**
      * Navigate to a route in the current NavGraph. If an invalid route is given, an
      * [IllegalArgumentException] will be thrown.
      *
-     * @param route route for the destination
+     * @param screen route for the destination
      * @param navResultCallback the navigation result callback
      * @param navOptions special options for this navigation operation
-     * @param navigatorExtras extras to pass to the [Navigator]
      *
      * @throws IllegalArgumentException if the given route is invalid
      */
-    fun NavController.navigateForResult(
-        route: String,
-        navResultCallback: NavResultCallback,
+    fun navigateTo(
+        screen: EMBaseScreen,
         navOptions: NavOptions? = null,
-        navigatorExtras: Navigator.Extras? = null
+        navResultCallback: ((Bundle) -> Unit)? = null,
     ) {
-        setNavResultCallback(navResultCallback)
-        navigate(route, navOptions, navigatorExtras)
+
+        navResultCallback?.let { setNavResultCallback(getKey(screen), it) }
+        navHostController.navigate(screen.config().route, navOptions)
     }
 
-    /**
-     * Navigate to a route in the current NavGraph. If an invalid route is given, an
-     * [IllegalArgumentException] will be thrown.
-     *
-     * @param route route for the destination
-     * @param navResultCallback the navigation result callback
-     * @param builder DSL for constructing a new [NavOptions]
-     *
-     * @throws IllegalArgumentException if the given route is invalid
-     */
-    fun NavController.navigateForResult(
-        route: String,
-        navResultCallback: NavResultCallback,
+    fun <T> navigateTo(
+        screen: EMBaseScreen,
+        data: T,
+        navOptions: NavOptions? = null,
+        navResultCallback: ((Bundle) -> Unit)? = null,
     ) {
-        setNavResultCallback(navResultCallback)
-        navigate(route)
+        navResultCallback?.let { setNavResultCallback(getKey(screen), it) }
+        navHostController.navigate(routeWithArgument(screen.config(), data), navOptions)
+    }
+
+    protected fun getKey(screen: EMBaseScreen): String {
+        return screen.config().argument?.key
+            ?: throw Exception("you should set up the EMScreenConfig.Argument")
+    }
+
+    private fun <T> routeWithArgument(config: EMBaseScreenConfig, data: T): String {
+        val regex = "\\{([^}]*)\\}".toRegex()
+        return config.route.replace(regex) { Gson().toJson(data) }
     }
 }
