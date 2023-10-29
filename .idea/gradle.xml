@@ -12,8 +12,11 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/Core" />
             <option value="$PROJECT_DIR$/Core/Navigation" />
-            <option value="$PROJECT_DIR$/Core/UI" />
+            <option value="$PROJECT_DIR$/Core/Presentation" />
             <option value="$PROJECT_DIR$/Features" />
+            <option value="$PROJECT_DIR$/Features/Authentication" />
+            <option value="$PROJECT_DIR$/Features/Authentication/Api" />
+            <option value="$PROJECT_DIR$/Features/Authentication/Impl" />
             <option value="$PROJECT_DIR$/Features/Splash" />
             <option value="$PROJECT_DIR$/Features/Splash/Api" />
             <option value="$PROJECT_DIR$/Features/Splash/Impl" />

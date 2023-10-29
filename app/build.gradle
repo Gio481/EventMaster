@@ -30,13 +30,17 @@ android {
 
 dependencies {
     implementation project(':Core:Navigation')
-    implementation project(':Core:UI')
+    implementation project(':Core:Presentation')
 
     implementation project(':Features:Splash:Api')
     implementation project(':Features:Splash:Impl')
+    implementation project(':Features:Authentication:Api')
+    implementation project(':Features:Authentication:Impl')
+
 
     implementation libs.ktx
     implementation platform(libs.kotlin)
     implementation libs.lifecycle.runtime
     implementation libs.compose.activity
+    implementation libs.gson
 }

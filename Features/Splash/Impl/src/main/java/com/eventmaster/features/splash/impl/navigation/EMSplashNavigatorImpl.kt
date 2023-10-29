@@ -8,8 +8,6 @@ class EMSplashNavigatorImpl(
 ) : EMSplashNavigator {
 
     override fun navigateToSplash() {
-        featureNavigator.navigateTo(
-            feature = EMSplashFeatureScreens.Main
-        )
+        featureNavigator.navigateTo(screen = EMSplashFeatureScreens.Main)
     }
 }

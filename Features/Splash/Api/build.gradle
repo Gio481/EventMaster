@@ -7,11 +7,6 @@ configPlugin {
     }
 }
 
-
 android {
     namespace = "com.eventmaster.features.splash.api"
-}
-
-dependencies {
-    implementation project(':Core:Navigation')
 }
