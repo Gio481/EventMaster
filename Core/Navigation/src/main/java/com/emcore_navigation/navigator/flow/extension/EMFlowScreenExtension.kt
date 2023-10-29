@@ -1,24 +1,27 @@
 package com.emcore_navigation.navigator.flow.extension
 
-import androidx.compose.runtime.Composable
 import androidx.navigation.NamedNavArgument
-import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.ComposeNavigator
-import androidx.navigation.get
-
+import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
+import com.emcore_navigation.navigator.flow.screen.EMFlowScreenConfig
 
 fun NavGraphBuilder.addFlowScreen(
-    route: String,
-    arguments: List<NamedNavArgument> = emptyList(),
-    content: @Composable (NavBackStackEntry) -> Unit
+    config: EMFlowScreenConfig,
 ) {
-    addDestination(
-        ComposeNavigator.Destination(provider[ComposeNavigator::class], content).apply {
-            this.route = route
-            arguments.forEach { (argumentName, argument) ->
-                addArgument(argumentName, argument)
-            }
-        }
+    composable(
+        route = config.route,
+        arguments = setArgument(config),
+        enterTransition = { config.animation.enterTransition },
+        exitTransition = { config.animation.exitTransition },
+        popEnterTransition = { config.animation.popEnterTransition },
+        popExitTransition = { config.animation.popExitTransition },
+        content = config.content
     )
+}
+
+private fun setArgument(config: EMFlowScreenConfig): List<NamedNavArgument> {
+    return config.argument?.let {
+        listOf(navArgument(it.key) { type = it.type })
+    } ?: emptyList()
 }

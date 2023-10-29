@@ -6,6 +6,8 @@ import org.koin.dsl.module
 
 val splashModule = module {
     viewModel {
-        EMSplashVm()
+        EMSplashVm(
+            authenticationNavigator = get()
+        )
     }
 }

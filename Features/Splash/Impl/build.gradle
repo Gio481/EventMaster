@@ -15,6 +15,8 @@ android {
 }
 
 dependencies {
-    implementation project(':Features:Splash:Api')
     implementation project(':Core:Navigation')
+    implementation project(':Core:Presentation')
+    implementation project(':Features:Splash:Api')
+    implementation project(':Features:Authentication:Api')
 }
