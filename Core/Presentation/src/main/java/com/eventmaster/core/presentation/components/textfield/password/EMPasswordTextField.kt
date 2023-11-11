@@ -51,7 +51,7 @@ internal fun EMPasswordTextField(config: EMTextFieldConfig.Password) {
             .fillMaxWidth()
             .wrapContentHeight()
     ) {
-        Column(modifier = Modifier.padding(top = 48.dp)) {
+        Column(config.modifier) {
             config.title?.let {
                 Text(
                     text = it,
@@ -62,6 +62,7 @@ internal fun EMPasswordTextField(config: EMTextFieldConfig.Password) {
             }
 
             EMDefaultTextField(
+                modifier = Modifier.padding(top = if (config.title == null) 0.dp else 16.dp),
                 trailingIcon = {
                     IconButton(onClick = {
                         showPassword = !showPassword
@@ -122,7 +123,7 @@ private fun BoxScope.ImageAnimation(showPassword: Boolean) {
         painter = imageFrames[animateShape.value.toInt()],
         contentDescription = null,
         modifier = Modifier
-            .padding(bottom = 45.dp)
+            .padding(bottom = 50.dp)
             .size(150.dp)
             .align(Alignment.CenterEnd)
             .padding(start = 75.dp),

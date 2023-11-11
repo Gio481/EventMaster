@@ -7,6 +7,9 @@ import com.eventmaster.features.authentication.impl.features.signup.screens.EMSi
 object EMSignUpFlowInitializer : EMFlowInitializer {
     override fun init(navGraphBuilder: NavGraphBuilder) {
         EMSignUpScreens.Email.screen(navGraphBuilder)
+        EMSignUpScreens.UserName.screen(navGraphBuilder)
         EMSignUpScreens.Password.screen(navGraphBuilder)
+        EMSignUpScreens.Birthdate.screen(navGraphBuilder)
+        EMSignUpScreens.Profile.screen(navGraphBuilder)
     }
 }

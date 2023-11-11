@@ -18,11 +18,11 @@ import com.eventmaster.core.presentation.components.textfield.defaults.EMDefault
 @Composable
 internal fun EMRegularTextField(config: EMTextFieldConfig.Regular) {
     Box(
-        modifier = Modifier
+        modifier = config.modifier
             .fillMaxWidth()
             .wrapContentHeight()
     ) {
-        Column(modifier = Modifier.padding(top = 48.dp)) {
+        Column {
             config.title?.let {
                 Text(
                     text = it,
@@ -31,7 +31,10 @@ internal fun EMRegularTextField(config: EMTextFieldConfig.Regular) {
                     fontWeight = FontWeight.Bold,
                 )
             }
-            EMDefaultTextField()
+            EMDefaultTextField(
+                modifier = Modifier.padding(top = if (config.title == null) 0.dp else 16.dp),
+                hint = config.hint
+            )
             config.description?.let {
                 Text(
                     text = it,

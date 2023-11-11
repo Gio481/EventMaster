@@ -17,6 +17,7 @@ include ':app'
 
 include ':Core:Navigation'
 include ':Core:Presentation'
+include ':Core:Api'
 
 include ':Features:Splash:Api'
 include ':Features:Splash:Impl'

@@ -3,6 +3,7 @@ package com.eventmaster.features.authentication.impl.presentation.signup.base.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,14 +17,22 @@ import androidx.compose.ui.unit.dp
 import com.eventmaster.core.presentation.base.ui.EMScreenBase
 import com.eventmaster.core.presentation.base.vm.EMScreenBaseVm
 import com.eventmaster.features.authentication.impl.presentation.signup.base.type.EMSignUpStepType
+import com.eventmaster.features.authentication.impl.presentation.signup.base.vm.EMSignUpBaseVm
 
 @Composable
 fun EMSignUpBaseComposable(
-    vm: EMScreenBaseVm,
+    vm: EMSignUpBaseVm,
+    showBackButton: Boolean = true,
     currentStep: EMSignUpStepType,
-    content: @Composable () -> Unit
+    content: @Composable ColumnScope.() -> Unit
 ) {
-    EMScreenBase(vm) {
+    EMScreenBase(
+        vm = vm,
+        showBackButton = showBackButton,
+        showBottomAction = true,
+        bottomAction = { vm.nextStep() },
+        headerText = "Create Account"
+    ) {
         Column(modifier = Modifier.padding(horizontal = 16.dp)) {
             Row(
                 modifier = Modifier
@@ -40,7 +49,7 @@ fun EMSignUpBaseComposable(
                     Spacer(modifier = Modifier.width(if (type.isLastStep) 0.dp else 15.dp))
                 }
             }
-            content.invoke()
+            content.invoke(this)
         }
     }
 }
@@ -51,7 +60,7 @@ private fun getBackgroundColor(
 ): Color {
     return when {
         currentStep.ordinal == signUpStepType.ordinal -> Color.White
-        currentStep.ordinal > signUpStepType.ordinal -> Color.Green
+        currentStep.ordinal > signUpStepType.ordinal -> Color(0xFF074E06)
         else -> Color(0xFF454545)
     }
 }

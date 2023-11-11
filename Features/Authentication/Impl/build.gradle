@@ -14,5 +14,7 @@ android {
 dependencies {
     implementation project(':Core:Navigation')
     implementation project(':Core:Presentation')
+    implementation project(':Core:Api')
     implementation project(':Features:Authentication:Api')
+
 }

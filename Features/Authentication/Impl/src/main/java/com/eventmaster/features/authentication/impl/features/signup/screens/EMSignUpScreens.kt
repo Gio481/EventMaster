@@ -2,8 +2,11 @@ package com.eventmaster.features.authentication.impl.features.signup.screens
 
 import com.emcore_navigation.navigator.flow.screen.EMFlowScreen
 import com.emcore_navigation.navigator.flow.screen.EMFlowScreenConfig
+import com.eventmaster.features.authentication.impl.presentation.signup.birthdate.ui.EMSignUpBirthdate
 import com.eventmaster.features.authentication.impl.presentation.signup.mail.ui.EMSignUpMail
 import com.eventmaster.features.authentication.impl.presentation.signup.password.ui.EMSignUpPassword
+import com.eventmaster.features.authentication.impl.presentation.signup.profile.ui.EMSignUpProfile
+import com.eventmaster.features.authentication.impl.presentation.signup.username.ui.EMSignUpUserName
 
 sealed class EMSignUpScreens : EMFlowScreen() {
 
@@ -12,6 +15,16 @@ sealed class EMSignUpScreens : EMFlowScreen() {
             route = "email",
             content = {
                 EMSignUpMail()
+            }
+        )
+    }
+
+    object UserName : EMSignUpScreens() {
+        override fun config() = EMFlowScreenConfig(
+            route = "userName",
+            showAnimation = true,
+            content = {
+                EMSignUpUserName()
             }
         )
     }
@@ -25,7 +38,19 @@ sealed class EMSignUpScreens : EMFlowScreen() {
 
     }
 
-    object Birthdate
+    object Birthdate : EMSignUpScreens() {
+        override fun config() = EMFlowScreenConfig(
+            route = "birthdate",
+            showAnimation = true,
+            content = { EMSignUpBirthdate() }
+        )
+    }
 
-    object Profile
+    object Profile : EMSignUpScreens() {
+        override fun config() = EMFlowScreenConfig(
+            route = "profile",
+            showAnimation = true,
+            content = { EMSignUpProfile() }
+        )
+    }
 }

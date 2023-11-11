@@ -7,6 +7,10 @@ class EMAuthVm(
     private val navigator: EMAuthenticationNavigator
 ) : EMScreenBaseVm() {
 
+    fun navigateToLogIn(){
+        navigator.navigateToLogIn()
+    }
+
     fun navigateToSignUp(){
         navigator.navigateToSignUp()
     }

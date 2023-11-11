@@ -7,7 +7,8 @@ object EMAuthenticationInitializer : EMFeatureInitializer {
     override fun features(): List<EMFeatureScreen> {
         return listOf(
             EMAuthenticationFeatureScreens.Auth,
-            EMAuthenticationFeatureScreens.SignUp
+            EMAuthenticationFeatureScreens.SignUp,
+            EMAuthenticationFeatureScreens.LogIn
         )
     }
 }

@@ -4,18 +4,16 @@ import android.os.Bundle
 import androidx.navigation.NavOptions
 import com.emcore_navigation.navigator.base.screen.EMBaseScreen
 import com.emcore_navigation.navigator.base.screen.EMBaseScreenConfig
-import com.emcore_navigation.navigator.base.type.EMNavigatorType
+import com.emcore_navigation.navigator.feature.screen.EMFeatureScreenConfig
 import com.emcore_navigation.navigator.nav_controller.EMAppNavController
 import com.google.gson.Gson
 
 
-abstract class EMBaseNavigator(
-    private val navController: EMAppNavController
-) {
-
-    abstract fun navigatorType(): EMNavigatorType
+abstract class EMBaseNavigator(private val navController: EMAppNavController) {
 
     protected val navHostController by lazy { navController.getAppNavHostController() }
+
+    protected val featureScreenList = mutableListOf<EMFeatureScreenConfig>()
 
     /**
      * Set the navigation result callback on calling screen.
@@ -53,8 +51,8 @@ abstract class EMBaseNavigator(
         navOptions: NavOptions? = null,
         navResultCallback: ((Bundle) -> Unit)? = null,
     ) {
-
-        navResultCallback?.let { setNavResultCallback(getKey(screen), it) }
+        addScreenInListIfNeeds(screen)
+        navResultCallback?.let { setNavResultCallback(getKey(screen.config()), it) }
         navHostController.navigate(screen.config().route, navOptions)
     }
 
@@ -64,17 +62,24 @@ abstract class EMBaseNavigator(
         navOptions: NavOptions? = null,
         navResultCallback: ((Bundle) -> Unit)? = null,
     ) {
-        navResultCallback?.let { setNavResultCallback(getKey(screen), it) }
+        addScreenInListIfNeeds(screen)
+        navResultCallback?.let { setNavResultCallback(getKey(screen.config()), it) }
         navHostController.navigate(routeWithArgument(screen.config(), data), navOptions)
     }
 
-    protected fun getKey(screen: EMBaseScreen): String {
-        return screen.config().argument?.key
+    protected fun getKey(screen: EMBaseScreenConfig): String {
+        return screen.argument?.key
             ?: throw Exception("you should set up the EMScreenConfig.Argument")
     }
 
     private fun <T> routeWithArgument(config: EMBaseScreenConfig, data: T): String {
         val regex = "\\{([^}]*)\\}".toRegex()
         return config.route.replace(regex) { Gson().toJson(data) }
+    }
+
+    private fun addScreenInListIfNeeds(screen: EMBaseScreen) {
+        if (screen.config() is EMFeatureScreenConfig) {
+            featureScreenList.add(screen.config() as EMFeatureScreenConfig)
+        }
     }
 }
