@@ -48,7 +48,6 @@ fun EMAuth(vm: EMAuthVm = get()) {
             verticalArrangement = Arrangement.Bottom,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
             Button(
                 onClick = {
                 },
@@ -94,7 +93,7 @@ fun EMAuth(vm: EMAuthVm = get()) {
                 onClick = { vm.navigateToSignUp() },
                 shape = RoundedCornerShape(size = 15.dp),
                 colors = ButtonDefaults.textButtonColors(
-                    containerColor = Color(0xFF8F5FEA),
+                    containerColor = Color(0xFF865DFF),
                 ),
                 modifier = Modifier
                     .fillMaxWidth()

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,18 +28,17 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
-import java.util.Calendar
-import java.util.TimeZone
 
 @Composable
 fun rememberPickerState() = remember { PickerState() }
 
 class PickerState {
-    var selectedItem by mutableStateOf("")
+    var selectedItem by mutableStateOf("0")
     var callback: ((Int) -> Unit)? = null
 }
 
@@ -51,16 +51,7 @@ fun EMDatePicker(
     startIndex: Int = 0,
     visibleItemsCount: Int = 5,
 ) {
-
-    val visibleItemsMiddle = visibleItemsCount/ 2
-    val listScrollCount = Integer.MAX_VALUE
-    val listScrollMiddle = listScrollCount / 2
-    val listStartIndex =
-        listScrollMiddle - listScrollMiddle % items.size - visibleItemsMiddle + startIndex
-
-    fun getItem(index: Int) = items[index % items.size]
-
-    val listState = rememberLazyListState(initialFirstVisibleItemIndex = listStartIndex)
+    val listState = rememberLazyListState(initialFirstVisibleItemIndex = startIndex)
     val flingBehavior = rememberSnapFlingBehavior(lazyListState = listState)
 
     val itemHeightPixels = remember { mutableStateOf(0) }
@@ -69,19 +60,21 @@ fun EMDatePicker(
     val fadingEdgeGradient = remember {
         Brush.verticalGradient(
             0f to Color.Transparent,
-            0.5f to Color.Black,
+            0.5f to Color(0xFFEEEEEE),
             1f to Color.Transparent
         )
     }
 
-
     LaunchedEffect(listState) {
         snapshotFlow { listState.firstVisibleItemIndex }
-            .map { index -> getItem(index + 2) }
+            .map { index -> items[index + 2] }
             .distinctUntilChanged()
             .collect { item ->
                 state.selectedItem = item
-                state.callback?.invoke(items.indexOf(item))
+                if(item!=""){
+                    state.callback?.invoke(items.indexOf(item))
+                }
+
             }
     }
 
@@ -92,22 +85,14 @@ fun EMDatePicker(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(itemHeightDp * visibleItemsCount * 2)
+                .height((itemHeightDp + 25.dp) * visibleItemsCount)
                 .fadingEdge(fadingEdgeGradient)
         ) {
-            items(listScrollCount) { index ->
-
-                val showedIndex = index % items.size
+            itemsIndexed(items) { index, item ->
                 val selectedIndex = items.indexOf(state.selectedItem)
-                val font = if (selectedIndex == showedIndex) {
-                    20.sp
-                } else if (selectedIndex - showedIndex == 1 || selectedIndex - showedIndex == -1) {
-                    17.sp
-                } else 15.sp
-
                 Text(
-                    fontSize = font,
-                    text = getItem(index),
+                    fontSize = getFontSize(selectedIndex, index),
+                    text = getText(index, visibleItemsCount, items, item),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier
@@ -117,7 +102,22 @@ fun EMDatePicker(
             }
         }
     }
+}
 
+private fun getFontSize(selectedIndex: Int, index: Int): TextUnit {
+    return when {
+        selectedIndex == index -> 20.sp
+        selectedIndex - index == 1 || selectedIndex - index == -1 -> 18.sp
+        else -> 16.sp
+    }
+}
+
+private fun getText(index: Int, visibleItemsCount: Int, items: List<String>, item: String): String {
+    val paddingItemCount = visibleItemsCount / 2
+    return when {
+        index >= paddingItemCount && index < items.size - paddingItemCount -> item
+        else -> ""
+    }
 }
 
 private fun Modifier.fadingEdge(brush: Brush) = this
