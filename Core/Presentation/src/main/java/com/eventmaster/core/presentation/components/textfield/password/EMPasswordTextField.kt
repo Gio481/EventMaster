@@ -33,7 +33,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.eventmaster.core.presentation.R
-import com.eventmaster.core.presentation.components.textfield.defaults.EMDefaultTextField
+import com.eventmaster.core.presentation.components.textfield.base.EMBaseTextField
 import com.eventmaster.core.presentation.components.textfield.config.EMTextFieldConfig
 
 @Composable
@@ -61,7 +61,7 @@ internal fun EMPasswordTextField(config: EMTextFieldConfig.Password) {
                 )
             }
 
-            EMDefaultTextField(
+            EMBaseTextField(
                 modifier = Modifier.padding(top = if (config.title == null) 0.dp else 16.dp),
                 trailingIcon = {
                     IconButton(onClick = {

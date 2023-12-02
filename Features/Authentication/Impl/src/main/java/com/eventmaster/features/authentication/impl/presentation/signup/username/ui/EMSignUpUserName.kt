@@ -30,5 +30,12 @@ fun EMSignUpUserName(vm: EMSignUpUserNameVm = get()) {
                 modifier = Modifier.padding(top = 32.dp)
             )
         )
+        EMTextField(
+            config = EMTextFieldConfig.Regular(
+                hint = "Nickname",
+                modifier = Modifier.padding(top = 32.dp),
+                description = "This will display on your profile"
+            )
+        )
     }
 }

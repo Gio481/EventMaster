@@ -13,7 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.eventmaster.core.presentation.components.textfield.config.EMTextFieldConfig
-import com.eventmaster.core.presentation.components.textfield.defaults.EMDefaultTextField
+import com.eventmaster.core.presentation.components.textfield.base.EMBaseTextField
 
 @Composable
 internal fun EMRegularTextField(config: EMTextFieldConfig.Regular) {
@@ -31,7 +31,7 @@ internal fun EMRegularTextField(config: EMTextFieldConfig.Regular) {
                     fontWeight = FontWeight.Bold,
                 )
             }
-            EMDefaultTextField(
+            EMBaseTextField(
                 modifier = Modifier.padding(top = if (config.title == null) 0.dp else 16.dp),
                 hint = config.hint
             )

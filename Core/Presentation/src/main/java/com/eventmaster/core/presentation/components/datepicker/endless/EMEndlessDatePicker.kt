@@ -1,4 +1,4 @@
-package com.eventmaster.core.presentation.components.datepicker
+package com.eventmaster.core.presentation.components.datepicker.endless
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
@@ -7,15 +7,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,33 +23,38 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.onSizeChanged
-import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.eventmaster.core.presentation.components.datepicker.extensions.pixelsToDp
+import com.eventmaster.core.presentation.components.datepicker.extensions.rememberPickerState
+import com.eventmaster.core.presentation.components.datepicker.model.EMDatePickerTextStyle
+import com.eventmaster.core.presentation.components.datepicker.state.EMDatePickerState
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 
-@Composable
-fun rememberPickerState() = remember { PickerState() }
-
-class PickerState {
-    var selectedItem by mutableStateOf("0")
-    var callback: ((Int) -> Unit)? = null
-}
-
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun EMDatePicker(
+fun EMEndlessDatePicker(
     modifier: Modifier = Modifier,
     items: List<String>,
-    state: PickerState = rememberPickerState(),
+    state: EMDatePickerState = rememberPickerState(),
     startIndex: Int = 0,
     visibleItemsCount: Int = 5,
 ) {
-    val listState = rememberLazyListState(initialFirstVisibleItemIndex = startIndex)
+    fun getItem(index: Int) = items[index % items.size]
+
+    val visibleItemsMiddle = visibleItemsCount / 2
+    val listScrollCount = Integer.MAX_VALUE
+    val listScrollMiddle = listScrollCount / 2
+    val listStartIndex =
+        listScrollMiddle - listScrollMiddle % items.size - visibleItemsMiddle + startIndex
+
+    val listState = rememberLazyListState(initialFirstVisibleItemIndex = listStartIndex)
     val flingBehavior = rememberSnapFlingBehavior(lazyListState = listState)
+
 
     val itemHeightPixels = remember { mutableStateOf(0) }
     val itemHeightDp = pixelsToDp(itemHeightPixels.value)
@@ -67,16 +69,14 @@ fun EMDatePicker(
 
     LaunchedEffect(listState) {
         snapshotFlow { listState.firstVisibleItemIndex }
-            .map { index -> items[index + 2] }
+            .map { index -> getItem(index + visibleItemsMiddle) }
             .distinctUntilChanged()
             .collect { item ->
                 state.selectedItem = item
-                if(item!=""){
-                    state.callback?.invoke(items.indexOf(item))
-                }
-
+                state.callback?.invoke(item)
             }
     }
+
 
     Box(modifier = modifier) {
         LazyColumn(
@@ -88,35 +88,21 @@ fun EMDatePicker(
                 .height((itemHeightDp + 25.dp) * visibleItemsCount)
                 .fadingEdge(fadingEdgeGradient)
         ) {
-            itemsIndexed(items) { index, item ->
-                val selectedIndex = items.indexOf(state.selectedItem)
+            items(listScrollCount) { index ->
+                val textStyle = textStyle(items, state.selectedItem, getItem(index))
                 Text(
-                    fontSize = getFontSize(selectedIndex, index),
-                    text = getText(index, visibleItemsCount, items, item),
-                    maxLines = 1,
+                    text = getItem(index),
+                    fontSize = textStyle.fontSize,
+                    fontWeight = textStyle.fontWeight,
+                    fontStyle = textStyle.fontStyle,
                     overflow = TextOverflow.Ellipsis,
+                    maxLines = 1,
                     modifier = Modifier
                         .padding(top = 25.dp)
                         .onSizeChanged { size -> itemHeightPixels.value = size.height }
                 )
             }
         }
-    }
-}
-
-private fun getFontSize(selectedIndex: Int, index: Int): TextUnit {
-    return when {
-        selectedIndex == index -> 20.sp
-        selectedIndex - index == 1 || selectedIndex - index == -1 -> 18.sp
-        else -> 16.sp
-    }
-}
-
-private fun getText(index: Int, visibleItemsCount: Int, items: List<String>, item: String): String {
-    val paddingItemCount = visibleItemsCount / 2
-    return when {
-        index >= paddingItemCount && index < items.size - paddingItemCount -> item
-        else -> ""
     }
 }
 
@@ -127,5 +113,17 @@ private fun Modifier.fadingEdge(brush: Brush) = this
         drawRect(brush = brush, blendMode = BlendMode.DstIn)
     }
 
-@Composable
-private fun pixelsToDp(pixels: Int) = with(LocalDensity.current) { pixels.toDp() }
+
+private fun textStyle(
+    items: List<String>,
+    selectedItem: String,
+    unselectedItem: String
+): EMDatePickerTextStyle {
+    fun difference() = items.indexOf(selectedItem) - items.indexOf(unselectedItem)
+    return when {
+        selectedItem == unselectedItem -> EMDatePickerTextStyle(20.sp, FontWeight.Bold, FontStyle.Italic)
+        difference() == 1 || difference() == -1 -> EMDatePickerTextStyle(18.sp)
+        difference() == -11 || difference() == 11 -> EMDatePickerTextStyle(18.sp)
+        else -> EMDatePickerTextStyle(16.sp)
+    }
+}

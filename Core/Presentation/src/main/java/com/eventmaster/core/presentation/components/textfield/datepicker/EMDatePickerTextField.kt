@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -21,14 +20,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.eventmaster.core.presentation.R
-import com.eventmaster.core.presentation.components.datepicker.EMDatePickerBottomSheet
+import com.eventmaster.core.presentation.components.datepicker.bottomsheet.date.EMDatePickerBottomSheet
+import com.eventmaster.core.presentation.components.textfield.base.EMBaseTextField
 import com.eventmaster.core.presentation.components.textfield.config.EMTextFieldConfig
-import com.eventmaster.core.presentation.components.textfield.defaults.EMDefaultTextField
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun EMDatePickerTextField(config: EMTextFieldConfig.DatePicker) {
     var showBottomSheet by remember { mutableStateOf(false) }
+    val hint by remember { mutableStateOf(config.hint) }
 
     Box(
         modifier = config.modifier
@@ -44,9 +43,9 @@ internal fun EMDatePickerTextField(config: EMTextFieldConfig.DatePicker) {
                     fontWeight = FontWeight.Bold,
                 )
             }
-            EMDefaultTextField(
+            EMBaseTextField(
                 modifier = Modifier.padding(top = if (config.title == "") 0.dp else 16.dp),
-                hint = config.hint,
+                hint = hint,
                 readOnly = true,
                 enabled = false,
                 trailingIcon = {
@@ -69,11 +68,11 @@ internal fun EMDatePickerTextField(config: EMTextFieldConfig.DatePicker) {
         }
     }
 
+    //TODO try factory pattern to create picker
     if (showBottomSheet) {
         EMDatePickerBottomSheet(
             doneAction = { },
             onDismiss = { showBottomSheet = false }
         )
     }
-
 }

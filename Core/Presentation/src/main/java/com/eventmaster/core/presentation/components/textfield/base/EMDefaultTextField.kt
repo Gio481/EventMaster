@@ -1,4 +1,4 @@
-package com.eventmaster.core.presentation.components.textfield.defaults
+package com.eventmaster.core.presentation.components.textfield.base
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun EMDefaultTextField(
+fun EMBaseTextField(
     modifier: Modifier = Modifier,
     singleLine: Boolean = true,
     hint: String = "",
