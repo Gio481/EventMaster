@@ -19,7 +19,7 @@ fun EMSignUpBirthdate(vm: EMSignUpBirthdateVm = get()) {
     ) {
         EMTextField(
             config = EMTextFieldConfig.DatePicker(
-                title = "Choose your birthdate",
+                title = "Choose your birthdate \uD83C\uDF82",
                 hint = "DD / MM / YYYY",
                 modifier = Modifier.padding(top = 48.dp)
             )

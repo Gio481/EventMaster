@@ -8,7 +8,7 @@ import com.eventmaster.features.authentication.impl.features.signup.init.EMSignU
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 sealed class EMAuthenticationFeatureScreens : EMFeatureScreen() {
-    @DelicateCoroutinesApi
+
     object Auth : EMAuthenticationFeatureScreens() {
         override fun config() = EMFeatureScreenConfig(
             route = "auth",

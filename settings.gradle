@@ -26,3 +26,5 @@ include ':Features:Authentication:Api'
 include ':Features:Authentication:Impl'
 
 rootProject.name = "EventMaster"
+include ':Features:Event:Api'
+include ':Features:Event:IMpl'

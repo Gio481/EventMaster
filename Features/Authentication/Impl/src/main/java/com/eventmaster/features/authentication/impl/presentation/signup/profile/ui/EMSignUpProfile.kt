@@ -19,8 +19,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.eventmaster.core.presentation.components.textfield.EMTextField
-import com.eventmaster.core.presentation.components.textfield.config.EMTextFieldConfig
 import com.eventmaster.features.authentication.impl.R
 import com.eventmaster.features.authentication.impl.presentation.signup.base.type.EMSignUpStepType
 import com.eventmaster.features.authentication.impl.presentation.signup.base.ui.EMSignUpBaseComposable
@@ -30,12 +28,6 @@ import org.koin.androidx.compose.get
 @Composable
 fun EMSignUpProfile(vm: EMSignUpProfileVm = get()) {
     EMSignUpBaseComposable(vm = vm, currentStep = EMSignUpStepType.PROFILE) {
-        EMTextField(
-            config = EMTextFieldConfig.Regular(
-                title = "Enter Nickname",
-                modifier = Modifier.padding(top = 48.dp)
-            )
-        )
         Text(
             text = "Choose Avatar",
             modifier = Modifier.padding(top = 32.dp),

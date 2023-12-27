@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.eventmaster.core.presentation.base.ui.EMScreenBase
-import com.eventmaster.core.presentation.base.vm.EMScreenBaseVm
+import com.eventmaster.core.presentation.base.ui.action.EMActionButton
 import com.eventmaster.features.authentication.impl.presentation.signup.base.type.EMSignUpStepType
 import com.eventmaster.features.authentication.impl.presentation.signup.base.vm.EMSignUpBaseVm
 
@@ -24,12 +24,14 @@ fun EMSignUpBaseComposable(
     vm: EMSignUpBaseVm,
     showBackButton: Boolean = true,
     currentStep: EMSignUpStepType,
+    bottomActionButton: EMActionButton = EMActionButton.Single("Continue"),
     content: @Composable ColumnScope.() -> Unit
 ) {
     EMScreenBase(
         vm = vm,
         showBackButton = showBackButton,
         showBottomAction = true,
+        bottomActionButton = bottomActionButton,
         bottomAction = { vm.nextStep() },
         headerText = "Create Account"
     ) {
