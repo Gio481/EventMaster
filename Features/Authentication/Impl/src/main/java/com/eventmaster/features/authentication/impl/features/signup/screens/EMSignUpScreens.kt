@@ -3,10 +3,12 @@ package com.eventmaster.features.authentication.impl.features.signup.screens
 import com.emcore_navigation.navigator.flow.screen.EMFlowScreen
 import com.emcore_navigation.navigator.flow.screen.EMFlowScreenConfig
 import com.eventmaster.features.authentication.impl.presentation.signup.birthdate.ui.EMSignUpBirthdate
+import com.eventmaster.features.authentication.impl.presentation.signup.mail.di.mailModule
 import com.eventmaster.features.authentication.impl.presentation.signup.mail.ui.EMSignUpMail
 import com.eventmaster.features.authentication.impl.presentation.signup.password.ui.EMSignUpPassword
 import com.eventmaster.features.authentication.impl.presentation.signup.profile.ui.EMSignUpProfile
 import com.eventmaster.features.authentication.impl.presentation.signup.username.ui.EMSignUpUserName
+import org.koin.core.context.loadKoinModules
 
 sealed class EMSignUpScreens : EMFlowScreen() {
 

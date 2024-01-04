@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -17,25 +18,43 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.eventmaster.core.presentation.R
-import com.eventmaster.core.presentation.components.datepicker.bottomsheet.date.EMDatePickerBottomSheet
+import com.eventmaster.core.presentation.components.datepicker.bottomsheet.fulldate.EMDatePickerBottomSheet
+import com.eventmaster.core.presentation.components.datepicker.bottomsheet.daymonth.EMDayMonthPickerBottomSheet
+import com.eventmaster.core.presentation.components.datepicker.bottomsheet.time.EMTimePickerBottomSheet
 import com.eventmaster.core.presentation.components.textfield.base.EMBaseTextField
-import com.eventmaster.core.presentation.components.textfield.config.EMTextFieldConfig
+import com.eventmaster.core.presentation.components.textfield.datepicker.type.EMDatePickerTextFieldType
 
 @Composable
-internal fun EMDatePickerTextField(config: EMTextFieldConfig.DatePicker) {
+fun EMDatePickerTextField(
+    modifier: Modifier = Modifier,
+    textFiledModifier: Modifier = Modifier,
+    singleLine: Boolean = true,
+    hint: String = "",
+    readOnly: Boolean = true,
+    enabled: Boolean = false,
+    title: String? = null,
+    description: String? = null,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
+    imeAction: ImeAction = ImeAction.Default,
+    containerColor: Color = Color(0xFF202020),
+    type: EMDatePickerTextFieldType = EMDatePickerTextFieldType.FullDate,
+) {
     var showBottomSheet by remember { mutableStateOf(false) }
-    val hint by remember { mutableStateOf(config.hint) }
+    val selectedDate by remember { mutableStateOf(hint) }
 
     Box(
-        modifier = config.modifier
+        modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
     ) {
         Column {
-            config.title?.let {
+            title?.let {
                 Text(
                     text = it,
                     color = Color(0xFFEEEEEE),
@@ -44,10 +63,12 @@ internal fun EMDatePickerTextField(config: EMTextFieldConfig.DatePicker) {
                 )
             }
             EMBaseTextField(
-                modifier = Modifier.padding(top = if (config.title == "") 0.dp else 16.dp),
+                modifier = Modifier
+                    .padding(top = if (title == null) 0.dp else 16.dp)
+                    .then(textFiledModifier),
                 hint = hint,
-                readOnly = true,
-                enabled = false,
+                readOnly = readOnly,
+                enabled = enabled,
                 trailingIcon = {
                     IconButton(onClick = { showBottomSheet = true }) {
                         Icon(
@@ -56,8 +77,13 @@ internal fun EMDatePickerTextField(config: EMTextFieldConfig.DatePicker) {
                         )
                     }
                 },
+                singleLine = singleLine,
+                visualTransformation = visualTransformation,
+                keyboardActions = keyboardActions,
+                imeAction = imeAction,
+                containerColor = containerColor
             )
-            config.description?.let {
+            description?.let {
                 Text(
                     text = it,
                     color = Color(0xFFBFBFBF),
@@ -70,9 +96,27 @@ internal fun EMDatePickerTextField(config: EMTextFieldConfig.DatePicker) {
 
     //TODO try factory pattern to create picker
     if (showBottomSheet) {
-        EMDatePickerBottomSheet(
-            doneAction = { },
-            onDismiss = { showBottomSheet = false }
-        )
+        when (type) {
+            EMDatePickerTextFieldType.FullDate -> {
+                EMDatePickerBottomSheet(
+                    doneAction = { },
+                    onDismiss = { showBottomSheet = false }
+                )
+            }
+
+            EMDatePickerTextFieldType.DayMonth -> {
+                EMDayMonthPickerBottomSheet(
+                    doneAction = {},
+                    onDismiss = { showBottomSheet = false }
+                )
+            }
+
+            EMDatePickerTextFieldType.Time -> {
+                EMTimePickerBottomSheet(
+                    doneAction = {},
+                    onDismiss = { showBottomSheet = false }
+                )
+            }
+        }
     }
 }

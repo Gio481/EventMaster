@@ -1,0 +1,46 @@
+{
+  ConstraintSets: {
+    start: {
+      share: {
+        width: 'wrap',
+        height: 'wrap',
+        start: ['parent', 'start'],
+        top: ['parent','top'],
+        end: ['parent', 'end'],
+      },
+      invite: {
+        start: ['parent', 'start'],
+        end: ['parent', 'end'],
+        width: 'wrap',
+        height: 'preferWrap',
+        top: ['share', 'bottom'],
+        bottom: ['parent', 'bottom'],
+      }
+    },
+    end: {
+      share: {
+        width: 'wrap',
+        height: 'wrap',
+        start: ['parent', 'start'],
+        top: ['parent','top'],
+        end: ['parent', 'end'],
+        alpha: 0,
+      },
+//      invite: {
+//        start: ['parent', 'start'],
+//        end: ['parent', 'end'],
+//        width: 'wrap',
+//        height: 'preferWrap',
+//        top: ['parent', 'top'],
+//        bottom: ['parent', 'bottom'],
+//      }
+    }
+  },
+  Transitions: {
+    default: {
+      from: 'start',
+      to: 'end',
+      pathMotionArc: 'startHorizontal',
+    }
+  }
+}

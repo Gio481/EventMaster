@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -28,16 +29,29 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.eventmaster.core.presentation.R
 import com.eventmaster.core.presentation.components.textfield.base.EMBaseTextField
-import com.eventmaster.core.presentation.components.textfield.config.EMTextFieldConfig
 
 @Composable
-internal fun EMPasswordTextField(config: EMTextFieldConfig.Password) {
+fun EMPasswordTextField(
+    modifier: Modifier = Modifier,
+    textFiledModifier: Modifier = Modifier,
+    singleLine: Boolean = true,
+    hint: String = "",
+    readOnly: Boolean = false,
+    enabled: Boolean = true,
+    title: String? = null,
+    description: String? = null,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
+    imeAction: ImeAction = ImeAction.Default,
+    withZootopiaAnimation: Boolean = true,
+    containerColor: Color = Color(0xFF202020),
+) {
     var showPassword by remember { mutableStateOf(false) }
 
     val iconId = if (showPassword) {
@@ -47,12 +61,12 @@ internal fun EMPasswordTextField(config: EMTextFieldConfig.Password) {
     }
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
     ) {
-        Column(config.modifier) {
-            config.title?.let {
+        Column {
+            title?.let {
                 Text(
                     text = it,
                     color = Color(0xFFEEEEEE),
@@ -62,7 +76,9 @@ internal fun EMPasswordTextField(config: EMTextFieldConfig.Password) {
             }
 
             EMBaseTextField(
-                modifier = Modifier.padding(top = if (config.title == null) 0.dp else 16.dp),
+                modifier = Modifier
+                    .padding(top = if (title == null) 0.dp else 16.dp)
+                    .then(textFiledModifier),
                 trailingIcon = {
                     IconButton(onClick = {
                         showPassword = !showPassword
@@ -74,8 +90,15 @@ internal fun EMPasswordTextField(config: EMTextFieldConfig.Password) {
                     }
                 },
                 visualTransformation = if (showPassword) VisualTransformation.None else PasswordVisualTransformation(),
+                hint = hint,
+                singleLine = singleLine,
+                readOnly = readOnly,
+                enabled = enabled,
+                keyboardActions = keyboardActions,
+                imeAction = imeAction,
+                containerColor = containerColor
             )
-            config.description?.let {
+            description?.let {
                 Text(
                     text = it,
                     color = Color(0xFFBFBFBF),
@@ -84,10 +107,9 @@ internal fun EMPasswordTextField(config: EMTextFieldConfig.Password) {
                 )
             }
         }
-        if (config.withZootopiaAnimation) ImageAnimation(showPassword)
+        if (withZootopiaAnimation) ImageAnimation(showPassword)
     }
 }
-
 
 @Composable
 private fun BoxScope.ImageAnimation(showPassword: Boolean) {

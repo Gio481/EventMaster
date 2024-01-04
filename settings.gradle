@@ -25,6 +25,13 @@ include ':Features:Splash:Impl'
 include ':Features:Authentication:Api'
 include ':Features:Authentication:Impl'
 
-rootProject.name = "EventMaster"
 include ':Features:Event:Api'
-include ':Features:Event:IMpl'
+include ':Features:Event:Impl'
+
+include ':Features:Group:Api'
+include ':Features:Group:Impl'
+
+include ':Features:Home:Api'
+include ':Features:Home:Impl'
+
+rootProject.name = "EventMaster"

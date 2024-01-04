@@ -1,0 +1,18 @@
+apply plugin: "EMGradleSetUpPlugin"
+apply plugin: "EMGradleConfigExtensionPlugin"
+apply plugin: "EMComposePlugin"
+
+configPlugin {
+    config {
+        buildTypes = [BuildTypes.DEBUG, BuildTypes.TEST, BuildTypes.PRODUCTION]
+    }
+}
+android {
+    namespace 'com.eventmaster.features.home.impl'
+}
+
+dependencies {
+    implementation project(':Core:Navigation')
+    implementation project(':Core:Presentation')
+    implementation project(':Features:Home:Api')
+}

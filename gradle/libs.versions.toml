@@ -10,6 +10,7 @@ androidxComposeBom = "2023.01.00"
 compose-navigation = "2.7.0"
 compose-material = "1.2.0-alpha10"
 gson = "2.10"
+constraintlayout-compose-android = "1.1.0-alpha13"
 
 [libraries]
 ktx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" }
@@ -29,4 +30,5 @@ compose-debug = { group = "androidx.compose.ui", name = "ui-tooling" }
 compose-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 compose-navigation = { module = "androidx.navigation:navigation-compose", version.ref = "compose-navigation" }
 compose-material = { module = "androidx.compose.material3:material3", version.ref = "compose-material" }
+constraintlayout-compose-android = { module = "androidx.constraintlayout:constraintlayout-compose-android", version.ref = "constraintlayout-compose-android" }
 gson = { module = 'com.google.code.gson:gson', version.ref = "gson" }

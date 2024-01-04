@@ -4,8 +4,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.eventmaster.core.presentation.components.textfield.EMTextField
-import com.eventmaster.core.presentation.components.textfield.config.EMTextFieldConfig
+import com.eventmaster.core.presentation.components.textfield.password.EMPasswordTextField
 import com.eventmaster.features.authentication.impl.presentation.signup.base.type.EMSignUpStepType
 import com.eventmaster.features.authentication.impl.presentation.signup.base.ui.EMSignUpBaseComposable
 import com.eventmaster.features.authentication.impl.presentation.signup.password.vm.EMSignUpPasswordVm
@@ -17,12 +16,10 @@ fun EMSignUpPassword(vm: EMSignUpPasswordVm = get()) {
         vm = vm,
         currentStep = EMSignUpStepType.PASSWORD
     ) {
-        EMTextField(
-            config = EMTextFieldConfig.Password(
-                title = "Create password",
-                description = "Remember, letters must be more than 6,also use symbols and digits",
-                modifier = Modifier.padding(top = 48.dp)
-            )
+        EMPasswordTextField(
+            title = "Create password",
+            description = "Remember, letters must be more than 6,also use symbols and digits",
+            modifier = Modifier.padding(top = 48.dp)
         )
     }
 }

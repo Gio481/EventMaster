@@ -42,7 +42,7 @@ fun EMExpandableField(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .background(color = Color(0xFF2A2A2A), shape = RoundedCornerShape(13.dp))
+            .background(color = Color(0xFF202020), shape = RoundedCornerShape(13.dp))
             .animateContentSize()
     ) {
         Box(

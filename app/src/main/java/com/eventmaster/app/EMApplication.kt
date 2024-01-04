@@ -10,6 +10,10 @@ import com.eventmaster.features.authentication.impl.presentation.signup.mail.di.
 import com.eventmaster.features.authentication.impl.presentation.signup.password.di.passwordModule
 import com.eventmaster.features.authentication.impl.presentation.signup.profile.di.profileModule
 import com.eventmaster.features.authentication.impl.presentation.signup.username.di.userNameModule
+import com.eventmaster.features.eveny.impl.presentation.create.cover.di.coverModule
+import com.eventmaster.features.eveny.impl.presentation.create.date.di.dateModule
+import com.eventmaster.features.eveny.impl.presentation.create.friends_list.di.friendsListModule
+import com.eventmaster.features.home.impl.presentation.home.di.homeModule
 import com.eventmaster.features.splash.impl.presentation.main.di.splashModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -29,7 +33,11 @@ class EMApplication : Application() {
                 profileModule,
                 logInModule,
                 userNameModule,
-                navigationEventModule
+                navigationEventModule,
+                coverModule,
+                dateModule,
+                friendsListModule,
+                homeModule
             )
         }
     }

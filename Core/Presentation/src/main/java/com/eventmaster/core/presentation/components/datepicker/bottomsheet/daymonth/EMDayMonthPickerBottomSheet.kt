@@ -2,12 +2,20 @@ package com.eventmaster.core.presentation.components.datepicker.bottomsheet.daym
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.eventmaster.core.presentation.components.datepicker.bottomsheet.base.EMBaseDatePickerBottomSheet
 import com.eventmaster.core.presentation.components.datepicker.endless.EMEndlessDatePicker
 import com.eventmaster.core.presentation.components.datepicker.extensions.monthsList
@@ -47,18 +55,20 @@ private fun DayMonthPicker(
     val days by remember { mutableStateOf((1..31).map { it.toString() }) }
 
     Box(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
+        contentAlignment = Alignment.Center
     ) {
         Row {
             EMEndlessDatePicker(
                 state = daysPickerState,
                 items = days,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.wrapContentWidth()
             )
+            Spacer(modifier = Modifier.padding(horizontal = 30.dp))
             EMEndlessDatePicker(
                 state = monthsPickerState,
                 items = monthsList(),
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.wrapContentWidth()
             )
         }
     }

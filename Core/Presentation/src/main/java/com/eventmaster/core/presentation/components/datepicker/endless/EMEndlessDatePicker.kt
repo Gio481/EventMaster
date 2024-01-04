@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
@@ -84,7 +85,7 @@ fun EMEndlessDatePicker(
             flingBehavior = flingBehavior,
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
-                .fillMaxWidth()
+                .wrapContentWidth()
                 .height((itemHeightDp + 25.dp) * visibleItemsCount)
                 .fadingEdge(fadingEdgeGradient)
         ) {
@@ -94,7 +95,7 @@ fun EMEndlessDatePicker(
                     text = getItem(index),
                     fontSize = textStyle.fontSize,
                     fontWeight = textStyle.fontWeight,
-                    fontStyle = textStyle.fontStyle,
+                    fontStyle = FontStyle.Normal,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
                     modifier = Modifier
@@ -121,7 +122,7 @@ private fun textStyle(
 ): EMDatePickerTextStyle {
     fun difference() = items.indexOf(selectedItem) - items.indexOf(unselectedItem)
     return when {
-        selectedItem == unselectedItem -> EMDatePickerTextStyle(20.sp, FontWeight.Bold, FontStyle.Italic)
+        selectedItem == unselectedItem -> EMDatePickerTextStyle(20.sp, FontWeight.Bold)
         difference() == 1 || difference() == -1 -> EMDatePickerTextStyle(18.sp)
         difference() == -11 || difference() == 11 -> EMDatePickerTextStyle(18.sp)
         else -> EMDatePickerTextStyle(16.sp)

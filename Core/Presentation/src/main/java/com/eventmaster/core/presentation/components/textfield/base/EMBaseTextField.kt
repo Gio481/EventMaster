@@ -1,8 +1,8 @@
 package com.eventmaster.core.presentation.components.textfield.base
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -36,7 +36,8 @@ fun EMBaseTextField(
     trailingIcon: @Composable (() -> Unit)? = null,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
-    imeAction: ImeAction = ImeAction.Default
+    imeAction: ImeAction = ImeAction.Default,
+    containerColor: Color = Color(0xFF2A2A2A)
 ) {
     var text by rememberSaveable { mutableStateOf("") }
     var showPrefix by rememberSaveable { mutableStateOf(hint.isEmpty().not()) }
@@ -50,13 +51,15 @@ fun EMBaseTextField(
         modifier = modifier
             .fillMaxWidth()
             .height(50.dp)
-            .clip(RoundedCornerShape(13.dp))
-            .background(Color(0xFF212121)),
+            .clip(RoundedCornerShape(13.dp)),
         singleLine = singleLine,
         colors = TextFieldDefaults.colors(
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
             cursorColor = Color.White,
+            focusedContainerColor = containerColor,
+            unfocusedContainerColor = containerColor,
+            disabledContainerColor = containerColor,
         ),
         textStyle = TextStyle(
             textAlign = TextAlign.Start,
@@ -84,6 +87,5 @@ fun EMBaseTextField(
                 )
             }
         },
-
     )
 }

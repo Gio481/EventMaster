@@ -4,8 +4,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.eventmaster.core.presentation.components.textfield.EMTextField
-import com.eventmaster.core.presentation.components.textfield.config.EMTextFieldConfig
+import com.eventmaster.core.presentation.components.textfield.regular.EMRegularTextField
 import com.eventmaster.features.authentication.impl.presentation.signup.base.type.EMSignUpStepType
 import com.eventmaster.features.authentication.impl.presentation.signup.base.ui.EMSignUpBaseComposable
 import com.eventmaster.features.authentication.impl.presentation.signup.mail.vm.EMSignUpMailVm
@@ -18,12 +17,10 @@ fun EMSignUpMail(vm: EMSignUpMailVm = get()) {
         showBackButton = false,
         currentStep = EMSignUpStepType.MAIL,
     ) {
-        EMTextField(
-            config = EMTextFieldConfig.Regular(
-                title = "Let’s start with email",
-                description = "To check if account is already created or not",
-                modifier = Modifier.padding(top = 48.dp)
-            )
+        EMRegularTextField(
+            title = "Let’s start with email",
+            description = "To check if account is already created or not",
+            modifier = Modifier.padding(top = 48.dp)
         )
     }
 }

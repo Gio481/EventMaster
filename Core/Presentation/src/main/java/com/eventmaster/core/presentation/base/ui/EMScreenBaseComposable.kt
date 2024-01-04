@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -22,6 +23,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,6 +37,9 @@ import androidx.compose.ui.unit.sp
 import com.eventmaster.core.presentation.R
 import com.eventmaster.core.presentation.base.ui.action.EMActionButton
 import com.eventmaster.core.presentation.base.vm.EMScreenBaseVm
+import org.koin.core.context.loadKoinModules
+import org.koin.core.context.unloadKoinModules
+import org.koin.core.module.Module
 
 @Composable
 fun EMScreenBase(
@@ -49,6 +54,7 @@ fun EMScreenBase(
     bottomActionContent: @Composable BoxScope.() -> Unit = {
         BottomActionComponent(bottomAction, bottomActionButton)
     },
+    headerBackground: Color = Color(0xFF171717),
     content: @Composable BoxScope.() -> Unit
 ) {
     Column(
@@ -56,59 +62,81 @@ fun EMScreenBase(
             .fillMaxSize()
             .background(Color(0xFF121212))
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .padding(horizontal = 16.dp)
-                .padding(top = if (showHeader) 16.dp else 0.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            if (showHeader) {
-                ShowComponent(showBackButton) {
-                    Image(
-                        painter = painterResource(id = R.drawable.em_core_ic_arrow),
-                        contentDescription = "arrow",
-                        modifier = Modifier
-                            .padding(top = 2.dp)
-                            .clickable {
-                                vm.navigateBack()
-                            }
-                    )
-                }
-                Text(
-                    textAlign = TextAlign.Center,
-                    text = headerText ?: "",
-                    color = Color.White,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp,
-                )
-
-                ShowComponent(showCloseButton) {
-                    Image(
-                        painter = painterResource(id = R.drawable.em_core_ic_close),
-                        contentDescription = "close",
-                        modifier = Modifier
-                            .padding(top = 2.dp)
-                            .clickable {
-                                vm.finishFeature()
-                            }
-                    )
-                }
-            }
-        }
-        Box(content = content)
+        Header(
+            vm = vm,
+            showHeader = showHeader,
+            showBackButton = showBackButton,
+            showCloseButton = showCloseButton,
+            headerText = headerText,
+            headerBackground = headerBackground
+        )
+        Box(content = content, modifier = Modifier
+            .weight(1f)
+            .fillMaxWidth())
         if (showBottomAction) {
             Box(
                 contentAlignment = Alignment.BottomCenter,
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.wrapContentSize(),
                 content = bottomActionContent
             )
         }
     }
+
+
     LaunchedEffect(key1 = Unit) {
         vm.onCreate()
         vm.suspendOnCreate()
+    }
+}
+
+@Composable
+private fun Header(
+    showHeader: Boolean = true,
+    showBackButton: Boolean = true,
+    showCloseButton: Boolean = true,
+    headerText: String? = null,
+    headerBackground: Color = Color(0xFF171717),
+    vm: EMScreenBaseVm
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .background(color = headerBackground)
+            .padding(horizontal = 16.dp)
+            .padding(vertical = if (showHeader) 16.dp else 0.dp),
+    ) {
+        if (showHeader) {
+            ShowComponent(showBackButton) {
+                Image(
+                    painter = painterResource(id = R.drawable.em_core_ic_arrow),
+                    contentDescription = "arrow",
+                    modifier = Modifier
+                        .padding(top = 2.dp)
+                        .clickable { vm.navigateBack() }
+                )
+            }
+            Text(
+                textAlign = TextAlign.Center,
+                text = headerText ?: "",
+                color = Color.White,
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp,
+                modifier = Modifier.padding(start = 15.dp)
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            ShowComponent(showCloseButton) {
+                Image(
+                    painter = painterResource(id = R.drawable.em_core_ic_close),
+                    contentDescription = "close",
+                    modifier = Modifier
+                        .padding(top = 2.dp)
+                        .clickable {
+                            vm.finishFeature()
+                        }
+                )
+            }
+        }
     }
 }
 
@@ -141,11 +169,11 @@ private fun SingleButtonBottomAction(
         onClick = onClick,
         shape = RoundedCornerShape(size = 15.dp),
         colors = ButtonDefaults.textButtonColors(
-            containerColor = Color(0xFF865DFF),
+            containerColor = Color(0xFF5D6DFF),
         ),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 16.dp, end = 16.dp, bottom = 33.dp)
+            .padding(start = 16.dp, end = 16.dp, bottom = 33.dp, top = 28.dp)
             .height(50.dp)
     ) {
         Text(

@@ -20,8 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.eventmaster.core.presentation.base.ui.EMScreenBase
 import com.eventmaster.core.presentation.components.or.OrComposable
-import com.eventmaster.core.presentation.components.textfield.EMTextField
-import com.eventmaster.core.presentation.components.textfield.config.EMTextFieldConfig
+import com.eventmaster.core.presentation.components.textfield.regular.EMRegularTextField
 import com.eventmaster.features.authentication.impl.presentation.login.main.vm.EMLogInVm
 import org.koin.androidx.compose.get
 
@@ -37,17 +36,13 @@ fun EMLogIn(vm: EMLogInVm = get()) {
                 .padding(horizontal = 16.dp)
                 .fillMaxHeight()
         ) {
-            EMTextField(
-                config = EMTextFieldConfig.Regular(
-                    hint = "Email",
-                    modifier = Modifier.padding(top = 88.dp)
-                )
+            EMRegularTextField(
+                hint = "Email",
+                modifier = Modifier.padding(top = 88.dp)
             )
-            EMTextField(
-                config = EMTextFieldConfig.Regular(
-                    hint = "Password",
-                    modifier = Modifier.padding(top = 20.dp)
-                )
+            EMRegularTextField(
+                hint = "Password",
+                modifier = Modifier.padding(top = 20.dp)
             )
             OrComposable(
                 modifier = Modifier

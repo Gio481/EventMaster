@@ -33,13 +33,14 @@ fun EMSignUpBaseComposable(
         showBottomAction = true,
         bottomActionButton = bottomActionButton,
         bottomAction = { vm.nextStep() },
-        headerText = "Create Account"
+        headerText = "Create Account",
+        headerBackground = Color(0xFF121212)
     ) {
         Column(modifier = Modifier.padding(horizontal = 16.dp)) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 28.dp),
+                    .padding(top = 12.dp),
             ) {
                 EMSignUpStepType.values().forEach { type ->
                     Box(

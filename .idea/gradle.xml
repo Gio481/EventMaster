@@ -20,7 +20,13 @@
             <option value="$PROJECT_DIR$/Features/Authentication/Impl" />
             <option value="$PROJECT_DIR$/Features/Event" />
             <option value="$PROJECT_DIR$/Features/Event/Api" />
-            <option value="$PROJECT_DIR$/Features/Event/IMpl" />
+            <option value="$PROJECT_DIR$/Features/Event/Impl" />
+            <option value="$PROJECT_DIR$/Features/Group" />
+            <option value="$PROJECT_DIR$/Features/Group/Api" />
+            <option value="$PROJECT_DIR$/Features/Group/Impl" />
+            <option value="$PROJECT_DIR$/Features/Home" />
+            <option value="$PROJECT_DIR$/Features/Home/Api" />
+            <option value="$PROJECT_DIR$/Features/Home/Impl" />
             <option value="$PROJECT_DIR$/Features/Splash" />
             <option value="$PROJECT_DIR$/Features/Splash/Api" />
             <option value="$PROJECT_DIR$/Features/Splash/Impl" />
