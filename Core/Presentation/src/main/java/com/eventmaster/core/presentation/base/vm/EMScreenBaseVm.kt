@@ -9,24 +9,34 @@ import com.emcore_navigation.navigator.flow.EMFlowNavigator
 import org.koin.java.KoinJavaComponent.inject
 
 abstract class EMScreenBaseVm : ViewModel() {
+
     private val featureNavigator by inject<EMFeatureNavigator>(EMFeatureNavigator::class.java)
     private val flowNavigator by inject<EMFlowNavigator>(EMFlowNavigator::class.java)
 
     @CallSuper
-    open fun onCreate() {}
+    open fun onCreate() {
+    }
 
     @CallSuper
-    open suspend fun suspendOnCreate() {}
+    open suspend fun suspendOnCreate() {
+        collectTriggeredEvents()
+    }
+
+    protected open suspend fun collectTriggeredEvents() {}
 
     protected fun nextScreen(screen: EMBaseScreen) {
         flowNavigator.nextScreen(screen)
     }
 
-    protected fun finishFeatureWithResult(feature: EMBaseScreen, result: Bundle = Bundle.EMPTY) {
-        featureNavigator.finishFeatureWithResult(feature, result)
+    fun finishFeatureWithResult(result: Bundle = Bundle.EMPTY) {
+        featureNavigator.finishFeatureWithResult(result)
     }
 
-    protected fun finishFeature(feature: EMBaseScreen) {
-        featureNavigator.finishFeature(feature)
+    fun finishFeature() {
+        featureNavigator.finishFeature()
+    }
+
+    fun navigateBack() {
+        flowNavigator.navigateBack()
     }
 }

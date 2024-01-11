@@ -52,11 +52,11 @@ abstract class EMBaseScreenConfig {
                 true -> {
                     Animation(
                         enterTransition = slideInHorizontally(
-                            animationSpec = tween(durationMillis = 200, easing = LinearEasing),
+                            animationSpec = tween(durationMillis = 200),
                             initialOffsetX = { it }
                         ),
                         popExitTransition = slideOutHorizontally(
-                            animationSpec = tween(durationMillis = 200, easing = LinearEasing),
+                            animationSpec = tween(durationMillis = 150, easing = LinearEasing),
                             targetOffsetX = { it }
                         )
                     )

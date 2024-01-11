@@ -1,11 +1,11 @@
 package com.eventmaster.features.authentication.impl.navigation
 
-import androidx.navigation.NavType
-import com.emcore_navigation.navigator.base.screen.EMBaseScreenConfig
 import com.emcore_navigation.navigator.feature.screen.EMFeatureScreen
 import com.emcore_navigation.navigator.feature.screen.EMFeatureScreenConfig
 import com.eventmaster.features.authentication.impl.features.auth.init.EMAuthFlowInitializer
+import com.eventmaster.features.authentication.impl.features.login.init.EMLogInFlowInitializer
 import com.eventmaster.features.authentication.impl.features.signup.init.EMSignUpFlowInitializer
+import kotlinx.coroutines.DelicateCoroutinesApi
 
 sealed class EMAuthenticationFeatureScreens : EMFeatureScreen() {
 
@@ -21,10 +21,15 @@ sealed class EMAuthenticationFeatureScreens : EMFeatureScreen() {
         override fun config() = EMFeatureScreenConfig(
             route = "signUp/{gio}",
             featureStartDestination = "email",
-            argument = EMBaseScreenConfig.Argument("gio", NavType.StringType),
             flowInitializer = { EMSignUpFlowInitializer.init(it) }
         )
     }
 
-    object LogIn
+    object LogIn : EMAuthenticationFeatureScreens() {
+        override fun config() = EMFeatureScreenConfig(
+            route = "logIn",
+            featureStartDestination = "main",
+            flowInitializer = { EMLogInFlowInitializer.init(it) }
+        )
+    }
 }

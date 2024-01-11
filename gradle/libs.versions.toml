@@ -4,16 +4,21 @@ koin-android = "3.4.0"
 coroutine-core = "1.5.2"
 kotlin = "1.8.0"
 lifecycle-runtime = "2.6.1"
+coroutine-lifecycle = "2.6.2"
 activity-compose = "1.7.2"
 androidxComposeBom = "2023.01.00"
 compose-navigation = "2.7.0"
+compose-material = "1.2.0-beta01"
 gson = "2.10"
+constraintlayout-compose-android = "1.1.0-alpha13"
 
 [libraries]
 ktx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin-android" }
 coroutine-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutine-core" }
 coroutine-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutine-core" }
+coroutine-lifecycle-viewModel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "coroutine-lifecycle" }
+coroutine-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "coroutine-lifecycle" }
 kotlin = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin" }
 lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle-runtime" }
 compose-activity = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
@@ -21,8 +26,9 @@ compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = 
 compose-ui = { group = "androidx.compose.ui", name = "ui" }
 compose-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 compose-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
-compose-material = { group = "androidx.compose.material3", name = "material3" }
 compose-debug = { group = "androidx.compose.ui", name = "ui-tooling" }
 compose-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 compose-navigation = { module = "androidx.navigation:navigation-compose", version.ref = "compose-navigation" }
+compose-material = { module = "androidx.compose.material3:material3", version.ref = "compose-material" }
+constraintlayout-compose-android = { module = "androidx.constraintlayout:constraintlayout-compose-android", version.ref = "constraintlayout-compose-android" }
 gson = { module = 'com.google.code.gson:gson', version.ref = "gson" }

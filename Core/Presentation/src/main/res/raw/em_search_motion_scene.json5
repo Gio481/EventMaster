@@ -1,0 +1,45 @@
+{
+  ConstraintSets: {
+    start: {
+      cancel: {
+        width: 'wrap',
+        height: 'wrap',
+        end: ['parent', 'end'],
+        top: ['parent', 'top'],
+        bottom: ['parent', 'bottom'],
+        alpha: 0,
+      },
+      searchBox: {
+        width: 'spread',
+        height: 'wrap',
+        start: ['parent', 'start'],
+        top: ['parent','top'],
+        end: ['parent', 'end'],
+      }
+    },
+    end: {
+      cancel: {
+        width: 'wrap',
+        height: 'wrap',
+        end: ['parent', 'end'],
+        top: ['parent', 'top'],
+        bottom: ['parent', 'bottom'],
+        alpha: 1,
+      },
+      searchBox: {
+        width: 'spread',
+        height: 'wrap',
+        start: ['parent', 'start'],
+        top: ['parent','top'],
+        end: ['cancel', 'start', 8],
+      }
+    }
+  },
+  Transitions: {
+    default: {
+      from: 'start',
+      to: 'end',
+      pathMotionArc: 'startHorizontal',
+    }
+  }
+}

@@ -1,0 +1,224 @@
+{
+  ConstraintSets: {
+    start: {
+      coverImage: {
+        width: 'wrap',
+        height: 'wrap',
+        start: ['parent', 'start'],
+        top: ['parent','top'],
+        end: ['parent', 'end'],
+        custom: {
+          cornerRadius: 0
+        }
+      },
+      fade: {
+        width: 'parent',
+        height: 32,
+        top: ['parent','top', 180]
+      },
+      dayAndMonthBox: {
+        width: 'wrap',
+        height: 'wrap',
+        top: ['parent','top', 16],
+        end: ['parent', 'end', 16]
+      },
+      goingPersonsBox: {
+        width: 'wrap',
+        height: 'wrap',
+        bottom: ['coverImage','bottom'],
+        start: ['parent', 'start', 16]
+      },
+      acceptedButton: {
+        width: 'wrap',
+        height: 'wrap',
+        bottom: ['coverImage','bottom'],
+        end: ['parent', 'end', 16],
+      },
+      totalAmountIcon: {
+        width: 'wrap',
+        height: 'wrap',
+        bottom: ['goingPersonsBox', 'top', 16],
+        start: ['parent', 'start', 16],
+      },
+      timeIcon: {
+        width: 'wrap',
+        height: 'wrap',
+        bottom: ['totalAmountIcon', 'top', 4],
+        start: ['parent', 'start', 16],
+      },
+      locationIcon: {
+        width: 'wrap',
+        height: 'wrap',
+        bottom: ['totalAmountIcon', 'top', 4],
+        start: ['timeIcon', 'end', 12],
+      },
+      eventTitleText: {
+        width: 'wrap',
+        height: 'wrap',
+        bottom: ['timeIcon', 'top', 6],
+        start: ['parent', 'start', 16],
+      },
+      commentsTitleText: {
+        width: 'wrap',
+        height: 'wrap',
+        top: ['coverImage', 'bottom', 27],
+        start: ['parent', 'start', 16],
+      },
+      viewAllImage: {
+        width: 'wrap',
+        height: 'wrap',
+        top: ['commentsTitleText', 'top'],
+        end: ['parent', 'end', 16],
+      },
+      viewAllText: {
+        width: 'wrap',
+        height: 'wrap',
+        top: ['commentsTitleText', 'top'],
+        end: ['viewAllImage', 'start', 6],
+        custom: {
+          rotate: 1,
+          textValue: 0,
+        }
+      },
+      commentsTextField: {
+        width: 'parent',
+        height: 'wrap',
+        start: ['parent', 'start', 16],
+        end: ['parent', 'end', 16],
+        bottom: ['parent', 'bottom', 24],
+      },
+      commentSection: {
+        width: 'parent',
+        height: 'spread',
+        top: ['commentsTitleText', 'bottom'],
+        start: ['parent', 'start', 16],
+        end: ['parent', 'end', 16],
+        bottom: ['commentsTextField', 'top', 10],
+      },
+      noCommentsImage: {
+        width: 'wrap',
+        height: 'wrap',
+        top: ['commentsTitleText', 'top'],
+        bottom: ['commentsTextField', 'top'],
+        start: ['parent', 'start'],
+        end: ['parent', 'end'],
+      },
+      noCommentsText: {
+        width: 'wrap',
+        height: 'wrap',
+        top: ['noCommentsImage', 'bottom',13],
+        start: ['parent', 'start'],
+        end: ['parent', 'end'],
+      }
+    },
+    end: {
+      coverImage: {
+        width: 'parent',
+        height:  68,
+        start: ['parent', 'start'],
+        top: ['parent','top'],
+        end: ['parent', 'end'],
+        custom: {
+          cornerRadius: 24
+        }
+      },
+      fade: {
+        width: 'parent',
+        height: 0,
+        top: ['parent','top', 180],
+        alpha: 0,
+      },
+      dayAndMonthBox: {
+        width: 'wrap',
+        height: 'wrap',
+        top: ['parent','top', 16],
+        end: ['parent', 'end', 16],
+        alpha: 0,
+      },
+      commentsTextField: {
+        width: 'parent',
+        height: 'wrap',
+        start: ['parent', 'start', 16],
+        end: ['parent', 'end', 16],
+        bottom: ['parent', 'bottom', 24],
+      },
+      goingPersonsBox: {
+        width: 'wrap',
+        height: 'wrap',
+        top: ['parent','top', 70],
+        start: ['parent', 'start', 16],
+        alpha: 0
+      },
+      acceptedButton: {
+        width: 'wrap',
+        height: 'wrap',
+        top: ['parent','top', 16],
+        end: ['parent', 'end', 16],
+      },
+      totalAmountIcon: {
+        width: 'wrap',
+        height: 'wrap',
+        bottom: ['goingPersonsBox', 'top', 16],
+        start: ['parent', 'start', 16],
+        alpha: 0,
+      },
+      timeIcon: {
+        width: 'wrap',
+        height: 'wrap',
+        bottom: ['totalAmountIcon', 'top', 4],
+        start: ['parent', 'start', 16],
+        alpha: 0
+      },
+      locationIcon: {
+        width: 'wrap',
+        height: 'wrap',
+        bottom: ['totalAmountIcon', 'top', 4],
+        start: ['timeIcon', 'end', 12],
+        alpha: 0
+      },
+      eventTitleText: {
+        width: 'wrap',
+        height: 'wrap',
+        bottom: ['timeIcon', 'top', 6],
+        start: ['parent', 'start', 16],
+        alpha: 0
+      },
+      commentsTitleText: {
+        width: 'wrap',
+        height: 'wrap',
+        top: ['coverImage', 'bottom', 16],
+        start: ['parent', 'start', 16],
+      },
+      viewAllImage: {
+        width: 'wrap',
+        height: 'wrap',
+        top: ['commentsTitleText', 'top'],
+        end: ['parent', 'end', 16],
+      },
+      viewAllText: {
+        width: 'wrap',
+        height: 'wrap',
+        top: ['commentsTitleText', 'top'],
+        end: ['viewAllImage', 'start', 6],
+        custom: {
+          textValue: 1,
+        }
+      },
+      commentSection: {
+        width: 'parent',
+        height: 'spread',
+        top: ['commentsTitleText', 'bottom'],
+        start: ['parent', 'start', 16],
+        end: ['parent', 'end', 16],
+        bottom: ['commentsTextField', 'top', 10],
+      }
+    }
+  },
+  Transitions: {
+    default: {
+      from: 'start',
+      to: 'end',
+      pathMotionArc: 'startHorizontal',
+    },
+  }
+}

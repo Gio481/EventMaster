@@ -1,11 +1,11 @@
 package com.eventmaster.features.authentication.impl.presentation.signup.mail.vm
 
-import com.eventmaster.core.presentation.base.vm.EMScreenBaseVm
 import com.eventmaster.features.authentication.impl.features.signup.screens.EMSignUpScreens
+import com.eventmaster.features.authentication.impl.presentation.signup.base.vm.EMSignUpBaseVm
 
-class EMSignUpMailVm : EMScreenBaseVm() {
+class EMSignUpMailVm : EMSignUpBaseVm() {
 
-    fun nextStep() {
-        nextScreen(EMSignUpScreens.Password)
+    override fun nextStep() {
+        nextScreen(EMSignUpScreens.UserName)
     }
 }

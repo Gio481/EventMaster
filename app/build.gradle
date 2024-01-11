@@ -31,12 +31,18 @@ android {
 dependencies {
     implementation project(':Core:Navigation')
     implementation project(':Core:Presentation')
+    implementation project(':Core:Api')
 
     implementation project(':Features:Splash:Api')
     implementation project(':Features:Splash:Impl')
     implementation project(':Features:Authentication:Api')
     implementation project(':Features:Authentication:Impl')
-
+    implementation project(':Features:Event:Api')
+    implementation project(':Features:Event:Impl')
+    implementation project(':Features:Group:Api')
+    implementation project(':Features:Group:Impl')
+    implementation project(':Features:Home:Api')
+    implementation project(':Features:Home:Impl')
 
     implementation libs.ktx
     implementation platform(libs.kotlin)
