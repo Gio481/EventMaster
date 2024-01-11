@@ -8,7 +8,7 @@ coroutine-lifecycle = "2.6.2"
 activity-compose = "1.7.2"
 androidxComposeBom = "2023.01.00"
 compose-navigation = "2.7.0"
-compose-material = "1.2.0-alpha10"
+compose-material = "1.2.0-beta01"
 gson = "2.10"
 constraintlayout-compose-android = "1.1.0-alpha13"
 

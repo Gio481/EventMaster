@@ -6,6 +6,9 @@ import org.koin.dsl.module
 
 val homeModule = module {
     viewModel {
-        EMHomeVm()
+        EMHomeVm(
+            groupNavigator = get(),
+            eventsNavigator = get()
+        )
     }
 }

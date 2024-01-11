@@ -85,7 +85,7 @@ fun EMEndlessDatePicker(
             flingBehavior = flingBehavior,
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
-                .wrapContentWidth()
+                .fillMaxWidth()
                 .height((itemHeightDp + 25.dp) * visibleItemsCount)
                 .fadingEdge(fadingEdgeGradient)
         ) {

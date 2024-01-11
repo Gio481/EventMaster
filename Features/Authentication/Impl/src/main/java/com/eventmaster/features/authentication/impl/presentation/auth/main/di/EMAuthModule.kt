@@ -6,6 +6,6 @@ import org.koin.dsl.module
 
 val authModule = module {
     viewModel {
-        EMAuthVm(navigator = get(), nav = get(), test = get())
+        EMAuthVm(navigator = get(), test = get())
     }
 }

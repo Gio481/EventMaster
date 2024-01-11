@@ -6,14 +6,8 @@ import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.repeatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -23,7 +17,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -34,6 +27,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
 import com.eventmaster.core.presentation.R
 import com.eventmaster.core.presentation.components.textfield.base.EMBaseTextField
 
@@ -47,8 +41,7 @@ fun EMPasswordTextField(
     enabled: Boolean = true,
     title: String? = null,
     description: String? = null,
-    keyboardActions: KeyboardActions = KeyboardActions.Default,
-    imeAction: ImeAction = ImeAction.Default,
+    imeAction: ImeAction = ImeAction.Done,
     withZootopiaAnimation: Boolean = true,
     containerColor: Color = Color(0xFF202020),
 ) {
@@ -60,59 +53,72 @@ fun EMPasswordTextField(
         R.drawable.em_ic_hide_password
     }
 
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
-    ) {
-        Column {
-            title?.let {
-                Text(
-                    text = it,
-                    color = Color(0xFFEEEEEE),
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold,
-                )
-            }
-
-            EMBaseTextField(
-                modifier = Modifier
-                    .padding(top = if (title == null) 0.dp else 16.dp)
-                    .then(textFiledModifier),
-                trailingIcon = {
-                    IconButton(onClick = {
-                        showPassword = !showPassword
-                    }) {
-                        Icon(
-                            painterResource(id = iconId),
-                            contentDescription = null
-                        )
-                    }
-                },
-                visualTransformation = if (showPassword) VisualTransformation.None else PasswordVisualTransformation(),
-                hint = hint,
-                singleLine = singleLine,
-                readOnly = readOnly,
-                enabled = enabled,
-                keyboardActions = keyboardActions,
-                imeAction = imeAction,
-                containerColor = containerColor
+    ConstraintLayout(modifier = modifier.fillMaxWidth()) {
+        val (fieldTitle, textField) = createRefs()
+        title?.let {
+            Text(
+                text = it,
+                color = Color(0xFFEEEEEE),
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.constrainAs(fieldTitle) {
+                    top.linkTo(parent.top)
+                    start.linkTo(parent.start)
+                }
             )
-            description?.let {
-                Text(
-                    text = it,
-                    color = Color(0xFFBFBFBF),
-                    fontSize = 16.sp,
-                    modifier = Modifier.padding(top = 16.dp)
-                )
-            }
         }
-        if (withZootopiaAnimation) ImageAnimation(showPassword)
+
+        EMBaseTextField(
+            modifier = Modifier
+                .constrainAs(textField) {
+                    start.linkTo(fieldTitle.start)
+                    top.linkTo(fieldTitle.bottom, 16.dp)
+                }
+                .then(textFiledModifier),
+            trailingIcon = {
+                IconButton(onClick = {
+                    showPassword = !showPassword
+                }) {
+                    Icon(
+                        painterResource(id = iconId),
+                        contentDescription = null
+                    )
+                }
+            },
+            visualTransformation = if (showPassword) VisualTransformation.None else PasswordVisualTransformation(),
+            hint = hint,
+            singleLine = singleLine,
+            readOnly = readOnly,
+            enabled = enabled,
+            imeAction = imeAction,
+            containerColor = containerColor
+        )
+        description?.let {
+            Text(
+                text = it,
+                color = Color(0xFFBFBFBF),
+                fontSize = 16.sp,
+                modifier = Modifier.constrainAs(createRef()) {
+                    start.linkTo(textField.start)
+                    top.linkTo(textField.bottom, 16.dp)
+                }
+            )
+        }
+
+        if (withZootopiaAnimation) ImageAnimation(
+            showPassword,
+            modifier
+                .size(100.dp)
+                .constrainAs(createRef()) {
+                    end.linkTo(textField.end, -(16).dp)
+                    bottom.linkTo(textField.top, -(38).dp)
+                }
+        )
     }
 }
 
 @Composable
-private fun BoxScope.ImageAnimation(showPassword: Boolean) {
+private fun ImageAnimation(showPassword: Boolean, modifier: Modifier = Modifier) {
     val imageFrames = listOf(
         painterResource(id = R.drawable.animation_1),
         painterResource(id = R.drawable.animation_2),
@@ -144,11 +150,7 @@ private fun BoxScope.ImageAnimation(showPassword: Boolean) {
     Image(
         painter = imageFrames[animateShape.value.toInt()],
         contentDescription = null,
-        modifier = Modifier
-            .padding(bottom = 50.dp)
-            .size(150.dp)
-            .align(Alignment.CenterEnd)
-            .padding(start = 75.dp),
+        modifier = modifier,
         contentScale = ContentScale.Crop
     )
 }

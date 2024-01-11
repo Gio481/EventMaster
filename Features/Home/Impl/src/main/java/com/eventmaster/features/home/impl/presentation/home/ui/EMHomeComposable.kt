@@ -2,12 +2,15 @@ package com.eventmaster.features.home.impl.presentation.home.ui
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -46,18 +49,24 @@ fun EMHomeComposable(vm: EMHomeVm = get()) {
                     start.linkTo(event.start)
                 }
             )
-            Hexagon(title = "Events", modifier = Modifier
-                .constrainAs(event) {
-                    top.linkTo(parent.top)
-                    bottom.linkTo(parent.bottom, 50.dp)
-                    end.linkTo(group.start, 25.dp)
-                }
+            Hexagon(
+                title = "Events",
+                modifier = Modifier
+                    .constrainAs(event) {
+                        top.linkTo(parent.top)
+                        bottom.linkTo(parent.bottom, 50.dp)
+                        end.linkTo(group.start, 25.dp)
+                    },
+                onClick = { vm.navigateToCreateEvent() }
             )
-            Hexagon(title = "Groups", modifier = Modifier
-                .constrainAs(group) {
-                    bottom.linkTo(event.bottom, 5.dp)
-                    end.linkTo(parent.end, 15.dp)
-                }
+            Hexagon(
+                title = "Groups",
+                modifier = Modifier
+                    .constrainAs(group) {
+                        bottom.linkTo(event.bottom, 5.dp)
+                        end.linkTo(parent.end, 15.dp)
+                    },
+                onClick = { vm.navigateToGroups() }
             )
             Hexagon(title = "Invite\nFriend", modifier = Modifier
                 .constrainAs(inviteFriend) {
@@ -82,10 +91,13 @@ fun Hexagon(
     title: String,
     modifier: Modifier = Modifier,
     hexagonColor: Color = Color(0x33EEEEEE),
-    onClick: (() -> Unit)? = null,
+    onClick: (() -> Unit) = {},
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
     Box(
-        modifier = modifier.size(128.dp),
+        modifier = modifier
+            .size(128.dp)
+            .clickable(interactionSource = interactionSource, indication = null, onClick = onClick),
         contentAlignment = Alignment.Center
     ) {
         Canvas(modifier = Modifier.fillMaxSize()) {

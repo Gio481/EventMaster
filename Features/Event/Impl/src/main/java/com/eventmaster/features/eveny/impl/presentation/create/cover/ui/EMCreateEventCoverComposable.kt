@@ -38,8 +38,9 @@ import org.koin.androidx.compose.get
 fun EMCreateEventCoverComposable(vm: EMCreateEventCoverVm = get()) {
     EMScreenBase(
         vm = vm,
-        headerText = "Groups",
-        showBottomAction = false,
+        headerText = "Create Event",
+        showBottomAction = true,
+        showBackButton = false,
         bottomAction = { vm.onNextAction() },
     ) {
 

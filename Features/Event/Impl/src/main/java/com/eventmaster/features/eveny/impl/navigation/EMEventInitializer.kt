@@ -5,8 +5,6 @@ import com.emcore_navigation.navigator.feature.screen.EMFeatureScreen
 
 object EMEventInitializer : EMFeatureInitializer {
     override fun features(): List<EMFeatureScreen> {
-        return listOf(
-            EMEventFeatureScreens.Create
-        )
+        return listOf(EMEventFeatureScreens.Create)
     }
 }

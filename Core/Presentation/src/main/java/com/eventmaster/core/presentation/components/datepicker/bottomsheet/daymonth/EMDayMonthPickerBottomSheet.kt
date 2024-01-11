@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -62,13 +63,13 @@ private fun DayMonthPicker(
             EMEndlessDatePicker(
                 state = daysPickerState,
                 items = days,
-                modifier = Modifier.wrapContentWidth()
+                modifier = Modifier.width(50.dp)
             )
-            Spacer(modifier = Modifier.padding(horizontal = 30.dp))
+            Spacer(modifier = Modifier.padding(horizontal = 10.dp))
             EMEndlessDatePicker(
                 state = monthsPickerState,
                 items = monthsList(),
-                modifier = Modifier.wrapContentWidth()
+                modifier = Modifier.width(130.dp)
             )
         }
     }

@@ -13,6 +13,9 @@ import com.eventmaster.features.authentication.impl.presentation.signup.username
 import com.eventmaster.features.eveny.impl.presentation.create.cover.di.coverModule
 import com.eventmaster.features.eveny.impl.presentation.create.date.di.dateModule
 import com.eventmaster.features.eveny.impl.presentation.create.friends_list.di.friendsListModule
+import com.eventmaster.features.group.impl.presentation.create.cover.di.groupCoverModule
+import com.eventmaster.features.group.impl.presentation.groups.details.di.groupDetailsModule
+import com.eventmaster.features.group.impl.presentation.groups.multi_groups.di.multiGroupModule
 import com.eventmaster.features.home.impl.presentation.home.di.homeModule
 import com.eventmaster.features.splash.impl.presentation.main.di.splashModule
 import org.koin.android.ext.koin.androidContext
@@ -37,7 +40,10 @@ class EMApplication : Application() {
                 coverModule,
                 dateModule,
                 friendsListModule,
-                homeModule
+                homeModule,
+                groupCoverModule,
+                multiGroupModule,
+                groupDetailsModule
             )
         }
     }

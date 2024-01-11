@@ -1,0 +1,52 @@
+{
+  ConstraintSets: {
+    start: {
+      eventCard: {
+        width: 'wrap',
+        height: 'wrap',
+        start: ['parent', 'start'],
+        top: ['parent','top',32],
+        end: ['parent', 'end'],
+      },
+      test: {
+        width: 'wrap',
+        height: 'wrap',
+        start: ['parent', 'start'],
+        bottom: ['parent','bottom'],
+        end: ['parent', 'end'],
+      },
+      addEvent: {
+        start: ['parent', 'start'],
+        end: ['parent', 'end'],
+        width: 'wrap',
+        height: 'wrap',
+        bottom: ['parent', 'bottom', 30],
+        alpha: 0,
+      }
+    },
+    end: {
+      eventCard: {
+        width: 'wrap',
+        height: 'wrap',
+        start: ['parent', 'start'],
+        top: ['parent','top', 16],
+        end: ['parent', 'end'],
+      },
+      addEvent: {
+        start: ['parent', 'start'],
+        end: ['parent', 'end'],
+        width: 'wrap',
+        height: 'wrap',
+        bottom: ['parent', 'bottom', 20],
+        alpha: 1,
+      }
+    }
+  },
+  Transitions: {
+    default: {
+      from: 'start',
+      to: 'end',
+      pathMotionArc: 'startHorizontal',
+    }
+  }
+}

@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -20,11 +19,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.eventmaster.core.presentation.R
-import com.eventmaster.core.presentation.components.datepicker.bottomsheet.fulldate.EMDatePickerBottomSheet
 import com.eventmaster.core.presentation.components.datepicker.bottomsheet.daymonth.EMDayMonthPickerBottomSheet
+import com.eventmaster.core.presentation.components.datepicker.bottomsheet.fulldate.EMDatePickerBottomSheet
 import com.eventmaster.core.presentation.components.datepicker.bottomsheet.time.EMTimePickerBottomSheet
 import com.eventmaster.core.presentation.components.textfield.base.EMBaseTextField
 import com.eventmaster.core.presentation.components.textfield.datepicker.type.EMDatePickerTextFieldType
@@ -35,13 +35,14 @@ fun EMDatePickerTextField(
     textFiledModifier: Modifier = Modifier,
     singleLine: Boolean = true,
     hint: String = "",
+    hintColor: Color = Color(0xFF707070),
+    hintSize: TextUnit = 16.sp,
     readOnly: Boolean = true,
     enabled: Boolean = false,
     title: String? = null,
     description: String? = null,
     visualTransformation: VisualTransformation = VisualTransformation.None,
-    keyboardActions: KeyboardActions = KeyboardActions.Default,
-    imeAction: ImeAction = ImeAction.Default,
+    imeAction: ImeAction = ImeAction.Done,
     containerColor: Color = Color(0xFF202020),
     type: EMDatePickerTextFieldType = EMDatePickerTextFieldType.FullDate,
 ) {
@@ -67,6 +68,8 @@ fun EMDatePickerTextField(
                     .padding(top = if (title == null) 0.dp else 16.dp)
                     .then(textFiledModifier),
                 hint = hint,
+                hintColor = hintColor,
+                hintSize = hintSize,
                 readOnly = readOnly,
                 enabled = enabled,
                 trailingIcon = {
@@ -79,7 +82,6 @@ fun EMDatePickerTextField(
                 },
                 singleLine = singleLine,
                 visualTransformation = visualTransformation,
-                keyboardActions = keyboardActions,
                 imeAction = imeAction,
                 containerColor = containerColor
             )

@@ -10,10 +10,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
@@ -21,9 +24,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,9 +40,6 @@ import androidx.compose.ui.unit.sp
 import com.eventmaster.core.presentation.R
 import com.eventmaster.core.presentation.base.ui.action.EMActionButton
 import com.eventmaster.core.presentation.base.vm.EMScreenBaseVm
-import org.koin.core.context.loadKoinModules
-import org.koin.core.context.unloadKoinModules
-import org.koin.core.module.Module
 
 @Composable
 fun EMScreenBase(
@@ -54,13 +54,18 @@ fun EMScreenBase(
     bottomActionContent: @Composable BoxScope.() -> Unit = {
         BottomActionComponent(bottomAction, bottomActionButton)
     },
+    showHeaderLine: Boolean = false,
+    headerLineColor: Color = Color(0xFF2C2C2C),
     headerBackground: Color = Color(0xFF171717),
+    customHeaderContent: @Composable (BoxScope.() -> Unit)? = null,
     content: @Composable BoxScope.() -> Unit
 ) {
     Column(
         modifier = Modifier
+            .windowInsetsPadding(WindowInsets.systemBars)
             .fillMaxSize()
             .background(Color(0xFF121212))
+
     ) {
         Header(
             vm = vm,
@@ -68,7 +73,10 @@ fun EMScreenBase(
             showBackButton = showBackButton,
             showCloseButton = showCloseButton,
             headerText = headerText,
-            headerBackground = headerBackground
+            headerBackground = headerBackground,
+            showHeaderLine = showHeaderLine,
+            headerLineColor = headerLineColor,
+            customHeaderContent = customHeaderContent
         )
         Box(content = content, modifier = Modifier
             .weight(1f)
@@ -91,53 +99,69 @@ fun EMScreenBase(
 
 @Composable
 private fun Header(
+    vm: EMScreenBaseVm,
     showHeader: Boolean = true,
     showBackButton: Boolean = true,
     showCloseButton: Boolean = true,
     headerText: String? = null,
     headerBackground: Color = Color(0xFF171717),
-    vm: EMScreenBaseVm
+    showHeaderLine: Boolean = false,
+    headerLineColor: Color = Color(0xFF2C2C2C),
+    customHeaderContent: @Composable (BoxScope.() -> Unit)? = null
 ) {
-    Row(
+    Box(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .background(color = headerBackground)
-            .padding(horizontal = 16.dp)
-            .padding(vertical = if (showHeader) 16.dp else 0.dp),
     ) {
-        if (showHeader) {
-            ShowComponent(showBackButton) {
-                Image(
-                    painter = painterResource(id = R.drawable.em_core_ic_arrow),
-                    contentDescription = "arrow",
-                    modifier = Modifier
-                        .padding(top = 2.dp)
-                        .clickable { vm.navigateBack() }
-                )
-            }
-            Text(
-                textAlign = TextAlign.Center,
-                text = headerText ?: "",
-                color = Color.White,
-                fontWeight = FontWeight.Bold,
-                fontSize = 20.sp,
-                modifier = Modifier.padding(start = 15.dp)
-            )
-            Spacer(modifier = Modifier.weight(1f))
-            ShowComponent(showCloseButton) {
-                Image(
-                    painter = painterResource(id = R.drawable.em_core_ic_close),
-                    contentDescription = "close",
-                    modifier = Modifier
-                        .padding(top = 2.dp)
-                        .clickable {
-                            vm.finishFeature()
-                        }
-                )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .background(color = headerBackground)
+                .padding(horizontal = 16.dp)
+                .padding(vertical = if (showHeader) 16.dp else 0.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            if (showHeader) {
+                ShowComponent(showBackButton) {
+                    Image(
+                        painter = painterResource(id = R.drawable.em_core_ic_arrow),
+                        contentDescription = "arrow",
+                        modifier = Modifier.clickable { vm.navigateBack() }
+                    )
+                }
+                customHeaderContent?.invoke(this@Box) ?: run {
+                    Text(
+                        textAlign = TextAlign.Center,
+                        text = headerText ?: "",
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp,
+                        modifier = Modifier.padding(start = if (showBackButton) 15.dp else 0.dp)
+                    )
+                }
+
+                Spacer(modifier = Modifier.weight(1f))
+                ShowComponent(showCloseButton) {
+                    Image(
+                        painter = painterResource(id = R.drawable.em_core_ic_close),
+                        contentDescription = "close",
+                        modifier = Modifier.clickable { vm.finishFeature() }
+                    )
+                }
             }
         }
+        if (showHeader && showHeaderLine) {
+            HorizontalDivider(
+                modifier = Modifier.align(Alignment.BottomCenter),
+                color = headerLineColor,
+                thickness = 0.5.dp
+            )
+        }
+
     }
+
 }
 
 @Composable

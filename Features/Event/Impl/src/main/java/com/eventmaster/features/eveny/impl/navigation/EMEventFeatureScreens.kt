@@ -6,7 +6,7 @@ import com.eventmaster.features.eveny.impl.features.create.init.EMCreateEventFlo
 
 sealed class EMEventFeatureScreens : EMFeatureScreen() {
 
-    object Create : EMFeatureScreen() {
+    object Create : EMEventFeatureScreens() {
         override fun config() = EMFeatureScreenConfig(
             route = "create",
             featureStartDestination = "cover",

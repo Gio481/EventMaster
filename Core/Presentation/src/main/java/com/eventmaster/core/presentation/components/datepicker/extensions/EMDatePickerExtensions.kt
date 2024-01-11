@@ -24,7 +24,7 @@ internal fun Modifier.fadingEdge(brush: Brush) = this
     }
 
 @Composable
-internal fun pixelsToDp(pixels: Int) = with(LocalDensity.current) { pixels.toDp() }
+fun pixelsToDp(pixels: Int) = with(LocalDensity.current) { pixels.toDp() }
 
 fun monthsList(): List<String> {
     return listOf(

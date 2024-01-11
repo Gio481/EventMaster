@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.eventmaster.core.presentation.components.textfield.base.EMBaseTextField
@@ -23,15 +24,20 @@ fun EMRegularTextField(
     textFiledModifier: Modifier = Modifier,
     singleLine: Boolean = true,
     hint: String = "",
+    text: String = "",
+    hintColor: Color = Color(0xFF707070),
+    hintSize: TextUnit = 16.sp,
     readOnly: Boolean = false,
     enabled: Boolean = true,
     title: String? = null,
     description: String? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
     visualTransformation: VisualTransformation = VisualTransformation.None,
+    imeAction: ImeAction = ImeAction.Done,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
-    imeAction: ImeAction = ImeAction.Default,
+    requestFocus: Boolean = false,
     containerColor: Color = Color(0xFF202020),
+    onValueChange: ((String) -> Unit)? = null
 ) {
     Box(
         modifier = modifier
@@ -52,10 +58,15 @@ fun EMRegularTextField(
                     .padding(top = if (title == null) 0.dp else 16.dp)
                     .then(textFiledModifier),
                 hint = hint,
+                hintColor = hintColor,
+                requestFocus = requestFocus,
+                hintSize = hintSize,
                 containerColor = containerColor,
                 trailingIcon = trailingIcon,
                 singleLine = singleLine,
                 readOnly = readOnly,
+                onValueChange = onValueChange,
+                text = text,
                 enabled = enabled,
                 visualTransformation = visualTransformation,
                 keyboardActions = keyboardActions,

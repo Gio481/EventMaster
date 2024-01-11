@@ -1,14 +1,10 @@
 package com.eventmaster.features.eveny.impl.presentation.create.friends_list.ui
 
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.AnchoredDraggableState
-import androidx.compose.foundation.gestures.DraggableAnchors
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.anchoredDraggable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -27,6 +24,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,7 +32,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
@@ -43,14 +40,15 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.MotionLayout
 import androidx.constraintlayout.compose.MotionScene
 import com.eventmaster.core.presentation.base.ui.EMScreenBase
-import com.eventmaster.core.presentation.components.textfield.regular.EMRegularTextField
+import com.eventmaster.core.presentation.components.textfield.search.EMSearchTextField
+import com.eventmaster.core.presentation.extensions.scrollIfNeeded
+import com.eventmaster.core.presentation.util.EMAnchoredDraggableCardState
+import com.eventmaster.core.presentation.util.anchoredDraggableState
+import com.eventmaster.core.presentation.util.getAnchoredDraggableStateProgress
+import com.eventmaster.core.presentation.util.nestedScrollConnection
 import com.eventmaster.features.event.impl.R
 import com.eventmaster.features.eveny.impl.presentation.create.friends_list.vm.EMCreateEventFriendsListVm
 import org.koin.androidx.compose.get
-
-enum class AnchoredDraggableCardState {
-    DRAGGED_DOWN, DRAGGED_UP
-}
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -60,51 +58,35 @@ fun EMCreateEventFriendsListComposable(vm: EMCreateEventFriendsListVm = get()) {
         showBottomAction = true,
         headerText = "Create event"
     ) {
+        val lazyState = rememberLazyListState()
         val context = LocalContext.current
         val motionScene = remember {
             context.resources.openRawResource(R.raw.em_friends_list_motion_scene)
                 .readBytes()
                 .decodeToString()
         }
-
-        val draggedDownAnchorTop = with(LocalDensity.current) { 200.dp.toPx() }
-        val anchors = DraggableAnchors {
-            AnchoredDraggableCardState.DRAGGED_DOWN at draggedDownAnchorTop
-            AnchoredDraggableCardState.DRAGGED_UP at 0f
-        }
-        val density = LocalDensity.current
-        val anchoredDraggableState = remember {
-            AnchoredDraggableState(
-                initialValue = AnchoredDraggableCardState.DRAGGED_DOWN,
-                anchors = anchors,
-                positionalThreshold = { distance: Float -> distance * 0.5f },
-                velocityThreshold = { with(density) { 100.dp.toPx() } },
-                animationSpec = tween(),
-            )
-        }
-
-        val offset =
-            if (anchoredDraggableState.offset.isNaN()) 0f else anchoredDraggableState.offset
-        val progress = (1 - (offset / draggedDownAnchorTop)).coerceIn(0f, 1f)
-
+        val anchoredDraggableState = anchoredDraggableState()
+        val progress = getAnchoredDraggableStateProgress(anchoredDraggableState)
 
         MotionLayout(
             motionScene = MotionScene(content = motionScene),
             progress = progress,
-            modifier = Modifier.padding(horizontal = 16.dp)
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .scrollIfNeeded(
+                    lazyState.canScrollForward || progress != 0f,
+                    nestedScrollConnection(anchoredDraggableState)
+                )
         ) {
             ShareAppContent()
-            InviteFriendContent(anchoredDraggableState)
+            InviteFriendContent(anchoredDraggableState, lazyState)
         }
     }
 }
 
 @Composable
 private fun ShareAppContent() {
-    Column(
-        modifier = Modifier
-            .layoutId("share")
-    ) {
+    Column(modifier = Modifier.layoutId("share")) {
         Text(
             text = "Add out of app",
             color = Color(0xFFEEEEEE),
@@ -122,38 +104,39 @@ private fun ShareAppContent() {
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun InviteFriendContent(
-    state: AnchoredDraggableState<AnchoredDraggableCardState>,
+    state: AnchoredDraggableState<EMAnchoredDraggableCardState>,
+    lazyListState: LazyListState
 ) {
 
-    val lazyState = rememberLazyListState()
+    val gio = remember {
+        mutableStateOf(getMockData())
+    }
 
-    Column(
-        modifier = Modifier
-            .layoutId("invite")
-    ) {
+    Column(modifier = Modifier.layoutId("invite")) {
         Text(
             text = "Invite friends ",
             color = Color(0xFFEEEEEE),
             fontSize = 18.sp,
             modifier = Modifier.padding(top = 32.dp)
         )
-        EMRegularTextField(
-            hint = "Search",
-            modifier = Modifier
-                .padding(vertical = 8.dp)
-                .clip(RoundedCornerShape(16.dp))
-                .height(40.dp)
-        )
+
+        EMSearchTextField(modifier = Modifier.padding(top = 8.dp)) {
+            gio.value = getMockData().filter { mockData ->
+                it in mockData.title.lowercase() || it in mockData.description.lowercase()
+            }
+            if (it.isEmpty()) {
+                gio.value = getMockData()
+            }
+        }
 
         LazyColumn(
-            userScrollEnabled = false,
-            state = lazyState,
-            modifier = Modifier.anchoredDraggable(state, Orientation.Vertical)
+            userScrollEnabled = true,
+            state = lazyListState,
+            modifier = Modifier
         ) {
-            itemsIndexed(getMockData()) { index, item ->
+            itemsIndexed(gio.value) { index, item ->
                 Row(
-                    modifier = Modifier
-                        .padding(top = if (index == 0) 8.dp else 16.dp)
+                    modifier = Modifier.padding(top = if (index == 0) 8.dp else 16.dp)
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.galaxy),

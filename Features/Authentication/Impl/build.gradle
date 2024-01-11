@@ -16,6 +16,5 @@ dependencies {
     implementation project(':Core:Presentation')
     implementation project(':Core:Api')
     implementation project(':Features:Authentication:Api')
-    implementation project(':Features:Event:Api')
     implementation project(':Features:Home:Api')
 }
