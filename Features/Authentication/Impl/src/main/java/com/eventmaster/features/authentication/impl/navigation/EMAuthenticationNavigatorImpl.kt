@@ -16,6 +16,6 @@ class EMAuthenticationNavigatorImpl(
     }
 
     override fun navigateToLogIn() {
-        TODO("Not yet implemented")
+        featureNavigator.navigateTo(EMAuthenticationFeatureScreens.LogIn)
     }
 }

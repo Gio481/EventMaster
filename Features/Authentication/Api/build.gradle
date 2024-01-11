@@ -11,3 +11,7 @@ configPlugin {
 android {
     namespace 'com.eventmaster.features.authentication.api'
 }
+
+dependencies {
+    implementation project(':Core:Api')
+}

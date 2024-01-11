@@ -32,13 +32,4 @@ abstract class EMFlowScreen : EMBaseScreen {
         val parentEntry = remember(this) { navigator().getBackStackEntry(route) }
         return parentEntry.arguments?.getParcelable(key)
     }
-
-    @Composable
-    fun NavBackStackEntry.getArgument2(
-        key: String,
-        route: String
-    ): String? {
-        val parentEntry = remember(this) { navigator().getBackStackEntry(route) }
-        return parentEntry.arguments?.getString(key)
-    }
 }

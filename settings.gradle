@@ -17,11 +17,21 @@ include ':app'
 
 include ':Core:Navigation'
 include ':Core:Presentation'
+include ':Core:Api'
 
 include ':Features:Splash:Api'
 include ':Features:Splash:Impl'
 
 include ':Features:Authentication:Api'
 include ':Features:Authentication:Impl'
+
+include ':Features:Event:Api'
+include ':Features:Event:Impl'
+
+include ':Features:Group:Api'
+include ':Features:Group:Impl'
+
+include ':Features:Home:Api'
+include ':Features:Home:Impl'
 
 rootProject.name = "EventMaster"

@@ -2,6 +2,7 @@ package com.eventmaster.features.authentication.impl.presentation.auth.main.ui
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -47,7 +48,6 @@ fun EMAuth(vm: EMAuthVm = get()) {
             verticalArrangement = Arrangement.Bottom,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
             Button(
                 onClick = {
                 },
@@ -90,12 +90,10 @@ fun EMAuth(vm: EMAuthVm = get()) {
             }
             OrComposable(Modifier.padding(top = 24.dp, start = 16.5.dp, end = 16.5.dp))
             Button(
-                onClick = {
-                    vm.navigateToSignUp()
-                },
+                onClick = { vm.navigateToSignUp() },
                 shape = RoundedCornerShape(size = 15.dp),
                 colors = ButtonDefaults.textButtonColors(
-                    containerColor = Color(0xFF8F5FEA),
+                    containerColor = Color(0xFF865DFF),
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -109,14 +107,13 @@ fun EMAuth(vm: EMAuthVm = get()) {
                     fontSize = 16.sp
                 )
             }
-            MultiStyleText()
+            MultiStyleText(vm)
         }
     }
-
 }
 
 @Composable
-private fun MultiStyleText() {
+private fun MultiStyleText(vm: EMAuthVm) {
     Text(
         buildAnnotatedString {
             withStyle(style = SpanStyle(color = Color.White)) {
@@ -127,7 +124,11 @@ private fun MultiStyleText() {
             }
         },
         fontSize = 16.sp,
-        modifier = Modifier.padding(top = 24.dp),
+        modifier = Modifier
+            .padding(top = 24.dp)
+            .clickable {
+                vm.navigateToLogIn()
+            },
         textAlign = TextAlign.Center
     )
 }
