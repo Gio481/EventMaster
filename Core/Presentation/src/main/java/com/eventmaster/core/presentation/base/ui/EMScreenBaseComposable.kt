@@ -44,6 +44,7 @@ import com.eventmaster.core.presentation.base.vm.EMScreenBaseVm
 @Composable
 fun EMScreenBase(
     vm: EMScreenBaseVm,
+    modifier: Modifier = Modifier,
     showHeader: Boolean = true,
     showBackButton: Boolean = true,
     showCloseButton: Boolean = true,
@@ -65,7 +66,6 @@ fun EMScreenBase(
             .windowInsetsPadding(WindowInsets.systemBars)
             .fillMaxSize()
             .background(Color(0xFF121212))
-
     ) {
         Header(
             vm = vm,
@@ -78,9 +78,7 @@ fun EMScreenBase(
             headerLineColor = headerLineColor,
             customHeaderContent = customHeaderContent
         )
-        Box(content = content, modifier = Modifier
-            .weight(1f)
-            .fillMaxWidth())
+        Box(content = content, modifier = Modifier.weight(1f).fillMaxWidth().then(modifier))
         if (showBottomAction) {
             Box(
                 contentAlignment = Alignment.BottomCenter,
@@ -159,9 +157,7 @@ private fun Header(
                 thickness = 0.5.dp
             )
         }
-
     }
-
 }
 
 @Composable

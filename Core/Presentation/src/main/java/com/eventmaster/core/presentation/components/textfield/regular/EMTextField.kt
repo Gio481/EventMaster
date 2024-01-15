@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -37,7 +38,7 @@ fun EMRegularTextField(
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     requestFocus: Boolean = false,
     containerColor: Color = Color(0xFF202020),
-    onValueChange: ((String) -> Unit)? = null
+    onValueChange: ((TextFieldValue) -> Unit)? = null
 ) {
     Box(
         modifier = modifier
