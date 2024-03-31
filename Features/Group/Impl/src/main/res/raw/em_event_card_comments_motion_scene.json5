@@ -11,6 +11,14 @@
           cornerRadius: 0
         }
       },
+      backgroundLayout: {
+        width: 'spread',
+        height: 'spread',
+        start: ['parent', 'start'],
+        end: ['parent', 'end'],
+        top: ['coverImage', 'bottom'],
+        bottom: ['parent', 'bottom'],
+      },
       fade: {
         width: 'parent',
         height: 32,
@@ -69,6 +77,9 @@
         height: 'wrap',
         top: ['commentsTitleText', 'top'],
         end: ['parent', 'end', 16],
+        custom: {
+          rotate: 0
+        }
       },
       viewAllText: {
         width: 'wrap',
@@ -76,7 +87,6 @@
         top: ['commentsTitleText', 'top'],
         end: ['viewAllImage', 'start', 6],
         custom: {
-          rotate: 1,
           textValue: 0,
         }
       },
@@ -194,6 +204,9 @@
         height: 'wrap',
         top: ['commentsTitleText', 'top'],
         end: ['parent', 'end', 16],
+        custom: {
+          rotate: 180
+        }
       },
       viewAllText: {
         width: 'wrap',
@@ -203,6 +216,14 @@
         custom: {
           textValue: 1,
         }
+      },
+      backgroundLayout: {
+        width: 'spread',
+        height: 'spread',
+        start: ['parent', 'start'],
+        end: ['parent', 'end'],
+        top: ['coverImage', 'bottom'],
+        bottom: ['parent', 'bottom'],
       },
       commentSection: {
         width: 'parent',

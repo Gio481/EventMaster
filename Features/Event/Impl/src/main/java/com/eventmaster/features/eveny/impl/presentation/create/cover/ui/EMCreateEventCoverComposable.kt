@@ -28,7 +28,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.eventmaster.core.presentation.base.ui.EMScreenBase
-import com.eventmaster.core.presentation.components.expandable.EMExpandableField
+import com.eventmaster.core.presentation.components.expandable.EMBaseExpandableField
 import com.eventmaster.core.presentation.components.textfield.regular.EMRegularTextField
 import com.eventmaster.features.event.impl.R
 import com.eventmaster.features.eveny.impl.presentation.create.cover.vm.EMCreateEventCoverVm
@@ -97,7 +97,7 @@ fun EMCreateEventCoverComposable(vm: EMCreateEventCoverVm = get()) {
                 }
             }
 
-            EMExpandableField(text = "Add description", modifier = Modifier.padding(top = 32.dp)) {
+            EMBaseExpandableField(text = "Add description", modifier = Modifier.padding(top = 32.dp)) {
                 EMRegularTextField(
                     textFiledModifier = Modifier.height(150.dp),
                     containerColor = Color(0xFF171717)
