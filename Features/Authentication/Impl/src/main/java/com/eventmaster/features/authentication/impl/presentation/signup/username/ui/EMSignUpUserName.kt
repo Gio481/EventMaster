@@ -19,19 +19,16 @@ fun EMSignUpUserName(vm: EMSignUpUserNameVm = get()) {
         EMRegularTextField(
             title = "Enter your name",
             hint = "First name",
-            modifier = Modifier.padding(top = 48.dp)
-
+            modifier = Modifier.padding(top = 32.dp)
         )
         EMRegularTextField(
             hint = "Last name",
-            modifier = Modifier.padding(top = 32.dp)
-
+            modifier = Modifier.padding(top = 16.dp)
         )
         EMRegularTextField(
             hint = "Nickname",
-            modifier = Modifier.padding(top = 32.dp),
+            modifier = Modifier.padding(top = 16.dp),
             description = "This will display on your profile"
-
         )
     }
 }

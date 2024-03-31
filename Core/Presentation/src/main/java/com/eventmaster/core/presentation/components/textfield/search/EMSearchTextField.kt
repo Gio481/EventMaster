@@ -112,7 +112,6 @@ fun EMSearchTextField(
                             delay(200)
                             onValueChange.invoke(it)
                         }
-
                     },
                     singleLine = true,
                     textStyle = TextStyle(

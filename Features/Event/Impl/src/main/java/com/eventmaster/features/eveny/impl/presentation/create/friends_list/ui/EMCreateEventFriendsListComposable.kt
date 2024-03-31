@@ -16,7 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -56,7 +56,8 @@ fun EMCreateEventFriendsListComposable(vm: EMCreateEventFriendsListVm = get()) {
     EMScreenBase(
         vm = vm,
         showBottomAction = true,
-        headerText = "Create event"
+        headerText = "Create event",
+        bottomAction = { vm.onNextAction() }
     ) {
         val lazyState = rememberLazyListState()
         val context = LocalContext.current
@@ -134,9 +135,9 @@ private fun InviteFriendContent(
             state = lazyListState,
             modifier = Modifier
         ) {
-            itemsIndexed(gio.value) { index, item ->
+            items(gio.value) { item ->
                 Row(
-                    modifier = Modifier.padding(top = if (index == 0) 8.dp else 16.dp)
+                    modifier = Modifier.padding(16.dp)
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.galaxy),
@@ -241,19 +242,19 @@ private fun ShareIcon(resId: Int, startPadding: Dp = 0.dp) {
 private fun getMockData(): List<MockData> {
     return listOf(
         MockData("G_Beridze_14", "Giorgi Beridze"),
-        MockData("Best_Developer", "Giorgi Beridze"),
-        MockData("Best_Android", "Giorgi Beridze"),
-        MockData("TheBest", "Giorgi Beridze"),
-        MockData("TheBestOfBest", "Giorgi Beridze"),
-        MockData("G.O.A.T", "Giorgi Beridze"),
-        MockData("Teona_20", "Teona Mailashvili"),
-        MockData("UI/UX", "Teona Mailashvili"),
-        MockData("UI/UX", "Teona Mailashvili"),
-        MockData("UI/UX", "Teona Mailashvili"),
-        MockData("UI/UX", "Teona Mailashvili"),
-        MockData("UI/UX", "Teona Mailashvili"),
-        MockData("UI/UX", "Teona Mailashvili"),
-        MockData("UI/UX", "Teona Mailashvili"),
+//        MockData("Best_Developer", "Giorgi Beridze"),
+//        MockData("Best_Android", "Giorgi Beridze"),
+//        MockData("TheBest", "Giorgi Beridze"),
+//        MockData("TheBestOfBest", "Giorgi Beridze"),
+//        MockData("G.O.A.T", "Giorgi Beridze"),
+//        MockData("Teona_20", "Teona Mailashvili"),
+//        MockData("UI/UX", "Teona Mailashvili"),
+//        MockData("UI/UX", "Teona Mailashvili"),
+//        MockData("UI/UX", "Teona Mailashvili"),
+//        MockData("UI/UX", "Teona Mailashvili"),
+//        MockData("UI/UX", "Teona Mailashvili"),
+//        MockData("UI/UX", "Teona Mailashvili"),
+//        MockData("UI/UX", "Teona Mailashvili"),
     )
 }
 

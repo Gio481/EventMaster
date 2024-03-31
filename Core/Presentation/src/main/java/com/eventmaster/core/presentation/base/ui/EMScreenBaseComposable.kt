@@ -51,9 +51,10 @@ fun EMScreenBase(
     headerText: String? = null,
     bottomAction: () -> Unit = {},
     showBottomAction: Boolean = false,
+    enableBottomActionContent: Boolean = true,
     bottomActionButton: EMActionButton = EMActionButton.Single("Continue"),
     bottomActionContent: @Composable BoxScope.() -> Unit = {
-        BottomActionComponent(bottomAction, bottomActionButton)
+        BottomActionComponent(bottomAction, enableBottomActionContent, bottomActionButton)
     },
     showHeaderLine: Boolean = false,
     headerLineColor: Color = Color(0xFF2C2C2C),
@@ -87,7 +88,6 @@ fun EMScreenBase(
             )
         }
     }
-
 
     LaunchedEffect(key1 = Unit) {
         vm.onCreate()
@@ -161,21 +161,28 @@ private fun Header(
 }
 
 @Composable
-private fun BottomActionComponent(onClick: () -> Unit, actionButton: EMActionButton) {
-    when (actionButton.type) {
-        EMActionButton.Type.Single -> SingleButtonBottomAction(
+private fun BottomActionComponent(
+    onClick: () -> Unit,
+    enableBottomActionContent: Boolean,
+    actionButton: EMActionButton
+) {
+    when (actionButton) {
+        is EMActionButton.Single -> SingleButtonBottomAction(
             onClick,
-            actionButton as EMActionButton.Single
+            enableBottomActionContent,
+            actionButton
         )
 
-        EMActionButton.Type.SingleWithInfo -> SingleButtonWithInfoBottomAction(
+        is EMActionButton.SingleWithInfo -> SingleButtonWithInfoBottomAction(
             onClick,
-            actionButton as EMActionButton.SingleWithInfo
+            enableBottomActionContent,
+            actionButton
         )
 
-        EMActionButton.Type.SingleWithTitle -> SingleButtonWithTitleBottomAction(
+        is EMActionButton.SingleWithKeyValue -> SingleButtonWithTitleBottomAction(
             onClick,
-            actionButton as EMActionButton.SingleWithKeyValue
+            enableBottomActionContent,
+            actionButton
         )
     }
 }
@@ -183,6 +190,7 @@ private fun BottomActionComponent(onClick: () -> Unit, actionButton: EMActionBut
 @Composable
 private fun SingleButtonBottomAction(
     onClick: () -> Unit,
+    enableBottomActionContent: Boolean,
     singleButtonAction: EMActionButton.Single
 ) {
     Button(
@@ -190,7 +198,9 @@ private fun SingleButtonBottomAction(
         shape = RoundedCornerShape(size = 15.dp),
         colors = ButtonDefaults.textButtonColors(
             containerColor = Color(0xFF5D6DFF),
+            disabledContainerColor = Color(0x665D6DFF)
         ),
+        enabled = enableBottomActionContent,
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 16.dp, end = 16.dp, bottom = 33.dp, top = 28.dp)
@@ -207,11 +217,12 @@ private fun SingleButtonBottomAction(
 @Composable
 private fun SingleButtonWithInfoBottomAction(
     onClick: () -> Unit,
+    enableBottomActionContent: Boolean,
     data: EMActionButton.SingleWithInfo
 ) {
     Column(
         modifier = Modifier
-            .background(color = Color(0xff2A2A2A))
+            .background(color = Color(0xFF161616))
             .padding(start = 16.dp, end = 16.dp, bottom = 33.dp)
             .fillMaxWidth(),
     ) {
@@ -222,8 +233,7 @@ private fun SingleButtonWithInfoBottomAction(
             Image(painter = painterResource(data.infoIcon), contentDescription = "content")
             Text(
                 text = data.infoText,
-                modifier = Modifier
-                    .padding(start = 12.dp),
+                modifier = Modifier.padding(start = 12.dp),
                 color = Color(0xC6C6C6C4),
                 fontSize = 14.sp
             )
@@ -232,7 +242,7 @@ private fun SingleButtonWithInfoBottomAction(
             onClick = onClick,
             shape = RoundedCornerShape(size = 15.dp),
             colors = ButtonDefaults.textButtonColors(
-                containerColor = Color(0xFF865DFF),
+                containerColor = Color(0xFF5D6DFF),
             ),
             modifier = Modifier
                 .fillMaxWidth()
@@ -251,6 +261,7 @@ private fun SingleButtonWithInfoBottomAction(
 @Composable
 private fun SingleButtonWithTitleBottomAction(
     onClick: () -> Unit,
+    enableBottomActionContent: Boolean,
     data: EMActionButton.SingleWithKeyValue
 ) {
     Column(
@@ -272,7 +283,7 @@ private fun SingleButtonWithTitleBottomAction(
                     )
                     Text(
                         text = it.value,
-                        color = Color(0xff865DFF),
+                        color = Color(0xCC5D6DFF),
                         fontSize = 12.sp,
                         modifier = Modifier.alpha(0.9f)
                     )

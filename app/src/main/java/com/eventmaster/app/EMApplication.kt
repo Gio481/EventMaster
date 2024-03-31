@@ -10,6 +10,7 @@ import com.eventmaster.features.authentication.impl.presentation.signup.mail.di.
 import com.eventmaster.features.authentication.impl.presentation.signup.password.di.passwordModule
 import com.eventmaster.features.authentication.impl.presentation.signup.profile.di.profileModule
 import com.eventmaster.features.authentication.impl.presentation.signup.username.di.userNameModule
+import com.eventmaster.features.eveny.impl.presentation.create.add_task.di.addTaskModule
 import com.eventmaster.features.eveny.impl.presentation.create.cover.di.coverModule
 import com.eventmaster.features.eveny.impl.presentation.create.date.di.dateModule
 import com.eventmaster.features.eveny.impl.presentation.create.friends_list.di.friendsListModule
@@ -43,7 +44,8 @@ class EMApplication : Application() {
                 homeModule,
                 groupCoverModule,
                 multiGroupModule,
-                groupDetailsModule
+                groupDetailsModule,
+                addTaskModule
             )
         }
     }

@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -17,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.eventmaster.core.presentation.base.ui.EMScreenBase
 import com.eventmaster.core.presentation.base.ui.action.EMActionButton
+import com.eventmaster.core.presentation.extensions.changeStatusBarColor
 import com.eventmaster.features.authentication.impl.presentation.signup.base.type.EMSignUpStepType
 import com.eventmaster.features.authentication.impl.presentation.signup.base.vm.EMSignUpBaseVm
 
@@ -26,12 +26,15 @@ fun EMSignUpBaseComposable(
     showBackButton: Boolean = true,
     currentStep: EMSignUpStepType,
     bottomActionButton: EMActionButton = EMActionButton.Single("Continue"),
+    enableBottomActionContent: Boolean = false,
     content: @Composable ColumnScope.() -> Unit
 ) {
+    changeStatusBarColor(color = Color(0xFF121212))
     EMScreenBase(
         vm = vm,
         showBackButton = showBackButton,
         showBottomAction = true,
+        enableBottomActionContent = enableBottomActionContent,
         bottomActionButton = bottomActionButton,
         bottomAction = { vm.nextStep() },
         headerText = "Create Account",
@@ -63,8 +66,8 @@ private fun getBackgroundColor(
     signUpStepType: EMSignUpStepType
 ): Color {
     return when {
-        currentStep.ordinal == signUpStepType.ordinal -> Color.White
-        currentStep.ordinal > signUpStepType.ordinal -> Color(0xFF074E06)
-        else -> Color(0xFF454545)
+        currentStep.ordinal == signUpStepType.ordinal -> Color(0xFFEEEEEE)
+        currentStep.ordinal > signUpStepType.ordinal -> Color(0xFF26BF7F)
+        else -> Color(0xFF404040)
     }
 }

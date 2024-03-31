@@ -9,8 +9,8 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.eventmaster.core.presentation.components.textfield.base.EMBaseTextField
+import com.eventmaster.core.presentation.components.textfield.model.EMTextFieldValidation
 
 @Composable
 fun EMRegularTextField(
@@ -37,8 +38,10 @@ fun EMRegularTextField(
     imeAction: ImeAction = ImeAction.Done,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     requestFocus: Boolean = false,
+    validations: EMTextFieldValidation? = null,
     containerColor: Color = Color(0xFF202020),
-    onValueChange: ((TextFieldValue) -> Unit)? = null
+    onValueChange: ((TextFieldValue) -> Unit)? = null,
+    onFocusChanged: ((FocusState) -> Unit)? = null
 ) {
     Box(
         modifier = modifier
@@ -50,13 +53,12 @@ fun EMRegularTextField(
                 Text(
                     text = it,
                     color = Color(0xFFEEEEEE),
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
+                    fontSize = 22.sp,
                 )
             }
             EMBaseTextField(
                 modifier = Modifier
-                    .padding(top = if (title == null) 0.dp else 16.dp)
+                    .padding(top = if (title == null) 0.dp else 24.dp)
                     .then(textFiledModifier),
                 hint = hint,
                 hintColor = hintColor,
@@ -66,7 +68,12 @@ fun EMRegularTextField(
                 trailingIcon = trailingIcon,
                 singleLine = singleLine,
                 readOnly = readOnly,
-                onValueChange = onValueChange,
+                onFocusChanged = {
+                 
+                },
+                onValueChange = {
+                    onValueChange?.invoke(it)
+                },
                 text = text,
                 enabled = enabled,
                 visualTransformation = visualTransformation,
@@ -77,8 +84,8 @@ fun EMRegularTextField(
                 Text(
                     text = it,
                     color = Color(0xFFBFBFBF),
-                    fontSize = 16.sp,
-                    modifier = Modifier.padding(top = 16.dp)
+                    fontSize = 14.sp,
+                    modifier = Modifier.padding(top = 8.dp)
                 )
             }
         }

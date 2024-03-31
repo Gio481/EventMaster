@@ -27,13 +27,14 @@ import androidx.compose.ui.unit.sp
 import com.eventmaster.core.presentation.R
 
 @Composable
-fun EMExpandableField(
+fun EMBaseExpandableField(
     text: String,
     modifier: Modifier = Modifier,
     contentModifier: Modifier = Modifier,
     unExpandIcon: Int = R.drawable.em_ic_un_expand,
     expandedState: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     expandedListener: () -> Unit = { expandedState.value = !expandedState.value },
+    onClick: () -> Unit = {},
     content: @Composable BoxScope.() -> Unit
 ) {
     var expandIconState by rememberSaveable { mutableStateOf(R.drawable.em_ic_expand) }
@@ -64,6 +65,7 @@ fun EMExpandableField(
                     .align(Alignment.CenterEnd)
                     .clickable {
                         expandedListener.invoke()
+                        onClick.invoke()
                     }
             )
         }
