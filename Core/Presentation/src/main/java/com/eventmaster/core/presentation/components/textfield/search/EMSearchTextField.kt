@@ -41,8 +41,8 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.MotionLayout
 import androidx.constraintlayout.compose.MotionScene
 import com.eventmaster.core.presentation.R
-import com.eventmaster.core.presentation.extensions.clearFocusIf
-import com.eventmaster.core.presentation.extensions.rememberImeState
+import com.eventmaster.core.presentation.util.clearFocusIf
+import com.eventmaster.core.presentation.util.rememberImeState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

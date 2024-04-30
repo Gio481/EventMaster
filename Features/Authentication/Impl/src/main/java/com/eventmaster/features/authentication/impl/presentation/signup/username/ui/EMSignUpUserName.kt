@@ -8,13 +8,14 @@ import com.eventmaster.core.presentation.components.textfield.regular.EMRegularT
 import com.eventmaster.features.authentication.impl.presentation.signup.base.type.EMSignUpStepType
 import com.eventmaster.features.authentication.impl.presentation.signup.base.ui.EMSignUpBaseComposable
 import com.eventmaster.features.authentication.impl.presentation.signup.username.vm.EMSignUpUserNameVm
-import org.koin.androidx.compose.get
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun EMSignUpUserName(vm: EMSignUpUserNameVm = get()) {
+fun EMSignUpUserName(vm: EMSignUpUserNameVm = koinViewModel()) {
     EMSignUpBaseComposable(
         vm = vm,
-        currentStep = EMSignUpStepType.USERNAME
+        currentStep = EMSignUpStepType.USERNAME,
+        enableBottomActionContent = true
     ) {
         EMRegularTextField(
             title = "Enter your name",

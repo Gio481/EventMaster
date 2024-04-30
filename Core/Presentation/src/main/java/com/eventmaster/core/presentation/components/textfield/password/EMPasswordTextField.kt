@@ -18,18 +18,21 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.eventmaster.core.presentation.R
 import com.eventmaster.core.presentation.components.textfield.base.EMBaseTextField
+import com.eventmaster.core.presentation.components.textfield.base.model.EMTextFieldValidatedState
 
 @Composable
 fun EMPasswordTextField(
@@ -41,9 +44,12 @@ fun EMPasswordTextField(
     enabled: Boolean = true,
     title: String? = null,
     description: String? = null,
+    validatedState: EMTextFieldValidatedState = EMTextFieldValidatedState.Default,
     imeAction: ImeAction = ImeAction.Done,
     withZootopiaAnimation: Boolean = true,
     containerColor: Color = Color(0xFF202020),
+    onValueChange: ((TextFieldValue) -> Unit)? = null,
+    onFocusChanged: ((FocusState) -> Unit)? = null
 ) {
     var showPassword by remember { mutableStateOf(false) }
 
@@ -85,6 +91,7 @@ fun EMPasswordTextField(
                     )
                 }
             },
+            state = validatedState,
             visualTransformation = if (showPassword) VisualTransformation.None else PasswordVisualTransformation(),
             hint = hint,
             singleLine = singleLine,

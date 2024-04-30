@@ -6,14 +6,15 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,11 +42,15 @@ import kotlinx.coroutines.flow.map
 fun EMEndlessDatePicker(
     modifier: Modifier = Modifier,
     items: List<String>,
+    itemsNeedUpdate: Boolean = false,
     state: EMDatePickerState = rememberPickerState(),
     startIndex: Int = 0,
     visibleItemsCount: Int = 5,
+    itemSelectedCallBack: ((String) -> Unit)? = null,
 ) {
     fun getItem(index: Int) = items[index % items.size]
+
+    var selectedItem by remember { mutableStateOf("") }
 
     val visibleItemsMiddle = visibleItemsCount / 2
     val listScrollCount = Integer.MAX_VALUE
@@ -55,7 +60,6 @@ fun EMEndlessDatePicker(
 
     val listState = rememberLazyListState(initialFirstVisibleItemIndex = listStartIndex)
     val flingBehavior = rememberSnapFlingBehavior(lazyListState = listState)
-
 
     val itemHeightPixels = remember { mutableStateOf(0) }
     val itemHeightDp = pixelsToDp(itemHeightPixels.value)
@@ -68,16 +72,16 @@ fun EMEndlessDatePicker(
         )
     }
 
-    LaunchedEffect(listState) {
+    LaunchedEffect(listState, items) {
         snapshotFlow { listState.firstVisibleItemIndex }
             .map { index -> getItem(index + visibleItemsMiddle) }
             .distinctUntilChanged()
             .collect { item ->
-                state.selectedItem = item
-                state.callback?.invoke(item)
+                selectedItem = item
+                if (itemsNeedUpdate) state.selectedItem = item
+                itemSelectedCallBack?.invoke(item)
             }
     }
-
 
     Box(modifier = modifier) {
         LazyColumn(
@@ -90,7 +94,7 @@ fun EMEndlessDatePicker(
                 .fadingEdge(fadingEdgeGradient)
         ) {
             items(listScrollCount) { index ->
-                val textStyle = textStyle(items, state.selectedItem, getItem(index))
+                val textStyle = textStyle(items, selectedItem, getItem(index))
                 Text(
                     text = getItem(index),
                     fontSize = textStyle.fontSize,
@@ -113,7 +117,6 @@ private fun Modifier.fadingEdge(brush: Brush) = this
         drawContent()
         drawRect(brush = brush, blendMode = BlendMode.DstIn)
     }
-
 
 private fun textStyle(
     items: List<String>,

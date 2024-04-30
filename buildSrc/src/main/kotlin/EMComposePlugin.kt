@@ -19,6 +19,9 @@ class EMComposePlugin : Plugin<Project> {
                 debugImpl { getLibrary("compose.manifest") }
                 impl { getLibrary("coroutine.lifecycle.viewModel") }
                 impl { getLibrary("coroutine.lifecycle.runtime") }
+                impl { getLibrary("lifecycle.runtime.compose") }
+                impl { getLibrary("lifecycle.runtime.livedata") }
+                impl { getLibrary("lifecycle.runtime") }
                 impl { getLibrary("constraintlayout.compose.android") }
             }
         }

@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,6 +27,7 @@ import com.eventmaster.core.presentation.R
 import com.eventmaster.core.presentation.components.datepicker.bottomsheet.daymonth.EMDayMonthPickerBottomSheet
 import com.eventmaster.core.presentation.components.datepicker.bottomsheet.fulldate.EMDatePickerBottomSheet
 import com.eventmaster.core.presentation.components.datepicker.bottomsheet.time.EMTimePickerBottomSheet
+import com.eventmaster.core.presentation.components.datepicker.model.EMDatePickerSelectedItem
 import com.eventmaster.core.presentation.components.textfield.base.EMBaseTextField
 import com.eventmaster.core.presentation.components.textfield.datepicker.type.EMDatePickerTextFieldType
 
@@ -45,9 +47,10 @@ fun EMDatePickerTextField(
     imeAction: ImeAction = ImeAction.Done,
     containerColor: Color = Color(0xFF202020),
     type: EMDatePickerTextFieldType = EMDatePickerTextFieldType.FullDate,
+    doneAction: (EMDatePickerSelectedItem) -> Unit
 ) {
     var showBottomSheet by remember { mutableStateOf(false) }
-    val selectedDate by remember { mutableStateOf(hint) }
+    var selectedDate by rememberSaveable { mutableStateOf<EMDatePickerSelectedItem?>(null) }
 
     Box(
         modifier = modifier
@@ -76,6 +79,7 @@ fun EMDatePickerTextField(
                     IconButton(onClick = { showBottomSheet = true }) {
                         Icon(
                             painter = painterResource(id = R.drawable.em_ic_pickup_arrow),
+                            tint = Color(0xFFEEEEEE),
                             contentDescription = null
                         )
                     }
@@ -101,21 +105,31 @@ fun EMDatePickerTextField(
         when (type) {
             EMDatePickerTextFieldType.FullDate -> {
                 EMDatePickerBottomSheet(
-                    doneAction = { },
+                    doneAction = {
+                        selectedDate = it
+                        doneAction.invoke(it)
+                    },
+                    selectedItem = selectedDate,
                     onDismiss = { showBottomSheet = false }
                 )
             }
 
             EMDatePickerTextFieldType.DayMonth -> {
                 EMDayMonthPickerBottomSheet(
-                    doneAction = {},
+                    doneAction = {
+                        selectedDate = it
+                        doneAction.invoke(it)
+                    },
                     onDismiss = { showBottomSheet = false }
                 )
             }
 
             EMDatePickerTextFieldType.Time -> {
                 EMTimePickerBottomSheet(
-                    doneAction = {},
+                    doneAction = {
+                        selectedDate = it
+                        doneAction.invoke(it)
+                    },
                     onDismiss = { showBottomSheet = false }
                 )
             }

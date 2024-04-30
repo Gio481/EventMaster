@@ -39,9 +39,9 @@ import com.eventmaster.core.presentation.base.ui.EMScreenBase
 import com.eventmaster.core.presentation.components.textfield.extension.TextFieldWithKeyboard
 import com.eventmaster.core.presentation.extensions.clearFocusOnTap
 import com.eventmaster.core.presentation.extensions.readMotionScene
-import com.eventmaster.core.presentation.extensions.rememberImeState
 import com.eventmaster.core.presentation.util.getAnchoredDraggableState
 import com.eventmaster.core.presentation.util.getAnchoredDraggableStateProgress
+import com.eventmaster.core.presentation.util.rememberImeState
 import com.eventmaster.features.group.impl.R
 import com.eventmaster.features.group.impl.presentation.groups.details.ui.eventcard.EventCard
 import com.eventmaster.features.group.impl.presentation.groups.details.ui.header.HeaderContent
