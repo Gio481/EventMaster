@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -103,7 +102,7 @@ private fun BoxScope.DateSelector() {
             .align(Alignment.Center)
             .border(
                 width = 1.dp,
-                color = Color(0xFF8F5FEA),
+                color = Color(0xFF6E7CFF),
                 shape = RoundedCornerShape(12.dp)
             )
     )
@@ -115,7 +114,7 @@ private fun DoneButton(doneAction: () -> Unit) {
         onClick = doneAction,
         shape = RoundedCornerShape(size = 15.dp),
         colors = ButtonDefaults.textButtonColors(
-            containerColor = Color(0xFF8F5FEA),
+            containerColor = Color(0xFF6E7CFF),
         ),
         modifier = Modifier
             .fillMaxWidth()

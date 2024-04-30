@@ -4,11 +4,17 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -33,21 +39,27 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.eventmaster.core.presentation.R
-import com.eventmaster.core.presentation.extensions.clearFocusIf
-import com.eventmaster.core.presentation.extensions.rememberImeState
-import com.eventmaster.core.presentation.extensions.requestFocusIf
+import com.eventmaster.core.presentation.components.textfield.base.model.EMTextFieldValidatedState
+import com.eventmaster.core.presentation.extensions.isSpannable
+import com.eventmaster.core.presentation.util.clearFocusIf
+import com.eventmaster.core.presentation.util.rememberImeState
+import com.eventmaster.core.presentation.util.requestFocusIf
 
 @Composable
 fun EMBaseTextField(
@@ -64,17 +76,23 @@ fun EMBaseTextField(
     imeAction: ImeAction = ImeAction.Done,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     requestFocus: Boolean = false,
+    state: EMTextFieldValidatedState = EMTextFieldValidatedState.Default,
     containerColor: Color = Color(0xFF2A2A2A),
     onValueChange: ((TextFieldValue) -> Unit)? = null,
     customTextFieldState: MutableState<TextFieldValue>? = null,
     onFocusChanged: ((FocusState) -> Unit)? = null
 ) {
-    var inputText by remember { mutableStateOf(TextFieldValue(text, TextRange(text.length))) }
+    var inputText by rememberSaveable(stateSaver = TextFieldValue.Saver) {
+        mutableStateOf(
+            TextFieldValue(text, TextRange(text.length))
+        )
+    }
     var showHint by rememberSaveable { mutableStateOf(hint.isEmpty().not()) }
-    var isFocused by remember { mutableStateOf(false) }
+    var isFocused by rememberSaveable { mutableStateOf(false) }
     val borderColor by animateColorAsState(
         targetValue = if (isFocused) Color(0xCC5D6DFF) else Color.Transparent
     )
+    var hasFocusInitially by rememberSaveable { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
     val imeState = rememberImeState()
     val focusRequester = remember { FocusRequester() }
@@ -82,82 +100,181 @@ fun EMBaseTextField(
     LaunchedEffect(imeState.value) { focusManager.clearFocusIf(imeState.value.not()) }
     LaunchedEffect(Unit) { focusRequester.requestFocusIf(requestFocus) }
 
-    Box(
+    Column(
         modifier = Modifier
             .then(modifier)
-            .fillMaxWidth()
-            .height(48.dp)
-            .background(containerColor, RoundedCornerShape(13.dp))
-            .border(1.dp, borderColor, RoundedCornerShape(13.dp)),
-        contentAlignment = Alignment.CenterStart
+            .fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
-        BasicTextField(
-            value = customTextFieldState?.value ?: inputText,
-            onValueChange = {
-                when (customTextFieldState) {
-                    null -> inputText = it
-                    else -> customTextFieldState.value = it
-                }
-                showHint = it.text.isEmpty()
-                showClearTextAction = it.text.isNotEmpty() && trailingIcon == null
-                onValueChange?.invoke(it)
-            },
-            singleLine = singleLine,
-            textStyle = TextStyle(
-                textAlign = TextAlign.Start,
-                color = Color.White,
-                fontSize = 16.sp
-            ),
-            readOnly = readOnly,
-            enabled = enabled,
-            cursorBrush = SolidColor(Color(0xEDEEEEEE)),
-            keyboardOptions = KeyboardOptions(
-                capitalization = KeyboardCapitalization.None,
-                autoCorrect = false,
-                keyboardType = KeyboardType.Password,
-                imeAction = imeAction
-            ),
-            visualTransformation = visualTransformation,
-            keyboardActions = keyboardActions,
-            modifier = Modifier
-                .focusRequester(focusRequester)
-                .padding(start = 16.dp, end = 30.dp)
-                .fillMaxWidth()
-                .onFocusChanged {
-                    isFocused = it.isFocused
-                    onFocusChanged?.invoke(it)
-                }
-        )
-        if (showHint) {
-            Text(
-                text = hint,
-                fontSize = hintSize,
-                color = Color(0xFFB1B1B1),
-                modifier = Modifier.padding(start = 16.dp)
-            )
-        }
-
         Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.CenterEnd
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(48.dp)
+                .background(containerColor, RoundedCornerShape(13.dp))
+                .border(0.5.dp, borderColor, RoundedCornerShape(13.dp)),
+            contentAlignment = Alignment.CenterStart
         ) {
-            trailingIcon?.invoke() ?: run {
-                if (showClearTextAction) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.em_ic_clear_search),
-                        contentDescription = "",
-                        tint = Color(0xFFB1B1B1),
-                        modifier = Modifier
-                            .padding(end = 15.dp)
-                            .clickable {
-                                showClearTextAction = false
-                                customTextFieldState?.value = TextFieldValue()
-                                inputText = TextFieldValue()
-                                onValueChange?.invoke(TextFieldValue())
-                            }
-                    )
+            BasicTextField(
+                value = customTextFieldState?.value ?: inputText,
+                onValueChange = {
+                    when (customTextFieldState) {
+                        null -> inputText = it
+                        else -> customTextFieldState.value = it
+                    }
+                    showHint = it.text.isEmpty()
+                    showClearTextAction = it.text.isNotEmpty() && trailingIcon == null
+                    onValueChange?.invoke(it)
+                },
+                singleLine = singleLine,
+                textStyle = TextStyle(
+                    textAlign = TextAlign.Start,
+                    color = Color.White,
+                    fontSize = 16.sp
+                ),
+                readOnly = readOnly,
+                enabled = enabled,
+                cursorBrush = SolidColor(Color(0xEDEEEEEE)),
+                keyboardOptions = KeyboardOptions(
+                    capitalization = KeyboardCapitalization.None,
+                    autoCorrect = false,
+                    keyboardType = KeyboardType.Password,
+                    imeAction = imeAction
+                ),
+                visualTransformation = visualTransformation,
+                keyboardActions = keyboardActions,
+                modifier = Modifier
+                    .focusRequester(focusRequester)
+                    .padding(start = 16.dp, end = 30.dp)
+                    .fillMaxWidth()
+                    .onFocusChanged {
+                        isFocused = it.isFocused
+                        if (inputText.text.isNotEmpty()) {
+                            onFocusChanged?.invoke(it)
+                        }
+                        hasFocusInitially = true
+                    }
+            )
+            if (showHint) {
+                Text(
+                    text = hint,
+                    fontSize = hintSize,
+                    color = Color(0xFFB1B1B1),
+                    modifier = Modifier.padding(start = 16.dp)
+                )
+            }
+
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.CenterEnd
+            ) {
+                trailingIcon?.invoke() ?: run {
+                    if (showClearTextAction) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.em_ic_clear_search),
+                            contentDescription = "",
+                            tint = Color(0xFFB1B1B1),
+                            modifier = Modifier
+                                .padding(end = 15.dp)
+                                .clickable {
+                                    showClearTextAction = false
+                                    customTextFieldState?.value = TextFieldValue()
+                                    inputText = TextFieldValue()
+                                    onValueChange?.invoke(TextFieldValue())
+                                }
+                        )
+                    }
                 }
             }
         }
+
+        DrawTextFieldValidationState(
+            when (inputText.text.isEmpty()) {
+                true -> EMTextFieldValidatedState.Default
+                else -> state
+            }
+        )
     }
+}
+
+@Composable
+private fun DrawTextFieldValidationState(state: EMTextFieldValidatedState) {
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .wrapContentHeight(),
+    ) {
+        when (state) {
+            is EMTextFieldValidatedState.Default -> return@Row
+            is EMTextFieldValidatedState.Loading -> SpinFadeLoaderProgressIndicator(
+                modifier = Modifier
+                    .padding(top = 4.dp, start = 4.dp)
+                    .size(16.dp),
+                color = Color.White,
+                isClockwise = true
+            )
+
+            else -> Icon(
+                painter = painterResource(id = state.iconRes!!),
+                tint = Color(state.colorTintLongRes!!),
+                contentDescription = null,
+                modifier = Modifier.padding(top = 4.dp, start = 4.dp)
+            )
+        }
+
+        state.text?.let {
+            val errorState = state as? EMTextFieldValidatedState.Error
+            DrawText(it, Color(state.colorTintLongRes!!), errorState?.spannableClickAction)
+        }
+    }
+}
+
+@Composable
+private fun RowScope.DrawText(
+    text: String,
+    regularTextColor: Color,
+    spannableClick: (() -> Unit)? = null
+) {
+    val annotatedString = if (text.isSpannable()) {
+        val startIndex = text.indexOf("[")
+        val endIndex = text.indexOf("]")
+        val part1 = text.substring(0, startIndex)
+        val part2 = text.substring(startIndex + 1, endIndex)
+        val part3 = text.substring(endIndex + 1)
+
+        buildAnnotatedString {
+            withStyle(style = SpanStyle(color = regularTextColor)) {
+                append(part1)
+            }
+            withStyle(
+                style = SpanStyle(
+                    color = Color(0xFF5D6DFF),
+                    textDecoration = TextDecoration.Underline
+                )
+            ) {
+                append(part2)
+            }
+            withStyle(style = SpanStyle(color = regularTextColor)) {
+                append(part3)
+            }
+        }
+    } else {
+        buildAnnotatedString {
+            withStyle(style = SpanStyle(color = regularTextColor)) {
+                append(text)
+            }
+        }
+    }
+
+    Text(
+        annotatedString,
+        fontSize = 12.sp,
+        modifier = Modifier
+            .padding(start = 4.dp)
+            .align(Alignment.CenterVertically)
+            .clickable {
+                spannableClick?.invoke()
+            },
+        textAlign = TextAlign.Center
+    )
 }

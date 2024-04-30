@@ -6,6 +6,6 @@ import org.koin.dsl.module
 
 val mailModule = module {
     viewModel {
-        EMSignUpMailVm()
+        EMSignUpMailVm(authNavigator = get())
     }
 }

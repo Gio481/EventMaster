@@ -115,7 +115,8 @@ private fun DatePiker(title: String) {
             hint = "Sat / Dec 20",
             title = title,
             type = EMDatePickerTextFieldType.DayMonth,
-            modifier = Modifier.weight(0.6f)
+            modifier = Modifier.weight(0.6f),
+            doneAction = {}
         )
         EMDatePickerTextField(
             hint = "19 : 00",
@@ -124,6 +125,7 @@ private fun DatePiker(title: String) {
             modifier = Modifier
                 .padding(start = 20.dp)
                 .weight(0.4f),
+            doneAction = {}
         )
     }
 }

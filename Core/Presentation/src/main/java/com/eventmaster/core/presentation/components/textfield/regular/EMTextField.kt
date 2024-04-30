@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.eventmaster.core.presentation.components.textfield.base.EMBaseTextField
-import com.eventmaster.core.presentation.components.textfield.model.EMTextFieldValidation
+import com.eventmaster.core.presentation.components.textfield.base.model.EMTextFieldValidatedState
 
 @Composable
 fun EMRegularTextField(
@@ -38,7 +38,7 @@ fun EMRegularTextField(
     imeAction: ImeAction = ImeAction.Done,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     requestFocus: Boolean = false,
-    validations: EMTextFieldValidation? = null,
+    validatedState: EMTextFieldValidatedState = EMTextFieldValidatedState.Default,
     containerColor: Color = Color(0xFF202020),
     onValueChange: ((TextFieldValue) -> Unit)? = null,
     onFocusChanged: ((FocusState) -> Unit)? = null
@@ -68,9 +68,8 @@ fun EMRegularTextField(
                 trailingIcon = trailingIcon,
                 singleLine = singleLine,
                 readOnly = readOnly,
-                onFocusChanged = {
-                 
-                },
+                state = validatedState,
+                onFocusChanged = onFocusChanged,
                 onValueChange = {
                     onValueChange?.invoke(it)
                 },

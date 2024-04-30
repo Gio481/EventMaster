@@ -12,10 +12,10 @@ fun NavGraphBuilder.addFlowScreen(
     composable(
         route = config.route,
         arguments = setArgument(config),
-        enterTransition = { config.animation.enterTransition },
-        exitTransition = { config.animation.exitTransition },
-        popEnterTransition = { config.animation.popEnterTransition },
-        popExitTransition = { config.animation.popExitTransition },
+//        enterTransition = { config.animation.enterTransition },
+//        exitTransition = { config.animation.exitTransition },
+//        popEnterTransition = { config.animation.popEnterTransition },
+//        popExitTransition = { config.animation.popExitTransition },
         content = config.content
     )
 }

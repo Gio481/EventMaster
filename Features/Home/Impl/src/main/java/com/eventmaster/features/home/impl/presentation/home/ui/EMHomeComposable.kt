@@ -27,10 +27,10 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.eventmaster.core.presentation.base.ui.EMScreenBase
 import com.eventmaster.features.home.impl.presentation.home.vm.EMHomeVm
-import org.koin.androidx.compose.get
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun EMHomeComposable(vm: EMHomeVm = get()) {
+fun EMHomeComposable(vm: EMHomeVm = koinViewModel()) {
     EMScreenBase(
         vm = vm,
         showBottomAction = false,

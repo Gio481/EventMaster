@@ -14,7 +14,9 @@ import java.util.Calendar
 import java.util.TimeZone
 
 @Composable
-fun rememberPickerState() = remember { EMDatePickerState() }
+fun rememberPickerState(selectedItem: String? = null) = remember {
+    EMDatePickerState(selectedItem = selectedItem ?: "")
+}
 
 internal fun Modifier.fadingEdge(brush: Brush) = this
     .graphicsLayer(compositingStrategy = CompositingStrategy.Offscreen)
@@ -54,14 +56,14 @@ fun getLongAsDate(year: Int, month: Int, date: Int): Long {
     calendar.set(Calendar.MINUTE, 0)
     calendar.set(Calendar.SECOND, 0)
     calendar.set(Calendar.MILLISECOND, 0)
-
     return calendar.timeInMillis
 }
 
 fun getDaysInMonth(month: Int, year: Int): Int {
-    return if (month == 2) {
+    // Month starts from 0 (January is 0)
+    return if (month == 1) {
         28 + (if (year % 4 == 0) 1 else 0) - (if (year % 100 == 0) if (year % 400 == 0) 0 else 1 else 0)
     } else {
-        31 - (month - 1) % 7 % 2
+        31 - (month) % 7 % 2
     }
 }

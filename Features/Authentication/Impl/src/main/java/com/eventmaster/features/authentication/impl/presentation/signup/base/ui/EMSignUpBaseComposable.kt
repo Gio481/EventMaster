@@ -11,12 +11,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.eventmaster.core.presentation.base.ui.EMScreenBase
 import com.eventmaster.core.presentation.base.ui.action.EMActionButton
-import com.eventmaster.core.presentation.extensions.changeStatusBarColor
+import com.eventmaster.core.presentation.util.changeStatusBarColor
 import com.eventmaster.features.authentication.impl.presentation.signup.base.type.EMSignUpStepType
 import com.eventmaster.features.authentication.impl.presentation.signup.base.vm.EMSignUpBaseVm
 
@@ -26,10 +28,13 @@ fun EMSignUpBaseComposable(
     showBackButton: Boolean = true,
     currentStep: EMSignUpStepType,
     bottomActionButton: EMActionButton = EMActionButton.Single("Continue"),
-    enableBottomActionContent: Boolean = false,
+    enableBottomActionContent: Boolean = true,
     content: @Composable ColumnScope.() -> Unit
 ) {
-    changeStatusBarColor(color = Color(0xFF121212))
+    val context = LocalContext.current
+    LaunchedEffect(key1 = Unit) {
+        context.changeStatusBarColor(Color(0xFF121212))
+    }
     EMScreenBase(
         vm = vm,
         showBackButton = showBackButton,
