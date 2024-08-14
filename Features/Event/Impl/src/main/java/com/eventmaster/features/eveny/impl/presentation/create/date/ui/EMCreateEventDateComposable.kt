@@ -1,5 +1,9 @@
 package com.eventmaster.features.eveny.impl.presentation.create.date.ui
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -13,6 +17,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -27,10 +32,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.eventmaster.core.models.date.EMDateFormatType
 import com.eventmaster.core.presentation.base.ui.EMScreenBase
 import com.eventmaster.core.presentation.components.textfield.datepicker.EMDatePickerTextField
 import com.eventmaster.core.presentation.components.textfield.datepicker.type.EMDatePickerTextFieldType
 import com.eventmaster.core.presentation.components.textfield.regular.EMRegularTextField
+import com.eventmaster.core.presentation.util.EMDrawable
 import com.eventmaster.features.event.impl.R
 import com.eventmaster.features.eveny.impl.presentation.create.date.vm.EMCreateEventDateVm
 import org.koin.androidx.compose.get
@@ -70,10 +77,10 @@ fun EMCreateEventDateComposable(vm: EMCreateEventDateVm = get()) {
                         .width(26.dp)
                         .height(24.dp)
                         .clip(RoundedCornerShape(8.dp))
-                        .border(1.dp, color = Color(0xFF865DFF), RoundedCornerShape(8.dp))
+                        .border(1.dp, color = Color(0xFF5D6DFF), RoundedCornerShape(8.dp))
                         .clickable { checkboxState = !checkboxState }
                         .background(
-                            if (checkboxState) Color(0xFF865DFF) else Color.Transparent
+                            if (checkboxState) Color(0xFF5D6DFF) else Color.Transparent
                         ),
                     contentAlignment = Alignment.Center
                 ) {
@@ -85,19 +92,40 @@ fun EMCreateEventDateComposable(vm: EMCreateEventDateVm = get()) {
                     }
                 }
             }
-            if (checkboxState) {
-                DatePiker("To")
-            }
+            AnimatedVisibility(
+                visible = checkboxState,
+                enter = slideInVertically(tween(200)),
+                exit = shrinkVertically(tween(200)),
+                modifier = Modifier.padding(top = 8.dp),
+                content = { DatePiker("To") }
+            )
+
             EMRegularTextField(
                 title = "Add location",
                 hint = "Enter address",
+                textFiledModifier = Modifier.padding(top = 8.dp),
+                titleSize = 16.sp,
                 modifier = Modifier.padding(top = 24.dp),
                 trailingIcon = {
-                    Image(
-                        painter = painterResource(R.drawable.ic_map),
-                        contentDescription = "null",
-                        modifier = Modifier.padding(end = 16.dp)
-                    )
+                    Row(
+                        modifier = Modifier
+                            .align(Alignment.CenterEnd)
+                            .padding(end = 16.dp)
+                            .clickable {},
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            painter = painterResource(id = EMDrawable.em_ic_location),
+                            contentDescription = "",
+                            tint = Color(0xFF5D6DFF),
+                            modifier = Modifier.padding(end = 7.dp)
+                        )
+                        Text(
+                            text = "Map",
+                            color = Color(0xFF5D6DFF),
+                            fontSize = 16.sp
+                        )
+                    }
                 }
             )
         }
@@ -114,13 +142,16 @@ private fun DatePiker(title: String) {
         EMDatePickerTextField(
             hint = "Sat / Dec 20",
             title = title,
+            textFiledModifier = Modifier.padding(top = 8.dp),
             type = EMDatePickerTextFieldType.DayMonth,
             modifier = Modifier.weight(0.6f),
+            formatType = EMDateFormatType.DAY_MONTH,
             doneAction = {}
         )
         EMDatePickerTextField(
             hint = "19 : 00",
             title = "",
+            textFiledModifier = Modifier.padding(top = 8.dp),
             type = EMDatePickerTextFieldType.Time,
             modifier = Modifier
                 .padding(start = 20.dp)

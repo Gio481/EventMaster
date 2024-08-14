@@ -20,7 +20,7 @@ sealed class EMCreateEventFlowScreen : EMFlowScreen() {
         override fun config() = EMFlowScreenConfig(
             route = "date",
             content = { EMCreateEventDateComposable() },
-            showAnimation = true
+            showFlowTransitionAnimation = true
         )
     }
 
@@ -28,7 +28,7 @@ sealed class EMCreateEventFlowScreen : EMFlowScreen() {
         override fun config() = EMFlowScreenConfig(
             route = "friendsList",
             content = { EMCreateEventFriendsListComposable() },
-            showAnimation = true
+            showFlowTransitionAnimation = true
         )
     }
 
@@ -36,7 +36,7 @@ sealed class EMCreateEventFlowScreen : EMFlowScreen() {
         override fun config() = EMFlowScreenConfig(
             route = "createTasks",
             content = { EMCreateEventAddTask()},
-            showAnimation = true
+            showFlowTransitionAnimation = true
         )
     }
 }

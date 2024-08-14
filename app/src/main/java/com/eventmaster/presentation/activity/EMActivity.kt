@@ -1,6 +1,7 @@
 package com.eventmaster.presentation.activity
 
 import android.os.Bundle
+import android.util.Log.d
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.core.view.WindowCompat
@@ -10,7 +11,7 @@ import com.eventmaster.presentation.navhost.AppNavHost
 import com.eventmaster.presentation.theme.EventMasterTheme
 import org.koin.androidx.compose.get
 
-class MainActivity : ComponentActivity() {
+class EMActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

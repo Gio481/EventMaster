@@ -26,37 +26,47 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.eventmaster.core.presentation.util.EMDrawable
 import com.eventmaster.features.authentication.impl.R
 import com.eventmaster.features.authentication.impl.presentation.signup.base.type.EMSignUpStepType
 import com.eventmaster.features.authentication.impl.presentation.signup.base.ui.EMSignUpBaseComposable
 import com.eventmaster.features.authentication.impl.presentation.signup.profile.vm.EMSignUpProfileVm
-import org.koin.androidx.compose.get
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun EMSignUpProfile(vm: EMSignUpProfileVm = get()) {
-    val selectedItem = remember { mutableStateOf(-1) }
+fun EMSignUpProfile(vm: EMSignUpProfileVm = koinViewModel()) {
+    val selectedItem = remember { mutableStateOf(R.drawable.em_ic_default_profile) }
 
     EMSignUpBaseComposable(vm = vm, currentStep = EMSignUpStepType.PROFILE) {
         Box(
-            Modifier
-                .padding(top = 65.dp)
-                .size(124.dp)
-                .clip(RoundedCornerShape(50))
-                .align(Alignment.CenterHorizontally),
+            modifier = Modifier.align(Alignment.CenterHorizontally),
             contentAlignment = Alignment.Center
         ) {
-            if (selectedItem.value != -1) {
+            Image(
+                modifier = Modifier
+                    .padding(top = 10.dp)
+                    .size(220.dp),
+                painter = painterResource(EMDrawable.em_bkg_profile),
+                contentDescription = null,
+                contentScale = ContentScale.Crop
+            )
+            Box(
+                Modifier
+                    .padding(top = 10.dp)
+                    .size(124.dp)
+                    .clip(RoundedCornerShape(50))
+                    .border(1.dp, Color(0xFF5D6DFF), RoundedCornerShape(50)),
+                contentAlignment = Alignment.Center
+            ) {
                 Image(
                     painter = painterResource(selectedItem.value),
                     contentDescription = null,
                     contentScale = ContentScale.Crop
                 )
             }
-
         }
         Text(
             text = "Choose Avatar",
-            modifier = Modifier.padding(top = 22.dp),
             color = Color(0xFFEEEEEE),
             fontSize = 22.sp
         )
@@ -94,24 +104,8 @@ private fun ProfileImages(selectedItem: MutableState<Int>) {
         horizontalArrangement = Arrangement.spacedBy(20.dp),
         userScrollEnabled = false
     ) {
-        item {
-            Box(
-                modifier = Modifier
-                    .clip(RoundedCornerShape(50))
-                    .clickable { }
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.em_ic_add),
-                    contentDescription = null,
-                    contentScale = ContentScale.Inside,
-                    modifier = Modifier
-                        .size(56.dp)
-                        .background(color = Color(0x4DD9D9D9))
-                )
-            }
-        }
         itemsIndexed(elements) { index, item ->
-            val topPadding = if (index > 3) 12.dp else 0.dp
+            val topPadding = if (index > 4) 12.dp else 0.dp
             Box(
                 modifier = Modifier
                     .padding(top = topPadding)
@@ -134,5 +128,5 @@ private fun ProfileImages(selectedItem: MutableState<Int>) {
 
 private fun Modifier.borderIfNeeded(need: Boolean): Modifier {
     if (!need) return this
-    return this.border(2.dp, Color(0xFF865DFF), RoundedCornerShape(50))
+    return this.border(2.dp, Color(0xFF5D6DFF), RoundedCornerShape(50))
 }

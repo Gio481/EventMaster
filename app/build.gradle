@@ -32,6 +32,7 @@ dependencies {
     implementation project(':Core:Navigation')
     implementation project(':Core:Presentation')
     implementation project(':Core:Api')
+    implementation project(':Core:Models')
 
     implementation project(':Features:Splash:Api')
     implementation project(':Features:Splash:Impl')

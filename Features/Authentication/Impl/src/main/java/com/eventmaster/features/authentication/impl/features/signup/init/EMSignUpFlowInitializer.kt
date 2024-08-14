@@ -11,5 +11,6 @@ object EMSignUpFlowInitializer : EMFlowInitializer {
         EMSignUpScreens.Password.screen(navGraphBuilder)
         EMSignUpScreens.Birthdate.screen(navGraphBuilder)
         EMSignUpScreens.Profile.screen(navGraphBuilder)
+        EMSignUpScreens.Success.screen(navGraphBuilder)
     }
 }

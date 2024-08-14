@@ -1,146 +1,99 @@
 package com.eventmaster.features.home.impl.presentation.home.ui
 
-import androidx.compose.foundation.Canvas
+import android.app.Activity
+import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Outline
-import androidx.compose.ui.graphics.Paint
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.PathEffect
-import androidx.compose.ui.graphics.drawOutline
-import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.constraintlayout.compose.ConstraintLayout
 import com.eventmaster.core.presentation.base.ui.EMScreenBase
+import com.eventmaster.core.presentation.util.changeStatusBarColor
+import com.eventmaster.features.home.impl.R
 import com.eventmaster.features.home.impl.presentation.home.vm.EMHomeVm
+import com.eventmaster.features.home.impl.presentation.widgets.base.hexagon.EMHexagon
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun EMHomeComposable(vm: EMHomeVm = koinViewModel()) {
+    val activity = (LocalContext.current as Activity)
+    activity.changeStatusBarColor(Color(0xFF140D28))
+
+//    BackHandler { activity.moveTaskToBack(true) }
     EMScreenBase(
         vm = vm,
         showBottomAction = false,
-        showHeader = false
+        showHeader = false,
+        modifier = Modifier.background(Color(0xFF140D28))
     ) {
-        ConstraintLayout(
+        ProfileWidget()
+        EMHexagon(
+            size = DpSize(170.dp, 170.dp),
+            paddingValues = PaddingValues(top = 100.dp, end = 16.dp),
             modifier = Modifier
-                .fillMaxSize()
-                .background(createGradientBrush())
-        ) {
-            val (calendar, event, group, profile, inviteFriend) = createRefs()
-            Hexagon(title = "Calendar", modifier = Modifier
-                .constrainAs(calendar) {
-                    bottom.linkTo(event.top, (-15).dp)
-                    end.linkTo(group.end, 5.dp)
-                    start.linkTo(event.start)
+                .align(Alignment.TopEnd)
+                .clickable {
+                    vm.navigateToCreateGroup()
                 }
-            )
-            Hexagon(
-                title = "Events",
-                modifier = Modifier
-                    .constrainAs(event) {
-                        top.linkTo(parent.top)
-                        bottom.linkTo(parent.bottom, 50.dp)
-                        end.linkTo(group.start, 25.dp)
-                    },
-                onClick = { vm.navigateToCreateEvent() }
-            )
-            Hexagon(
-                title = "Groups",
-                modifier = Modifier
-                    .constrainAs(group) {
-                        bottom.linkTo(event.bottom, 5.dp)
-                        end.linkTo(parent.end, 15.dp)
-                    },
-                onClick = { vm.navigateToGroups() }
-            )
-            Hexagon(title = "Invite\nFriend", modifier = Modifier
-                .constrainAs(inviteFriend) {
-                    top.linkTo(event.bottom, ((-15).dp))
-                    end.linkTo(group.end)
-                    start.linkTo(event.start, 10.dp)
+        ) {}
+
+        EMHexagon(
+            size = DpSize(170.dp, 170.dp),
+            paddingValues = PaddingValues(bottom = 120.dp, start = 20.dp),
+            modifier = Modifier
+                .align(Alignment.Center)
+                .clickable {
+                    vm.navigateToCreateEvent()
                 }
-            )
-            Hexagon(title = "Profile", modifier = Modifier
-                .constrainAs(profile) {
-                    top.linkTo(inviteFriend.top)
-                    end.linkTo(event.end, 50.dp)
-                    start.linkTo(parent.start)
+        ) {}
+
+        EMHexagon(
+            size = DpSize(170.dp, 170.dp),
+            paddingValues = PaddingValues(top = 215.dp, start = 20.dp),
+            modifier = Modifier
+                .align(Alignment.Center)
+                .clickable {
+                    vm.navigateToGroups()
                 }
-            )
-        }
+        ) {}
+
+        EMHexagon(
+            size = DpSize(170.dp, 170.dp),
+            paddingValues = PaddingValues(bottom = 50.dp, end = 16.dp),
+            modifier = Modifier.align(Alignment.BottomEnd)
+        ) {}
     }
 }
 
 @Composable
-fun Hexagon(
-    title: String,
-    modifier: Modifier = Modifier,
-    hexagonColor: Color = Color(0x33EEEEEE),
-    onClick: (() -> Unit) = {},
-) {
-    val interactionSource = remember { MutableInteractionSource() }
-    Box(
-        modifier = modifier
-            .size(128.dp)
-            .clickable(interactionSource = interactionSource, indication = null, onClick = onClick),
-        contentAlignment = Alignment.Center
-    ) {
-        Canvas(modifier = Modifier.fillMaxSize()) {
-            val height = size.height
-            val width = size.width
-
-            val path = Path().apply {
-                moveTo(width / 2f, 0f)
-                lineTo(width, height / 4)
-                lineTo(width, height / 4 * 3)
-                lineTo(width / 2, height)
-                lineTo(0f, height / 4 * 3)
-                lineTo(0f, height / 4)
-                close()
+private fun ProfileWidget() {
+    Row(verticalAlignment = Alignment.Bottom) {
+        EMHexagon(
+            paddingValues = PaddingValues(start = 16.dp, top = 20.dp),
+            cornerRadius = 8.dp,
+            content = {
+                Image(painter = painterResource(id = R.drawable.testtt), contentDescription = "")
             }
-
-            drawIntoCanvas { canvas ->
-                canvas.drawOutline(
-                    outline = Outline.Generic(path),
-                    paint = Paint().apply {
-                        color = hexagonColor
-                        pathEffect = PathEffect.cornerPathEffect(16.dp.toPx())
-                    }
-                )
-            }
+        )
+        Column(
+            modifier = Modifier.padding(top = 9.dp, start = 9.dp, bottom = 3.dp),
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(text = "Welcome", fontSize = 20.sp, color = Color(0xFFEEEEEE))
+            Text(text = "Teona_20", fontSize = 14.sp, color = Color(0xFFEEEEEE))
         }
-        Text(
-            text = title,
-            color = Color(0xEDEEEEEE),
-            fontSize = 14.sp,
-            modifier = Modifier
-                .align(Alignment.BottomStart)
-                .padding(bottom = 30.dp, start = 28.dp),
-            textAlign = TextAlign.Start
-        )
     }
-}
-
-fun createGradientBrush(): Brush {
-    return Brush.verticalGradient(
-        colors = listOf(
-            Color(0xFF060313),
-            Color(0xFF0E091F),
-        )
-    )
 }

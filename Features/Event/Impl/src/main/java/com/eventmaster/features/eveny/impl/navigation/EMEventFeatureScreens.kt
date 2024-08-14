@@ -3,6 +3,7 @@ package com.eventmaster.features.eveny.impl.navigation
 import com.emcore_navigation.navigator.feature.screen.EMFeatureScreen
 import com.emcore_navigation.navigator.feature.screen.EMFeatureScreenConfig
 import com.eventmaster.features.eveny.impl.features.create.init.EMCreateEventFlowInitializer
+import com.eventmaster.features.eveny.impl.features.sections.init.EMEventsSectionsFlowInitializer
 
 sealed class EMEventFeatureScreens : EMFeatureScreen() {
 
@@ -14,5 +15,11 @@ sealed class EMEventFeatureScreens : EMFeatureScreen() {
         )
     }
 
-    object Details
+    object Sections : EMEventFeatureScreens() {
+        override fun config() = EMFeatureScreenConfig(
+            route = "sections",
+            featureStartDestination = "events_sections",
+            flowInitializer = { EMEventsSectionsFlowInitializer.init(it) }
+        )
+    }
 }

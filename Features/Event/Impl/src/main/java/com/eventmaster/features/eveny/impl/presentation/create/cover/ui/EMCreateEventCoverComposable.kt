@@ -1,5 +1,6 @@
 package com.eventmaster.features.eveny.impl.presentation.create.cover.ui
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -24,18 +25,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.eventmaster.core.presentation.base.ui.EMScreenBase
 import com.eventmaster.core.presentation.components.expandable.EMBaseExpandableField
 import com.eventmaster.core.presentation.components.textfield.regular.EMRegularTextField
+import com.eventmaster.core.presentation.util.EMDrawable
+import com.eventmaster.core.presentation.util.changeStatusBarColor
 import com.eventmaster.features.event.impl.R
 import com.eventmaster.features.eveny.impl.presentation.create.cover.vm.EMCreateEventCoverVm
-import org.koin.androidx.compose.get
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun EMCreateEventCoverComposable(vm: EMCreateEventCoverVm = get()) {
+fun EMCreateEventCoverComposable(vm: EMCreateEventCoverVm = koinViewModel()) {
     EMScreenBase(
         vm = vm,
         headerText = "Create Event",
@@ -43,7 +47,7 @@ fun EMCreateEventCoverComposable(vm: EMCreateEventCoverVm = get()) {
         showBackButton = false,
         bottomAction = { vm.onNextAction() },
     ) {
-
+        LocalContext.current.changeStatusBarColor(Color(0xFF171717))
         var selectedItem by remember { mutableStateOf(-1) }
         Column(modifier = Modifier.padding(horizontal = 16.dp)) {
             val list = listOf(
@@ -53,15 +57,11 @@ fun EMCreateEventCoverComposable(vm: EMCreateEventCoverVm = get()) {
                 R.drawable.galaxy,
                 R.drawable.galaxy
             )
-            EMRegularTextField(
-                title = "Event name",
-                modifier = Modifier.padding(top = 24.dp)
-            )
             Text(
                 text = "Choose cover",
                 fontSize = 16.sp,
                 color = Color(0xFFEEEEEE),
-                modifier = Modifier.padding(top = 32.dp)
+                modifier = Modifier.padding(top = 24.dp)
             )
             LazyRow(
                 modifier = Modifier.height(130.dp), verticalAlignment = Alignment.CenterVertically
@@ -76,19 +76,30 @@ fun EMCreateEventCoverComposable(vm: EMCreateEventCoverVm = get()) {
                         contentAlignment = Alignment.Center
                     ) {
                         Image(
-                            painter = painterResource(com.eventmaster.core.presentation.R.drawable.em_core_ic_close),
+                            painter = painterResource(EMDrawable.em_core_ic_close),
                             contentDescription = "",
                             modifier = Modifier.size(35.dp),
                         )
                     }
                 }
                 itemsIndexed(list) { index, res ->
+                    val targetWidth = if (index == selectedItem) 130.dp else 110.dp
+                    val targetHeight = if (index == selectedItem) 100.dp else 85.dp
+
+                    val animatedWidth by animateFloatAsState(
+                        targetValue = targetWidth.value,
+                        animationSpec = spring()
+                    )
+                    val animatedHeight by animateFloatAsState(
+                        targetValue = targetHeight.value,
+                        animationSpec = spring()
+                    )
+
                     Image(
                         painter = painterResource(res),
                         contentDescription = "",
                         modifier = Modifier
-                            .width(if (index == selectedItem) 130.dp else 110.dp)
-                            .height(if (index == selectedItem) 100.dp else 85.dp)
+                            .size(width = animatedWidth.dp, height = animatedHeight.dp)
                             .padding(start = 8.dp)
                             .setCustomBackground(index, selectedItem)
                             .clickable { selectedItem = index },
@@ -97,7 +108,17 @@ fun EMCreateEventCoverComposable(vm: EMCreateEventCoverVm = get()) {
                 }
             }
 
-            EMBaseExpandableField(text = "Add description", modifier = Modifier.padding(top = 32.dp)) {
+            EMRegularTextField(
+                title = "Event name",
+                modifier = Modifier.padding(top = 24.dp),
+                textFiledModifier = Modifier.padding(top = 8.dp),
+                titleSize = 16.sp
+            )
+
+            EMBaseExpandableField(
+                text = "Add description",
+                modifier = Modifier.padding(top = 32.dp)
+            ) {
                 EMRegularTextField(
                     textFiledModifier = Modifier.height(150.dp),
                     containerColor = Color(0xFF171717)
@@ -106,6 +127,12 @@ fun EMCreateEventCoverComposable(vm: EMCreateEventCoverVm = get()) {
         }
     }
 }
+
+@Composable
+private fun spring() = androidx.compose.animation.core.SpringSpec<Float>(
+    stiffness = 1000f,
+    dampingRatio = 0.5f
+)
 
 private fun Modifier.setCustomBackground(index: Int, selectedIndex: Int): Modifier {
     return if (index == selectedIndex) {

@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.eventmaster.core.presentation.components.emojis.EMEmojisComposable
+import com.eventmaster.core.presentation.util.EMDrawable
 import com.eventmaster.features.group.impl.R
 import com.eventmaster.features.group.impl.presentation.groups.details.ui.FakeData
 import kotlinx.coroutines.launch
@@ -55,7 +56,7 @@ fun EMGroupDetailsCommentCard(
         val (profile, name, comment, emojiIcon, reply, emojis) = createRefs()
 
         Image(
-            painter = painterResource(id = R.drawable.test),
+            painter = painterResource(id = EMDrawable.test),
             contentDescription = "",
             contentScale = ContentScale.Crop,
             modifier = Modifier

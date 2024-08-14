@@ -1,5 +1,7 @@
 package com.eventmaster.features.authentication.impl.presentation.auth.main.ui
 
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -35,13 +37,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.eventmaster.core.presentation.base.ui.EMScreenBase
 import com.eventmaster.core.presentation.components.or.OrComposable
+import com.eventmaster.core.presentation.util.EMDrawable
 import com.eventmaster.core.presentation.util.changeStatusBarColor
 import com.eventmaster.features.authentication.impl.presentation.auth.main.vm.EMAuthVm
-import org.koin.androidx.compose.get
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun EMAuth(vm: EMAuthVm = get()) {
+fun EMAuth(vm: EMAuthVm = koinViewModel()) {
     val context = LocalContext.current
+
+    BackHandler {
+        (context as ComponentActivity).moveTaskToBack(true)
+    }
+
     LaunchedEffect(key1 = Unit) {
         context.changeStatusBarColor(Color(0xFF140D28))
     }
@@ -52,7 +60,7 @@ fun EMAuth(vm: EMAuthVm = get()) {
                 .background(Color(0xFF140D28))
         ) {
             Image(
-                painter = painterResource(id = com.eventmaster.core.presentation.R.drawable.em_splash_logo),
+                painter = painterResource(id = EMDrawable.em_splash_logo),
                 modifier = Modifier
                     .padding(top = 122.dp)
                     .size(170.dp)

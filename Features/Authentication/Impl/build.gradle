@@ -15,6 +15,7 @@ dependencies {
     implementation project(':Core:Navigation')
     implementation project(':Core:Presentation')
     implementation project(':Core:Api')
+    implementation project(':Core:Models')
     implementation project(':Features:Authentication:Api')
     implementation project(':Features:Home:Api')
 }

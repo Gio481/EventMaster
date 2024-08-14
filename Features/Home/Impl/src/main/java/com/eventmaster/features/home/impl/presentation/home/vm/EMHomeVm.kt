@@ -20,5 +20,4 @@ class EMHomeVm(
     fun navigateToGroups(){
         groupNavigator.navigateToGroups()
     }
-
 }

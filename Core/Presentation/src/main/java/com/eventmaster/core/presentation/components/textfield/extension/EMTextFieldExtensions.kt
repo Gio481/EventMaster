@@ -54,8 +54,8 @@ fun BoxScope.TextFieldWithKeyboard(commentTextFieldState: MutableState<TextField
             },
             modifier = Modifier
                 .padding(horizontal = 16.dp)
-                .clip(RoundedCornerShape(16.dp))
                 .align(Alignment.Center),
+            roundedCorner = 16.dp,
             onValueChange = {
                 commentTextFieldState.value = it
             }

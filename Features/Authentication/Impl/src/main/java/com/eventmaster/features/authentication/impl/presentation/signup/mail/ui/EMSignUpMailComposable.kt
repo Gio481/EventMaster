@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.eventmaster.core.presentation.components.textfield.base.model.EMTextFieldValidatedState
 import com.eventmaster.core.presentation.components.textfield.base.model.EMTextFieldValidatedState.Success
 import com.eventmaster.core.presentation.components.textfield.regular.EMRegularTextField
+import com.eventmaster.core.presentation.extensions.EMPTY_TEXT
 import com.eventmaster.features.authentication.impl.presentation.signup.base.type.EMSignUpStepType
 import com.eventmaster.features.authentication.impl.presentation.signup.base.ui.EMSignUpBaseComposable
 import com.eventmaster.features.authentication.impl.presentation.signup.mail.vm.EMSignUpMailVm
@@ -20,7 +21,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun EMSignUpMail(vm: EMSignUpMailVm = koinViewModel()) {
     var enableBottomActionContent by rememberSaveable { mutableStateOf(false) }
-    var emailField by rememberSaveable { mutableStateOf("") }
+    var emailField by rememberSaveable { mutableStateOf(EMPTY_TEXT) }
     val fieldIsAlreadyValidated = vm.fieldIsAlreadyValidated.collectWithInitialValue()
     val textFieldValidatedState = vm.textFieldValidatedState.collectWithInitialValue()
 
@@ -42,33 +43,16 @@ fun EMSignUpMail(vm: EMSignUpMailVm = koinViewModel()) {
             validatedState = textFieldValidatedState,
             onFocusChanged = {
                 if (!it.hasFocus && !fieldIsAlreadyValidated) {
-                    vm.gio(emailField)
+                    vm.validateEmail(emailField)
                 }
             },
             onValueChange = {
                 emailField = it.text
                 vm.setFieldIsAlreadyValidatedValue(false)
                 if (it.text.isEmpty()) {
-                    vm.setState(EMTextFieldValidatedState.Default)
+                    vm.changeTextFieldValidatedState(EMTextFieldValidatedState.Default)
                 }
             }
         )
     }
-}
-
-fun String.isEmail(): Boolean {
-    if (isNullOrEmpty()) return false
-
-    val emailPattern = "[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}".toRegex()
-
-    if (emailPattern.matches(this)) {
-        val atIndex = indexOf('@')
-        val dotIndex = indexOf('.', atIndex)
-        if (dotIndex == -1) return false
-
-        val domain = substring(atIndex + 1, length)
-        return domain.length >= 2
-    }
-
-    return false
 }

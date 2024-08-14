@@ -10,4 +10,8 @@ interface EMAppGraphBuilder {
     fun getAppNavGraphBuilder(): NavGraphBuilder
 
     fun getAppNavGraph(): NavGraph
+
+    fun reset()
+
+    fun getSize():Int
 }

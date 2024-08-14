@@ -86,8 +86,9 @@ fun EMPasswordTextField(
                     showPassword = !showPassword
                 }) {
                     Icon(
-                        painterResource(id = iconId),
-                        contentDescription = null
+                        painter = painterResource(id = iconId),
+                        contentDescription = null,
+                        tint = Color(0xFFEEEEEE)
                     )
                 }
             },
@@ -96,6 +97,8 @@ fun EMPasswordTextField(
             hint = hint,
             singleLine = singleLine,
             readOnly = readOnly,
+            onFocusChanged = onFocusChanged,
+            onValueChange = onValueChange,
             enabled = enabled,
             imeAction = imeAction,
             containerColor = containerColor

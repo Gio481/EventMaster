@@ -13,7 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.eventmaster.core.presentation.components.datepicker.bottomsheet.base.EMBaseDatePickerBottomSheet
+import com.eventmaster.core.presentation.components.datepicker.bottomsheet.base.EMBaseBottomSheet
 import com.eventmaster.core.presentation.components.datepicker.endless.EMEndlessDatePicker
 import com.eventmaster.core.presentation.components.datepicker.extensions.monthsList
 import com.eventmaster.core.presentation.components.datepicker.extensions.rememberPickerState
@@ -28,7 +28,7 @@ fun EMDayMonthPickerBottomSheet(
     val daysPickerState = rememberPickerState()
     val monthsPickerState = rememberPickerState()
 
-    EMBaseDatePickerBottomSheet(
+    EMBaseBottomSheet(
         doneAction = {
             doneAction.invoke(
                 EMDatePickerSelectedItem(
@@ -37,11 +37,10 @@ fun EMDayMonthPickerBottomSheet(
                 )
             )
         },
-        onDismiss = onDismiss,
-        datePicker = {
-            DayMonthPicker(daysPickerState, monthsPickerState)
-        }
-    )
+        onDismiss = onDismiss
+    ) {
+        DayMonthPicker(daysPickerState, monthsPickerState)
+    }
 }
 
 @Composable

@@ -11,19 +11,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.eventmaster.core.presentation.components.textfield.base.model.EMTextFieldValidatedState
 import com.eventmaster.core.presentation.components.textfield.password.EMPasswordTextField
+import com.eventmaster.core.presentation.extensions.EMPTY_TEXT
 import com.eventmaster.features.authentication.impl.presentation.signup.base.type.EMSignUpStepType
 import com.eventmaster.features.authentication.impl.presentation.signup.base.ui.EMSignUpBaseComposable
 import com.eventmaster.features.authentication.impl.presentation.signup.password.vm.EMSignUpPasswordVm
-import org.koin.androidx.compose.get
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun EMSignUpPassword(vm: EMSignUpPasswordVm = get()) {
+fun EMSignUpPassword(vm: EMSignUpPasswordVm = koinViewModel()) {
     var enableBottomActionContent by rememberSaveable { mutableStateOf(false) }
-    var textFieldValidatedState by rememberSaveable {
-        mutableStateOf<EMTextFieldValidatedState>(EMTextFieldValidatedState.Default)
+    var passwordField by rememberSaveable { mutableStateOf(EMPTY_TEXT) }
+    var description by rememberSaveable {
+        mutableStateOf<String?>("Remember, letters must be more than 6")
     }
-    var passwordField by rememberSaveable { mutableStateOf("") }
+
     val fieldIsAlreadyValidated = vm.fieldIsAlreadyValidated.collectWithInitialValue()
+    val textFieldValidatedState = vm.textFieldValidatedState.collectWithInitialValue()
 
     LaunchedEffect(key1 = textFieldValidatedState, key2 = fieldIsAlreadyValidated) {
         enableBottomActionContent = when {
@@ -34,27 +37,26 @@ fun EMSignUpPassword(vm: EMSignUpPasswordVm = get()) {
 
     EMSignUpBaseComposable(
         vm = vm,
-        currentStep = EMSignUpStepType.PASSWORD
+        currentStep = EMSignUpStepType.PASSWORD,
+        enableBottomActionContent = enableBottomActionContent
     ) {
         EMPasswordTextField(
             title = "Create password",
-            description = "Remember, letters must be more than 6,also use symbols and digits",
+            description = description,
             validatedState = textFieldValidatedState,
             modifier = Modifier.padding(top = 48.dp),
             onFocusChanged = {
                 if (!it.hasFocus && !fieldIsAlreadyValidated) {
-                    textFieldValidatedState = when (passwordField.length > 6) {
-                        true -> EMTextFieldValidatedState.Success()
-                        else -> EMTextFieldValidatedState.Error(text = "Use more than 6 symbols")
-                    }
-                    enableBottomActionContent = passwordField.length > 6
+                    description = null
+                    vm.validatePassword(passwordField)
                 }
             },
             onValueChange = {
                 passwordField = it.text
                 vm.setFieldIsAlreadyValidatedValue(false)
                 if (it.text.isEmpty()) {
-                    textFieldValidatedState = EMTextFieldValidatedState.Default
+                    description = "Remember, letters must be more than 6"
+                    vm.changeTextFieldValidatedState(EMTextFieldValidatedState.Default)
                 }
             }
         )

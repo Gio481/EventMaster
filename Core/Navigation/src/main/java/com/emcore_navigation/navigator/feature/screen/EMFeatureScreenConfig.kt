@@ -6,8 +6,8 @@ import com.emcore_navigation.navigator.base.screen.EMBaseScreenConfig
 data class EMFeatureScreenConfig(
     override val route: String,
     override val argument: Argument? = null,
-    override val showAnimation: Boolean = true,
-    override val animation: Animation = featureAnimation(showAnimation),
+    override val showFlowTransitionAnimation: Boolean = true,
+    override val animation: Animation = featureAnimation(showFlowTransitionAnimation),
     val featureStartDestination: String,
     val flowInitializer: (NavGraphBuilder) -> Unit
 ) : EMBaseScreenConfig()

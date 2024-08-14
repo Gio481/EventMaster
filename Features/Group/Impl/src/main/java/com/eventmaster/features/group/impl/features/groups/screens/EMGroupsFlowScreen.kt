@@ -17,7 +17,7 @@ sealed class EMGroupsFlowScreen : EMFlowScreen() {
     object Details : EMGroupsFlowScreen() {
         override fun config() = EMFlowScreenConfig(
             route = "groupDetails",
-            showAnimation = true,
+            showFlowTransitionAnimation = true,
             content = { EMGroupDetailsComposable() }
         )
     }

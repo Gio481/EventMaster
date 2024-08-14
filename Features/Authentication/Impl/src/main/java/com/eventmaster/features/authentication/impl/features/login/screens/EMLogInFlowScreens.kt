@@ -8,7 +8,7 @@ sealed class EMLogInFlowScreens : EMFlowScreen() {
 
     object Main : EMLogInFlowScreens() {
         override fun config() = EMFlowScreenConfig(
-            route = "main",
+            route = "main23",
             content = { EMLogIn() }
         )
     }

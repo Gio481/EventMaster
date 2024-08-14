@@ -26,15 +26,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun EMBaseDatePickerBottomSheet(
-    doneAction: () -> Unit,
+fun EMBaseBottomSheet(
+    modifier: Modifier = Modifier,
+    doneAction: (() -> Unit)? = null,
+    needsDateSelector: Boolean = true,
+    title: String? = null,
     onDismiss: () -> Unit,
-    datePicker: @Composable BoxScope.() -> Unit
+    content: @Composable BoxScope.() -> Unit
 ) {
     val state = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
@@ -59,16 +63,31 @@ internal fun EMBaseDatePickerBottomSheet(
                 .background(Color(0xFF252525))
         ) {
             HeaderLine()
+            title?.let {
+                Text(
+                    text = it,
+                    color = Color.White,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(top = 20.dp, start = 16.dp)
+                )
+            }
             Box(
-                modifier = Modifier.padding(top = 20.dp),
+                modifier = Modifier
+                    .padding(top = if (title == null) 20.dp else 16.dp)
+                    .then(modifier),
                 contentAlignment = Alignment.TopCenter
             ) {
-                datePicker.invoke(this)
-                DateSelector()
+                content.invoke(this)
+                if (needsDateSelector) {
+                    DateSelector()
+                }
             }
-            DoneButton {
-                doneAction.invoke()
-                onDismiss.invoke()
+            doneAction?.let {
+                DoneButton {
+                    doneAction.invoke()
+                    onDismiss.invoke()
+                }
             }
         }
     }

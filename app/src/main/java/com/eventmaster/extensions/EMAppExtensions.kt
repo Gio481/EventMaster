@@ -7,7 +7,6 @@ import com.emcore_navigation.navigator.nav_controller.EMAppNavController
 import com.eventmaster.di.navigation.EMFeaturesInitializer
 import org.koin.android.ext.android.get
 
-
 fun ComponentActivity.initializeComponents(navHostController: NavHostController) {
     get<EMAppNavController>().createAppNavHostController(navHostController)
     get<EMAppGraphBuilder>().createAppNavGraphBuilder("splash")

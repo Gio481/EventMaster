@@ -1,7 +1,7 @@
 package com.eventmaster.core.presentation.components.textfield.base.model
 
 import android.os.Parcelable
-import com.eventmaster.core.presentation.R
+import com.eventmaster.core.presentation.util.EMDrawable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -14,13 +14,13 @@ sealed class EMTextFieldValidatedState(
     @Parcelize
     data class Success(
         override val colorTintLongRes: Long = 0xFF26BF7F,
-        override val iconRes: Int = R.drawable.em_checkmark,
+        override val iconRes: Int = EMDrawable.em_checkmark,
         override val text: String = "All done"
     ) : EMTextFieldValidatedState(text, iconRes, colorTintLongRes), Parcelable
 
     data class Error(
         override val colorTintLongRes: Long = 0xFFEA4335,
-        override val iconRes: Int = R.drawable.em_ic_error_circle_filled,
+        override val iconRes: Int = EMDrawable.em_ic_error_circle_filled,
         override val text: String,
         val spannableClickAction: (() -> Unit)? = null
     ) : EMTextFieldValidatedState(text, iconRes, colorTintLongRes)

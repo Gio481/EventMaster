@@ -6,6 +6,7 @@ import com.eventmaster.features.authentication.impl.presentation.signup.base.vm.
 class EMSignUpBirthdateVm : EMSignUpBaseVm() {
 
     override fun nextStep() {
+        setFieldIsAlreadyValidatedValue(true)
         nextScreen(EMSignUpScreens.Profile)
     }
 }

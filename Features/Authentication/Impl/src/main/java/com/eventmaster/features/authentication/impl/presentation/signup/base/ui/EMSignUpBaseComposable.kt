@@ -39,7 +39,7 @@ fun EMSignUpBaseComposable(
         vm = vm,
         showBackButton = showBackButton,
         showBottomAction = true,
-        enableBottomActionContent = enableBottomActionContent,
+        enableBottomActionContent = true,
         bottomActionButton = bottomActionButton,
         bottomAction = { vm.nextStep() },
         headerText = "Create Account",

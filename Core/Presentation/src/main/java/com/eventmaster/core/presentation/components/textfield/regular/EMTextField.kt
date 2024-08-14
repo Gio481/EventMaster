@@ -1,6 +1,7 @@
 package com.eventmaster.core.presentation.components.textfield.regular
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -29,11 +30,12 @@ fun EMRegularTextField(
     text: String = "",
     hintColor: Color = Color(0xFF707070),
     hintSize: TextUnit = 16.sp,
+    titleSize: TextUnit = 22.sp,
     readOnly: Boolean = false,
     enabled: Boolean = true,
     title: String? = null,
     description: String? = null,
-    trailingIcon: @Composable (() -> Unit)? = null,
+    trailingIcon: @Composable (BoxScope.() -> Unit)? = null,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     imeAction: ImeAction = ImeAction.Done,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
@@ -53,13 +55,11 @@ fun EMRegularTextField(
                 Text(
                     text = it,
                     color = Color(0xFFEEEEEE),
-                    fontSize = 22.sp,
+                    fontSize = titleSize,
                 )
             }
             EMBaseTextField(
-                modifier = Modifier
-                    .padding(top = if (title == null) 0.dp else 24.dp)
-                    .then(textFiledModifier),
+                modifier = textFiledModifier,
                 hint = hint,
                 hintColor = hintColor,
                 requestFocus = requestFocus,

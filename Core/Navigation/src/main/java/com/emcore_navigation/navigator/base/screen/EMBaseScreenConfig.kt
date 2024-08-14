@@ -13,7 +13,7 @@ import androidx.navigation.NavType
 abstract class EMBaseScreenConfig {
 
     internal abstract val route: String
-    internal abstract val showAnimation: Boolean
+    internal abstract val showFlowTransitionAnimation: Boolean
     internal abstract val argument: Argument?
     internal abstract val animation: Animation
 

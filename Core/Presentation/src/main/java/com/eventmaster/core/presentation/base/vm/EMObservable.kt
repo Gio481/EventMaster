@@ -1,6 +1,7 @@
 package com.eventmaster.core.presentation.base.vm
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -18,7 +19,7 @@ class EMObservable<T>(private val initialValue: T? = null) {
 
     @Composable
     fun collect(): T? {
-        return stateFlow.collectAsStateWithLifecycle().value
+        return stateFlow.collectAsState().value
     }
 
     @Composable

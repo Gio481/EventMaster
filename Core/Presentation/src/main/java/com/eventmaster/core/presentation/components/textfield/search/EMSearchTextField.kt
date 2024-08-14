@@ -1,8 +1,10 @@
 package com.eventmaster.core.presentation.components.textfield.search
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -25,6 +27,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.layoutId
@@ -41,6 +44,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.MotionLayout
 import androidx.constraintlayout.compose.MotionScene
 import com.eventmaster.core.presentation.R
+import com.eventmaster.core.presentation.extensions.readMotionScene
 import com.eventmaster.core.presentation.util.clearFocusIf
 import com.eventmaster.core.presentation.util.rememberImeState
 import kotlinx.coroutines.delay
@@ -62,14 +66,13 @@ fun EMSearchTextField(
         targetValue = progressState,
         animationSpec = tween(200)
     )
+    var isFocused by remember { mutableStateOf(false) }
+    val borderColor by animateColorAsState(
+        targetValue = if (isFocused) Color(0xCC5D6DFF) else Color.Transparent
+    )
     val coroutineScope = rememberCoroutineScope()
 
-    val context = LocalContext.current
-    val motionScene = remember {
-        context.resources.openRawResource(R.raw.em_search_motion_scene)
-            .readBytes()
-            .decodeToString()
-    }
+    val motionScene = LocalContext.current.readMotionScene(R.raw.em_search_motion_scene)
 
     LaunchedEffect(imeState.value) {
         focusManager.clearFocusIf(imeState.value.not())
@@ -86,6 +89,7 @@ fun EMSearchTextField(
             modifier = Modifier
                 .height(40.dp)
                 .background(Color(0xFF202020), RoundedCornerShape(16.dp))
+                .border(0.5.dp, borderColor, RoundedCornerShape(16.dp))
                 .layoutId("searchBox"),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -132,7 +136,8 @@ fun EMSearchTextField(
                     },
                     modifier = Modifier
                         .padding(end = 45.dp)
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .onFocusChanged { isFocused = it.isFocused },
                 )
                 if (showHint) {
                     Text(text = "Search", fontSize = 14.sp, color = Color(0xFFB1B1B1))

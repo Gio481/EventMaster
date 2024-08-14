@@ -1,0 +1,164 @@
+{
+  ConstraintSets: {
+    start: {
+      searchField: {
+        width: 'parent',
+        height: 'wrap',
+        start: [
+          'parent',
+          'start',
+          16
+        ],
+        top: [
+          'parent',
+          'top',
+          24
+        ],
+        end: [
+          'parent',
+          'start',
+          16
+        ]
+      },
+      roundAddGroupButton: {
+        width: 'wrap',
+        height: 'wrap',
+        start: [
+          'searchField',
+          'end',
+        ],
+        top: [
+          'parent',
+          'top',
+          24
+        ],
+        end: [
+          'parent',
+          'end',
+          16
+        ],
+        alpha: 0,
+      },
+      newGroupButton: {
+        width: 'parent',
+        height: 'wrap',
+        start: [
+          'parent',
+          'start',
+          16
+        ],
+        top: [
+          'searchField',
+          'bottom',
+          24
+        ],
+        end: [
+          'parent',
+          'end',
+          16
+        ],
+        alpha: 1,
+      },
+      groupItemsLazyColumn: {
+        start: [
+          'parent',
+          'start'
+        ],
+        end: [
+          'parent',
+          'end'
+        ],
+        width: 'parent',
+        height: 'wrap',
+        top: [
+          'newGroupButton',
+          'bottom'
+        ],
+      }
+    },
+    end: {
+      searchField: {
+        width: 'spread',
+        height: 'wrap',
+        start: [
+          'parent',
+          'start',
+          16
+        ],
+        top: [
+          'parent',
+          'top',
+          24
+        ],
+        end: [
+          'roundAddGroupButton',
+          'start',
+          16
+        ]
+      },
+      newGroupButton: {
+        width: 'parent',
+        height: 'wrap',
+        start: [
+          'parent',
+          'start',
+          16
+        ],
+        top: [
+          'searchField',
+          'bottom',
+          24
+        ],
+        end: [
+          'parent',
+          'end',
+          16
+        ],
+        alpha: 0,
+      },
+      groupItemsLazyColumn: {
+        start: [
+          'parent',
+          'start'
+        ],
+        end: [
+          'parent',
+          'end'
+        ],
+        width: 'parent',
+        height: 'wrap',
+        top: [
+          'searchField',
+          'bottom',
+          16
+        ],
+      },
+      roundAddGroupButton: {
+        width: 'wrap',
+        height: 'wrap',
+        start: [
+          'searchField',
+          'end',
+        ],
+        top: [
+          'parent',
+          'top',
+          24
+        ],
+        end: [
+          'parent',
+          'end',
+          16
+        ],
+        alpha: 1,
+      }
+    }
+  },
+  Transitions: {
+    default: {
+      from: 'start',
+      to: 'end',
+      pathMotionArc: 'startHorizontal',
+    }
+  }
+}

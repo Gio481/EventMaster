@@ -13,7 +13,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.eventmaster.core.presentation.components.datepicker.bottomsheet.base.EMBaseDatePickerBottomSheet
+import com.eventmaster.core.presentation.components.datepicker.bottomsheet.base.EMBaseBottomSheet
 import com.eventmaster.core.presentation.components.datepicker.endless.EMEndlessDatePicker
 import com.eventmaster.core.presentation.components.datepicker.extensions.getDaysInMonth
 import com.eventmaster.core.presentation.components.datepicker.extensions.monthsList
@@ -36,7 +36,7 @@ fun EMDatePickerBottomSheet(
     var month by remember { mutableStateOf("") }
     var year by remember { mutableStateOf("") }
 
-    EMBaseDatePickerBottomSheet(
+    EMBaseBottomSheet(
         doneAction = {
             monthsPickerState.selectedItem = month
             yearsPickerState.selectedItem = year
@@ -48,17 +48,16 @@ fun EMDatePickerBottomSheet(
                 )
             )
         },
-        onDismiss = onDismiss,
-        datePicker = {
-            DatePicker(
-                daysPickerState = daysPickerState,
-                monthsPickerState = monthsPickerState,
-                yearsPickerState = yearsPickerState,
-                monthItemSelectedCallback = { month = it },
-                yearItemSelectedCallback = { year = it }
-            )
-        }
-    )
+        onDismiss = onDismiss
+    ) {
+        DatePicker(
+            daysPickerState = daysPickerState,
+            monthsPickerState = monthsPickerState,
+            yearsPickerState = yearsPickerState,
+            monthItemSelectedCallback = { month = it },
+            yearItemSelectedCallback = { year = it }
+        )
+    }
 }
 
 @Composable

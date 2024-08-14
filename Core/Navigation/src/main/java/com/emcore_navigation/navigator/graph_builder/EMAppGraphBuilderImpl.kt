@@ -1,6 +1,7 @@
 package com.emcore_navigation.navigator.graph_builder
 
 import androidx.navigation.NavGraph
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import com.emcore_navigation.navigator.nav_controller.EMAppNavController
 
@@ -26,6 +27,14 @@ class EMAppGraphBuilderImpl(
 
     override fun getAppNavGraph(): NavGraph {
         return navGraphBuilderList[hashCode()]!!.build()
+    }
+
+    override fun reset() {
+//        navGraphBuilderList.clear()
+    }
+
+    override fun getSize(): Int {
+        return navGraphBuilderList.size
     }
 
 }

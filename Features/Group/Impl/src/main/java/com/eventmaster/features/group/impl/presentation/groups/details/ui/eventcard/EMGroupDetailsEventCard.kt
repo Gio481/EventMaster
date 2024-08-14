@@ -53,13 +53,14 @@ import com.eventmaster.core.presentation.extensions.carouselTransition
 import com.eventmaster.core.presentation.extensions.fadingEdge
 import com.eventmaster.core.presentation.extensions.readMotionScene
 import com.eventmaster.core.presentation.util.EMAnchoredDraggableCardState
+import com.eventmaster.core.presentation.util.EMDrawable
+import com.eventmaster.core.presentation.util.IconWithText
 import com.eventmaster.core.presentation.util.anchoredDraggableState
+import com.eventmaster.core.presentation.util.fadeGradient
 import com.eventmaster.core.presentation.util.getAnchoredDraggableStateProgress
 import com.eventmaster.features.group.impl.R
 import com.eventmaster.features.group.impl.presentation.groups.details.ui.FakeData
 import com.eventmaster.features.group.impl.presentation.groups.details.ui.comment.CommentSection
-import com.eventmaster.features.group.impl.presentation.groups.details.ui.util.IconWithText
-import com.eventmaster.features.group.impl.util.fadeGradient
 import com.eventmaster.features.group.impl.util.plusFriendsText
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -146,7 +147,7 @@ fun EventCard(
             val s = listOf(1, 2, 3)
             s.forEachIndexed { index, _ ->
                 Image(
-                    painter = painterResource(id = R.drawable.test),
+                    painter = painterResource(id = EMDrawable.test),
                     contentDescription = "",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -193,19 +194,19 @@ fun EventCard(
             )
         }
         IconWithText(
+            modifier = Modifier.layoutId("totalAmountIcon"),
             R.drawable.em_ic_total_amount,
-            "Total amount: 9000$",
-            modifier = Modifier.layoutId("totalAmountIcon")
+            "Total amount: 9000$"
         )
         IconWithText(
-            R.drawable.em_ic_time,
-            "2 PM",
-            modifier = Modifier.layoutId("timeIcon")
+            modifier = Modifier.layoutId("timeIcon"),
+            EMDrawable.em_ic_time,
+            "2 PM"
         )
         IconWithText(
-            R.drawable.em_ic_location,
-            "Akhaltsikhe",
-            modifier = Modifier.layoutId("locationIcon")
+            modifier = Modifier.layoutId("locationIcon"),
+            EMDrawable.em_ic_location,
+            "Akhaltsikhe"
         )
         Text(
             text = "New Car",
@@ -264,9 +265,8 @@ fun EventCard(
                     )
                 }
             },
-            modifier = Modifier
-                .clip(RoundedCornerShape(16.dp))
-                .layoutId("commentsTextField"),
+            modifier = Modifier.layoutId("commentsTextField"),
+            roundedCorner = 16.dp
         )
 
 

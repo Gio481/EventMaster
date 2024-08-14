@@ -14,5 +14,8 @@ android {
 dependencies {
     implementation project(':Core:Navigation')
     implementation project(':Core:Presentation')
+    implementation project(':Core:Models')
     implementation project(':Features:Event:Api')
+
+    implementation libs.lotie
 }

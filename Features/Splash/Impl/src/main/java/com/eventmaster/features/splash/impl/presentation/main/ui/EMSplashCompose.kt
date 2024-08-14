@@ -1,5 +1,7 @@
 package com.eventmaster.features.splash.impl.presentation.main.ui
 
+import android.app.Activity
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,6 +25,9 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun EMSplash() {
     val context = LocalContext.current
+    BackHandler {
+        (context as Activity).finish()
+    }
     LaunchedEffect(key1 = Unit) {
         context.changeStatusBarColor(Color(0xFF140D28))
     }

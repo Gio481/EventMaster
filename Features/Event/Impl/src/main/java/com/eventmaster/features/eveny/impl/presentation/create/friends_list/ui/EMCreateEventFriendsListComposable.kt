@@ -4,7 +4,6 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.gestures.AnchoredDraggableState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -42,7 +41,6 @@ import androidx.constraintlayout.compose.MotionScene
 import com.eventmaster.core.presentation.base.ui.EMScreenBase
 import com.eventmaster.core.presentation.components.textfield.search.EMSearchTextField
 import com.eventmaster.core.presentation.extensions.scrollIfNeeded
-import com.eventmaster.core.presentation.util.EMAnchoredDraggableCardState
 import com.eventmaster.core.presentation.util.anchoredDraggableState
 import com.eventmaster.core.presentation.util.getAnchoredDraggableStateProgress
 import com.eventmaster.core.presentation.util.nestedScrollConnection
@@ -80,7 +78,7 @@ fun EMCreateEventFriendsListComposable(vm: EMCreateEventFriendsListVm = get()) {
                 )
         ) {
             ShareAppContent()
-            InviteFriendContent(anchoredDraggableState, lazyState)
+            InviteFriendContent(lazyState)
         }
     }
 }
@@ -102,10 +100,8 @@ private fun ShareAppContent() {
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun InviteFriendContent(
-    state: AnchoredDraggableState<EMAnchoredDraggableCardState>,
     lazyListState: LazyListState
 ) {
 
@@ -115,7 +111,7 @@ private fun InviteFriendContent(
 
     Column(modifier = Modifier.layoutId("invite")) {
         Text(
-            text = "Invite friends ",
+            text = "Invite friends",
             color = Color(0xFFEEEEEE),
             fontSize = 18.sp,
             modifier = Modifier.padding(top = 32.dp)
@@ -136,9 +132,7 @@ private fun InviteFriendContent(
             modifier = Modifier
         ) {
             items(gio.value) { item ->
-                Row(
-                    modifier = Modifier.padding(16.dp)
-                ) {
+                Row(modifier = Modifier.padding(top = 16.dp)) {
                     Image(
                         painter = painterResource(id = R.drawable.galaxy),
                         contentDescription = "",
@@ -160,8 +154,9 @@ private fun InviteFriendContent(
                     }
                     Spacer(modifier = Modifier.weight(1f))
                     Button(
-                        onClick = { /*TODO*/ },
-                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF8F5FEA))
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF5D6DFF)),
+                        shape = RoundedCornerShape(13.dp),
+                        onClick = { /*TODO*/ }
                     ) {
                         Text(
                             text = "Invite",
@@ -183,7 +178,7 @@ private fun ShareLink() {
             .fillMaxWidth()
             .padding(top = 8.dp)
             .height(40.dp)
-            .border(1.dp, Color(0xFF443169), RoundedCornerShape(16.dp)),
+            .border(1.dp, Color(0x665D6DFF), RoundedCornerShape(16.dp)),
         contentAlignment = Alignment.CenterStart
     ) {
         Text(
@@ -198,7 +193,7 @@ private fun ShareLink() {
                 .padding(top = 4.dp, bottom = 4.dp, end = 4.dp)
                 .align(Alignment.CenterEnd)
                 .clip(RoundedCornerShape(13.dp))
-                .background(Color(0xFF8F5FEA))
+                .background(Color(0xFF5D6DFF))
                 .fillMaxHeight(),
         ) {
             Row(
@@ -242,19 +237,19 @@ private fun ShareIcon(resId: Int, startPadding: Dp = 0.dp) {
 private fun getMockData(): List<MockData> {
     return listOf(
         MockData("G_Beridze_14", "Giorgi Beridze"),
-//        MockData("Best_Developer", "Giorgi Beridze"),
-//        MockData("Best_Android", "Giorgi Beridze"),
-//        MockData("TheBest", "Giorgi Beridze"),
-//        MockData("TheBestOfBest", "Giorgi Beridze"),
-//        MockData("G.O.A.T", "Giorgi Beridze"),
-//        MockData("Teona_20", "Teona Mailashvili"),
-//        MockData("UI/UX", "Teona Mailashvili"),
-//        MockData("UI/UX", "Teona Mailashvili"),
-//        MockData("UI/UX", "Teona Mailashvili"),
-//        MockData("UI/UX", "Teona Mailashvili"),
-//        MockData("UI/UX", "Teona Mailashvili"),
-//        MockData("UI/UX", "Teona Mailashvili"),
-//        MockData("UI/UX", "Teona Mailashvili"),
+        MockData("Best_Developer", "Giorgi Beridze"),
+        MockData("Best_Android", "Giorgi Beridze"),
+        MockData("TheBest", "Giorgi Beridze"),
+        MockData("TheBestOfBest", "Giorgi Beridze"),
+        MockData("G.O.A.T", "Giorgi Beridze"),
+        MockData("Teona_20", "Teona Mailashvili"),
+        MockData("UI/UX", "Teona Mailashvili"),
+        MockData("UI/UX", "Teona Mailashvili"),
+        MockData("UI/UX", "Teona Mailashvili"),
+        MockData("UI/UX", "Teona Mailashvili"),
+        MockData("UI/UX", "Teona Mailashvili"),
+        MockData("UI/UX", "Teona Mailashvili"),
+        MockData("UI/UX", "Teona Mailashvili"),
     )
 }
 

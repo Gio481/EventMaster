@@ -6,6 +6,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
@@ -51,6 +52,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -64,6 +66,7 @@ import com.eventmaster.core.presentation.util.requestFocusIf
 @Composable
 fun EMBaseTextField(
     modifier: Modifier = Modifier,
+    roundedCorner: Dp = 13.dp,
     singleLine: Boolean = true,
     hint: String = "",
     text: String = "",
@@ -71,7 +74,7 @@ fun EMBaseTextField(
     hintSize: TextUnit = 16.sp,
     readOnly: Boolean = false,
     enabled: Boolean = true,
-    trailingIcon: @Composable (() -> Unit)? = null,
+    trailingIcon: @Composable (BoxScope.() -> Unit)? = null,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     imeAction: ImeAction = ImeAction.Done,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
@@ -83,12 +86,10 @@ fun EMBaseTextField(
     onFocusChanged: ((FocusState) -> Unit)? = null
 ) {
     var inputText by rememberSaveable(stateSaver = TextFieldValue.Saver) {
-        mutableStateOf(
-            TextFieldValue(text, TextRange(text.length))
-        )
+        mutableStateOf(TextFieldValue(text, TextRange(text.length)))
     }
-    var showHint by rememberSaveable { mutableStateOf(hint.isEmpty().not()) }
-    var isFocused by rememberSaveable { mutableStateOf(false) }
+    var showHint by remember { mutableStateOf(hint.isNotEmpty()) }
+    var isFocused by remember { mutableStateOf(false) }
     val borderColor by animateColorAsState(
         targetValue = if (isFocused) Color(0xCC5D6DFF) else Color.Transparent
     )
@@ -111,8 +112,8 @@ fun EMBaseTextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp)
-                .background(containerColor, RoundedCornerShape(13.dp))
-                .border(0.5.dp, borderColor, RoundedCornerShape(13.dp)),
+                .background(containerColor, RoundedCornerShape(roundedCorner))
+                .border(0.5.dp, borderColor, RoundedCornerShape(roundedCorner)),
             contentAlignment = Alignment.CenterStart
         ) {
             BasicTextField(
@@ -168,7 +169,7 @@ fun EMBaseTextField(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.CenterEnd
             ) {
-                trailingIcon?.invoke() ?: run {
+                trailingIcon?.invoke(this) ?: run {
                     if (showClearTextAction) {
                         Icon(
                             painter = painterResource(id = R.drawable.em_ic_clear_search),
@@ -248,7 +249,7 @@ private fun RowScope.DrawText(
             }
             withStyle(
                 style = SpanStyle(
-                    color = Color(0xFF5D6DFF),
+                    color = Color(0xFFEEEEEE),
                     textDecoration = TextDecoration.Underline
                 )
             ) {

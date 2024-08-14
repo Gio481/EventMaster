@@ -16,7 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.eventmaster.core.presentation.components.datepicker.bottomsheet.base.EMBaseDatePickerBottomSheet
+import com.eventmaster.core.presentation.components.datepicker.bottomsheet.base.EMBaseBottomSheet
 import com.eventmaster.core.presentation.components.datepicker.endless.EMEndlessDatePicker
 import com.eventmaster.core.presentation.components.datepicker.extensions.rememberPickerState
 import com.eventmaster.core.presentation.components.datepicker.model.EMDatePickerSelectedItem
@@ -32,7 +32,7 @@ fun EMTimePickerBottomSheet(
     val minutesPickerState = rememberPickerState()
     val amPmPickerState = rememberPickerState()
 
-    EMBaseDatePickerBottomSheet(
+    EMBaseBottomSheet(
         doneAction = {
             doneAction.invoke(
                 EMDatePickerSelectedItem(
@@ -42,11 +42,10 @@ fun EMTimePickerBottomSheet(
                 )
             )
         },
-        onDismiss = onDismiss,
-        datePicker = {
-            TimePicker(hoursPickerState, minutesPickerState, amPmPickerState)
-        }
-    )
+        onDismiss = onDismiss
+    ) {
+        TimePicker(hoursPickerState, minutesPickerState, amPmPickerState)
+    }
 }
 
 @Composable
